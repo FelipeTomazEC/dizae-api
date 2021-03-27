@@ -1,0 +1,10 @@
+{
+  "name": "dizae-api",
+  "version": "1.0.0",
+  "description": "Backend for the Dizae APP",
+  "main": "index.js",
+  "repository": "https://www.github.com/felipetomazec/dizae-api",
+  "author": "FelipeTomazEC",
+  "license": "MIT",
+  "private": true
+}
