@@ -3,9 +3,9 @@ const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 
 module.exports = {
   clearMocks: true,
-  coverageProvider: "v8",
-  testEnvironment: "node",
-  testRegex: ["/*.test.ts"],
+  coverageProvider: 'v8',
+  testEnvironment: 'node',
+  testRegex: ['/*.test.ts'],
   globals: {
     'ts-jest': {
       tsconfig: 'tsconfig.json',
@@ -21,4 +21,3 @@ module.exports = {
   verbose: false,
   moduleNameMapper,
 };
-
