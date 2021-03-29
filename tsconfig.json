@@ -18,7 +18,9 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@entities/*": ["src/entities/*"]
+      "@entities/*": ["src/entities/*"],
+      "@shared/*": ["src/shared/*"],
+      "@test/*": ["test/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
