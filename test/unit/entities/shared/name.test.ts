@@ -1,6 +1,6 @@
-import {Name} from "@entities/shared/name/name";
-import {MissingParamError} from "@shared/errors/missing-param-error";
-import {TooFewCharactersError} from "@entities/shared/name/errors/too-few-characters-error";
+import { Name } from '@entities/shared/name/name';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { TooFewCharactersError } from '@entities/shared/name/errors/too-few-characters-error';
 
 describe('Name object tests.', () => {
   it('should have at least 2 characters.', () => {

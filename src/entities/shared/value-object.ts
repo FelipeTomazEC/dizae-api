@@ -1,4 +1,3 @@
-
 import { isEqual as _isEqual } from 'lodash';
 
 interface ValueObjectProps {

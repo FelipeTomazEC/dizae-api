@@ -9,6 +9,7 @@ module.exports = {
     'airbnb-typescript/base',
     'prettier',
   ],
+  ignorePatterns: ['*either.type.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
