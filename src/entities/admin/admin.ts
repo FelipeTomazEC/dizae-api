@@ -1,4 +1,4 @@
-import { AdminData, Timestamp, URL } from '@entities/admin/admin-data';
+import { AdminData } from '@entities/admin/admin-data';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
 import { Password } from '@entities/shared/password/password';
@@ -6,6 +6,7 @@ import { Email } from '@entities/shared/email/email';
 import { Either, left, right } from '@shared/either.type';
 import { BaseError } from '@shared/errors/base-error';
 import { MissingParamError } from '@shared/errors/missing-param-error';
+import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 
 interface Props {
   avatar: URL;

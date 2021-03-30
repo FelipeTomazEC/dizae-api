@@ -1,5 +1,4 @@
-export type Timestamp = number;
-export type URL = string;
+import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 
 export interface AdminData {
   id: string;
