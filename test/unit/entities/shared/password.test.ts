@@ -26,7 +26,7 @@ describe('Password value object tests.', () => {
 
   it('should have a minimum number of characters.', () => {
     const { MINIMUM_LENGTH } = Password;
-    const value = faker.internet.password(MINIMUM_LENGTH - 1);
+    const value = faker.internet.password(MINIMUM_LENGTH - 2).concat('2');
     const passwordOrError = Password.create({ value });
 
     expect(passwordOrError.isLeft()).toBeTruthy();
