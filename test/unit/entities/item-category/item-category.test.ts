@@ -1,0 +1,61 @@
+import * as faker from 'faker';
+import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
+import { ItemCategoryData } from '@entities/item-category/item-category-data';
+import { ItemCategory } from '@entities/item-category/item-category';
+
+describe('Category entity tests.', () => {
+  const example: ItemCategoryData = {
+    name: faker.commerce.product(),
+    creatorId: faker.random.uuid(),
+    createdAt: Date.now(),
+  };
+
+  const getItemCategoryDataWithNullParams = getObjectWithNullProperty(example);
+
+  it('should have a valid name.', () => {
+    const data = getItemCategoryDataWithNullParams('name');
+    const categoryOrError = ItemCategory.create(data);
+
+    expect(categoryOrError.isLeft()).toBeTruthy();
+  });
+
+  it('should have a creation date.', () => {
+    const data = getItemCategoryDataWithNullParams('createdAt');
+    const categoryOrError = ItemCategory.create(data);
+
+    expect(categoryOrError.isLeft()).toBeTruthy();
+  });
+
+  it('should have a creator id defined.', () => {
+    const data = getItemCategoryDataWithNullParams('creatorId');
+    const categoryOrError = ItemCategory.create(data);
+
+    expect(categoryOrError.isLeft()).toBeTruthy();
+    expect(categoryOrError.value).toStrictEqual(
+      new MissingParamError('creatorId'),
+    );
+  });
+
+  it('should have a valid creator id.', () => {
+    const data = { ...example, creatorId: 'invalid-id' };
+    const categoryOrError = ItemCategory.create(data);
+
+    expect(categoryOrError.isLeft()).toBeTruthy();
+    expect(categoryOrError.value).toStrictEqual(
+      new InvalidCreatorIdError('invalid-id'),
+    );
+  });
+
+  it('should create an item category instance.', () => {
+    const categoryOrError = ItemCategory.create(example);
+    const category = categoryOrError.value as ItemCategory;
+
+    expect(categoryOrError.isRight()).toBeTruthy();
+    expect(category).toBeInstanceOf(ItemCategory);
+    expect(category.name.value).toBe(example.name);
+    expect(category.creatorId.value).toBe(example.creatorId);
+    expect(category.createdAt).toBe(example.createdAt);
+  });
+});
