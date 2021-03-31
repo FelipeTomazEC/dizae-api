@@ -1,6 +1,6 @@
 import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 
-export interface UserData {
+export interface ReporterData {
   id: string;
   name: string;
   email: string;

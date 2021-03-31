@@ -1,4 +1,3 @@
-import { UserData } from '@entities/user/user-data';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
 import { Email } from '@entities/shared/email/email';
@@ -7,6 +6,7 @@ import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { BaseError } from '@shared/errors/base-error';
 import { MissingParamError } from '@shared/errors/missing-param-error';
+import { ReporterData } from '@entities/reporter/reporter-data';
 
 interface Props {
   id: Id;
@@ -17,7 +17,7 @@ interface Props {
   createdAt: Timestamp;
 }
 
-export class User {
+export class Reporter {
   private constructor(private readonly props: Props) {
     Object.freeze(this);
   }
@@ -46,7 +46,7 @@ export class User {
     return this.props.createdAt;
   }
 
-  static create(data: UserData): Either<BaseError, User> {
+  static create(data: ReporterData): Either<BaseError, Reporter> {
     const idOrError = Id.create({ value: data.id });
     const nameOrError = Name.create({ value: data.name });
     const emailOrError = Email.create({ value: data.email });
@@ -82,6 +82,8 @@ export class User {
     const id = idOrError.value;
     const email = emailOrError.value;
 
-    return right(new User({ createdAt, avatar, password, name, id, email }));
+    return right(
+      new Reporter({ createdAt, avatar, password, name, id, email }),
+    );
   }
 }
