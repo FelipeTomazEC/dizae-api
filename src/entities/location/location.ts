@@ -6,7 +6,7 @@ import { MissingParamError } from '@shared/errors/missing-param-error';
 import { BaseError } from '@shared/errors/base-error';
 
 import { Either, left, right } from '@shared/either.type';
-import { InvalidCreatorIdError } from '@entities/location/errors/invalid-creator-id-error';
+import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
 
 interface Props {
   id: Id;

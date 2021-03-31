@@ -4,7 +4,7 @@ import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uui
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { LocationData } from '@entities/location/location-data';
 import { Location } from '@entities/location/location';
-import { InvalidCreatorIdError } from '@entities/location/errors/invalid-creator-id-error';
+import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
 
 describe('Location entity tests.', () => {
   const example: LocationData = {
