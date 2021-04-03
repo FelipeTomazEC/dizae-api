@@ -3,6 +3,8 @@ import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-nu
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { ReporterData } from '@entities/reporter/reporter-data';
 import { Reporter } from '@entities/reporter/reporter';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Reporter entity tests.', () => {
   const example: ReporterData = {
@@ -21,6 +23,9 @@ describe('Reporter entity tests.', () => {
     const reporterOrError = Reporter.create(data);
 
     expect(reporterOrError.isLeft()).toBeTruthy();
+    expect(reporterOrError.value).toStrictEqual(
+      new InvalidParamError('name', new NullValueError()),
+    );
   });
 
   it('should have a valid password.', () => {
@@ -28,6 +33,9 @@ describe('Reporter entity tests.', () => {
     const reporterOrError = Reporter.create(data);
 
     expect(reporterOrError.isLeft());
+    expect(reporterOrError.value).toStrictEqual(
+      new InvalidParamError('password', new NullValueError()),
+    );
   });
 
   it('should have a valid e-mail.', () => {
@@ -35,6 +43,9 @@ describe('Reporter entity tests.', () => {
     const reporterOrError = Reporter.create(data);
 
     expect(reporterOrError.isLeft()).toBeTruthy();
+    expect(reporterOrError.value).toStrictEqual(
+      new InvalidParamError('email', new NullValueError()),
+    );
   });
 
   it('should have an avatar.', () => {
@@ -52,6 +63,9 @@ describe('Reporter entity tests.', () => {
     const reporterOrError = Reporter.create(data);
 
     expect(reporterOrError.isLeft()).toBeTruthy();
+    expect(reporterOrError.value).toStrictEqual(
+      new InvalidParamError('id', new NullValueError()),
+    );
   });
 
   it('should have a creation date.', () => {

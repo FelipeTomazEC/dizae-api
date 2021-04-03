@@ -1,6 +1,6 @@
 import { InvalidEmailError } from '@entities/shared/email/errors/invalid-email-error';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { Email } from '@entities/shared/email/email';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Email value object tests.', () => {
   it('should not be null/undefined.', () => {
@@ -8,7 +8,7 @@ describe('Email value object tests.', () => {
     const emailOrError = Email.create({ value });
 
     expect(emailOrError.isLeft()).toBeTruthy();
-    expect(emailOrError.value).toStrictEqual(new MissingParamError('email'));
+    expect(emailOrError.value).toStrictEqual(new NullValueError());
   });
 
   it('should have one occurrence of @ character.', () => {

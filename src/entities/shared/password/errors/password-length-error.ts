@@ -1,11 +1,7 @@
-import { BaseError } from '@shared/errors/base-error';
-import { ErrorCode } from '@shared/errors/error-code.enum';
+import { ValueObjectError } from '@entities/shared/errors/value-object-error';
 
-export class PasswordLengthError extends BaseError {
+export class PasswordLengthError extends ValueObjectError {
   constructor(minLength: number) {
-    super(
-      ErrorCode.INVALID_PARAM_VALUE,
-      `A password should have at least ${minLength} characters.`,
-    );
+    super(`A password should have at least ${minLength} characters.`);
   }
 }

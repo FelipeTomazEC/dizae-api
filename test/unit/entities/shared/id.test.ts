@@ -1,7 +1,7 @@
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import * as faker from 'faker';
 import { Id } from '@entities/shared/id/id';
 import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Id value object tests.', () => {
   it('should be defined.', () => {
@@ -9,7 +9,7 @@ describe('Id value object tests.', () => {
     const idOrError = Id.create({ value });
 
     expect(idOrError.isLeft()).toBeTruthy();
-    expect(idOrError.value).toStrictEqual(new MissingParamError('id'));
+    expect(idOrError.value).toStrictEqual(new NullValueError());
   });
 
   it('should be a uuid valid format.', () => {

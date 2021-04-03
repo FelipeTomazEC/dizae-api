@@ -1,7 +1,8 @@
 import { ValueObject } from '@entities/shared/value-object';
 import { Either, left, right } from '@shared/either.type';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { InvalidEmailError } from '@entities/shared/email/errors/invalid-email-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 interface Props {
   value: string;
@@ -18,9 +19,9 @@ export class Email extends ValueObject<Props> {
 
   static create({
     value,
-  }: Props): Either<MissingParamError | InvalidEmailError, Email> {
-    if (value === null || value === undefined) {
-      return left(new MissingParamError('email'));
+  }: Props): Either<NullValueError | InvalidEmailError, Email> {
+    if (isNullOrUndefined(value)) {
+      return left(new NullValueError());
     }
 
     if (!Email.validate(value)) {

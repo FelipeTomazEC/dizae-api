@@ -1,9 +1,11 @@
 import * as faker from 'faker';
 import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
 import { ItemCategoryData } from '@entities/item-category/item-category-data';
 import { ItemCategory } from '@entities/item-category/item-category';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
 
 describe('Category entity tests.', () => {
   const example: ItemCategoryData = {
@@ -19,6 +21,9 @@ describe('Category entity tests.', () => {
     const categoryOrError = ItemCategory.create(data);
 
     expect(categoryOrError.isLeft()).toBeTruthy();
+    expect(categoryOrError.value).toStrictEqual(
+      new InvalidParamError('name', new NullValueError()),
+    );
   });
 
   it('should have a creation date.', () => {
@@ -26,6 +31,9 @@ describe('Category entity tests.', () => {
     const categoryOrError = ItemCategory.create(data);
 
     expect(categoryOrError.isLeft()).toBeTruthy();
+    expect(categoryOrError.value).toStrictEqual(
+      new MissingParamError('createdAt'),
+    );
   });
 
   it('should have a creator id defined.', () => {
@@ -34,7 +42,7 @@ describe('Category entity tests.', () => {
 
     expect(categoryOrError.isLeft()).toBeTruthy();
     expect(categoryOrError.value).toStrictEqual(
-      new MissingParamError('creatorId'),
+      new InvalidParamError('creatorId', new NullValueError()),
     );
   });
 
@@ -44,7 +52,7 @@ describe('Category entity tests.', () => {
 
     expect(categoryOrError.isLeft()).toBeTruthy();
     expect(categoryOrError.value).toStrictEqual(
-      new InvalidCreatorIdError('invalid-id'),
+      new InvalidParamError('creatorId', new ValueIsNotUUIDError('invalid-id')),
     );
   });
 

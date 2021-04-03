@@ -1,7 +1,8 @@
 import { ValueObject } from '@entities/shared/value-object';
 import { Either, left, right } from '@shared/either.type';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { TooFewCharactersError } from '@entities/shared/name/errors/too-few-characters-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 interface Props {
   value: string;
@@ -18,9 +19,9 @@ export class Name extends ValueObject<Props> {
 
   static create({
     value,
-  }: Props): Either<MissingParamError | TooFewCharactersError, Name> {
-    if (value === undefined || value === null) {
-      return left(new MissingParamError('name'));
+  }: Props): Either<NullValueError | TooFewCharactersError, Name> {
+    if (isNullOrUndefined(value)) {
+      return left(new NullValueError());
     }
 
     if (value.length < 2) {

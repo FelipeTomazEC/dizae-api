@@ -1,11 +1,7 @@
-import { BaseError } from '@shared/errors/base-error';
-import { ErrorCode } from '@shared/errors/error-code.enum';
+import { ValueObjectError } from '@entities/shared/errors/value-object-error';
 
-export class TooFewCharactersError extends BaseError {
+export class TooFewCharactersError extends ValueObjectError {
   constructor() {
-    super(
-      ErrorCode.TOO_FEW_CHARACTERS,
-      `The name must have at least 2 characters.`,
-    );
+    super(`The name must have at least 2 characters.`);
   }
 }

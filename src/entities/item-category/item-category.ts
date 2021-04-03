@@ -4,8 +4,9 @@ import { Name } from '@entities/shared/name/name';
 import { ItemCategoryData } from '@entities/item-category/item-category-data';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
-import { BaseError } from '@shared/errors/base-error';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
 
 interface Props {
   name: Name;
@@ -32,32 +33,26 @@ export class ItemCategory {
 
   static create(
     data: ItemCategoryData,
-  ): Either<
-    MissingParamError | InvalidCreatorIdError | BaseError,
-    ItemCategory
-  > {
+  ): Either<MissingParamError | InvalidParamError, ItemCategory> {
     const nameOrError = Name.create({ value: data.name });
     const creatorIdOrError = Id.create({ value: data.creatorId });
-    const { createdAt } = data;
 
-    if (createdAt === undefined || createdAt === null) {
+    const validation = getInvalidValueObject([
+      { name: 'name', valueObject: nameOrError },
+      { name: 'creatorId', valueObject: creatorIdOrError },
+    ]);
+
+    if (validation.isLeft()) {
+      return left(validation.value);
+    }
+
+    if (isNullOrUndefined(data.createdAt)) {
       return left(new MissingParamError('createdAt'));
     }
 
-    if (data.creatorId === null || data.creatorId === undefined) {
-      return left(new MissingParamError('creatorId'));
-    }
-
-    if (creatorIdOrError.isLeft()) {
-      return left(new InvalidCreatorIdError(data.creatorId));
-    }
-
-    if (nameOrError.isLeft()) {
-      return left(nameOrError.value);
-    }
-
-    const creatorId: Id = creatorIdOrError.value;
-    const name: Name = nameOrError.value;
+    const creatorId = creatorIdOrError.value as Id;
+    const name = nameOrError.value as Name;
+    const { createdAt } = data;
 
     return right(new ItemCategory({ creatorId, createdAt, name }));
   }

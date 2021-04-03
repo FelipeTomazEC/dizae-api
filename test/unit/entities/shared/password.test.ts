@@ -1,8 +1,8 @@
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { Password } from '@entities/shared/password/password';
 import { PasswordWithoutNumericCharError } from '@entities/shared/password/errors/password-without-numeric-char-error';
 import * as faker from 'faker';
 import { PasswordLengthError } from '@entities/shared/password/errors/password-length-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Password value object tests.', () => {
   it('should not be undefined/null.', () => {
@@ -10,9 +10,7 @@ describe('Password value object tests.', () => {
     const passwordOrError = Password.create({ value });
 
     expect(passwordOrError.isLeft()).toBeTruthy();
-    expect(passwordOrError.value).toStrictEqual(
-      new MissingParamError('password'),
-    );
+    expect(passwordOrError.value).toStrictEqual(new NullValueError());
   });
 
   it('should have at least 1 numeric character.', () => {

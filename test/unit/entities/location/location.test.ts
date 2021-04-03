@@ -4,7 +4,8 @@ import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uui
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { LocationData } from '@entities/location/location-data';
 import { Location } from '@entities/location/location';
-import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Location entity tests.', () => {
   const example: LocationData = {
@@ -21,6 +22,9 @@ describe('Location entity tests.', () => {
     const locationOrError = Location.create(data);
 
     expect(locationOrError.isLeft()).toBeTruthy();
+    expect(locationOrError.value).toStrictEqual(
+      new InvalidParamError('name', new NullValueError()),
+    );
   });
 
   it('should have a creation date', () => {
@@ -28,6 +32,9 @@ describe('Location entity tests.', () => {
     const locationOrError = Location.create(data);
 
     expect(locationOrError.isLeft()).toBeTruthy();
+    expect(locationOrError.value).toStrictEqual(
+      new MissingParamError('createdAt'),
+    );
   });
 
   it('should have a valid id.', () => {
@@ -36,7 +43,7 @@ describe('Location entity tests.', () => {
 
     expect(locationOrError.isLeft()).toBeTruthy();
     expect(locationOrError.value).toStrictEqual(
-      new ValueIsNotUUIDError(data.id),
+      new InvalidParamError('id', new ValueIsNotUUIDError(data.id)),
     );
   });
 
@@ -46,7 +53,7 @@ describe('Location entity tests.', () => {
 
     expect(locationOrError.isLeft()).toBeTruthy();
     expect(locationOrError.value).toStrictEqual(
-      new MissingParamError('creatorId'),
+      new InvalidParamError('creatorId', new NullValueError()),
     );
   });
 
@@ -56,7 +63,10 @@ describe('Location entity tests.', () => {
 
     expect(locationOrError.isLeft()).toBeTruthy();
     expect(locationOrError.value).toStrictEqual(
-      new InvalidCreatorIdError('invalid-id'),
+      new InvalidParamError(
+        'creatorId',
+        new ValueIsNotUUIDError(data.creatorId),
+      ),
     );
   });
 

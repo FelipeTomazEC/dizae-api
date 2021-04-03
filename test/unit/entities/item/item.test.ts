@@ -5,6 +5,7 @@ import { ItemData } from '@entities/item/item-data';
 import { Item } from '@entities/item/item';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Item entity tests.', () => {
   const example: ItemData = {
@@ -21,10 +22,7 @@ describe('Item entity tests.', () => {
   it('should have a valid name.', () => {
     const data = getItemWithNullProps('name');
     const itemOrError = Item.create(data);
-    const error = new InvalidParamError(
-      'name',
-      new MissingParamError('name').message,
-    );
+    const error = new InvalidParamError('name', new NullValueError());
 
     expect(itemOrError.isLeft()).toBeTruthy();
     expect(itemOrError.value).toStrictEqual(error);
@@ -35,7 +33,7 @@ describe('Item entity tests.', () => {
     const itemOrError = Item.create(data);
     const error = new InvalidParamError(
       'creatorId',
-      new ValueIsNotUUIDError('invalid-id').message,
+      new ValueIsNotUUIDError('invalid-id'),
     );
 
     expect(itemOrError.isLeft()).toBeTruthy();
@@ -45,10 +43,7 @@ describe('Item entity tests.', () => {
   it('should have a valid id.', () => {
     const data = getItemWithNullProps('id');
     const itemOrError = Item.create(data);
-    const error = new InvalidParamError(
-      'id',
-      new MissingParamError('id').message,
-    );
+    const error = new InvalidParamError('id', new NullValueError());
 
     expect(itemOrError.isLeft()).toBeTruthy();
     expect(itemOrError.value).toStrictEqual(error);
@@ -59,7 +54,7 @@ describe('Item entity tests.', () => {
     const itemOrError = Item.create({ ...data, categoryId: 'invalid' });
     const error = new InvalidParamError(
       'categoryId',
-      new ValueIsNotUUIDError('invalid').message,
+      new ValueIsNotUUIDError('invalid'),
     );
 
     expect(itemOrError.isLeft()).toBeTruthy();
@@ -69,19 +64,17 @@ describe('Item entity tests.', () => {
   it('should have a creation date.', () => {
     const data = getItemWithNullProps('createdAt');
     const itemOrError = Item.create(data);
-    const error = new MissingParamError('createdAt');
 
     expect(itemOrError.isLeft()).toBeTruthy();
-    expect(itemOrError.value).toStrictEqual(error);
+    expect(itemOrError.value).toStrictEqual(new MissingParamError('createdAt'));
   });
 
   it('should have an image.', () => {
     const data = getItemWithNullProps('image');
     const itemOrError = Item.create(data);
-    const error = new MissingParamError('image');
 
     expect(itemOrError.isLeft()).toBeTruthy();
-    expect(itemOrError.value).toStrictEqual(error);
+    expect(itemOrError.value).toStrictEqual(new MissingParamError('image'));
   });
 
   it('should create an item entity instance.', () => {

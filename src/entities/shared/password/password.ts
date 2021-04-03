@@ -1,8 +1,9 @@
 import { ValueObject } from '@entities/shared/value-object';
 import { Either, left, right } from '@shared/either.type';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { PasswordWithoutNumericCharError } from '@entities/shared/password/errors/password-without-numeric-char-error';
 import { PasswordLengthError } from '@entities/shared/password/errors/password-length-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 interface Props {
   value: string;
@@ -22,11 +23,11 @@ export class Password extends ValueObject<Props> {
   static create({
     value,
   }: Props): Either<
-    MissingParamError | PasswordLengthError | PasswordWithoutNumericCharError,
+    NullValueError | PasswordLengthError | PasswordWithoutNumericCharError,
     Password
   > {
-    if (value === undefined || value === null) {
-      return left(new MissingParamError('password'));
+    if (isNullOrUndefined(value)) {
+      return left(new NullValueError());
     }
 
     if (!value.match(/[0-9]/)) {

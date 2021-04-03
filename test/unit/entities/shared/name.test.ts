@@ -1,6 +1,6 @@
 import { Name } from '@entities/shared/name/name';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { TooFewCharactersError } from '@entities/shared/name/errors/too-few-characters-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 describe('Name object tests.', () => {
   it('should have at least 2 characters.', () => {
@@ -15,7 +15,7 @@ describe('Name object tests.', () => {
     const nameOrError = Name.create({ value });
 
     expect(nameOrError.isLeft()).toBeTruthy();
-    expect(nameOrError.value).toStrictEqual(new MissingParamError('name'));
+    expect(nameOrError.value).toStrictEqual(new NullValueError());
   });
 
   it('should be formatted.', () => {

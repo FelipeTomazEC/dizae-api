@@ -10,6 +10,7 @@ module.exports = function (api) {
         alias: {
           '@entities': './src/entities',
           '@shared': './src/shared',
+          '@utils': './src/utils'
         },
       },
     ],

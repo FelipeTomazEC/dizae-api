@@ -3,10 +3,10 @@ import { Timestamp } from '@entities/shared/renamed-primitive-types';
 import { Name } from '@entities/shared/name/name';
 import { LocationData } from '@entities/location/location-data';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { BaseError } from '@shared/errors/base-error';
-
 import { Either, left, right } from '@shared/either.type';
-import { InvalidCreatorIdError } from '@entities/shared/errors/invalid-creator-id-error';
+import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 
 interface Props {
   id: Id;
@@ -38,35 +38,29 @@ export class Location {
 
   static create(
     data: LocationData,
-  ): Either<MissingParamError | BaseError | InvalidCreatorIdError, Location> {
+  ): Either<MissingParamError | InvalidParamError, Location> {
     const idOrError = Id.create({ value: data.id });
     const creatorIdOrError = Id.create({ value: data.creatorId });
     const nameOrError = Name.create({ value: data.name });
     const { createdAt } = data;
 
-    if (idOrError.isLeft()) {
-      return left(idOrError.value);
+    const validation = getInvalidValueObject([
+      { name: 'id', valueObject: idOrError },
+      { name: 'creatorId', valueObject: creatorIdOrError },
+      { name: 'name', valueObject: nameOrError },
+    ]);
+
+    if (validation.isLeft()) {
+      return left(validation.value);
     }
 
-    if (data.creatorId === null || data.creatorId === undefined) {
-      return left(new MissingParamError('creatorId'));
-    }
-
-    if (creatorIdOrError.isLeft()) {
-      return left(new InvalidCreatorIdError(data.creatorId));
-    }
-
-    if (nameOrError.isLeft()) {
-      return left(nameOrError.value);
-    }
-
-    if (createdAt === undefined || createdAt === null) {
+    if (isNullOrUndefined(createdAt)) {
       return left(new MissingParamError('createdAt'));
     }
 
-    const name: Name = nameOrError.value;
-    const id: Id = idOrError.value;
-    const creatorId: Id = creatorIdOrError.value;
+    const name = nameOrError.value as Name;
+    const id = idOrError.value as Id;
+    const creatorId = creatorIdOrError.value as Id;
 
     return right(new Location({ name, createdAt, creatorId, id }));
   }

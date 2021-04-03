@@ -20,7 +20,8 @@
     "paths": {
       "@entities/*": ["src/entities/*"],
       "@shared/*": ["src/shared/*"],
-      "@test/*": ["test/*"]
+      "@test/*": ["test/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

@@ -1,11 +1,7 @@
-import { BaseError } from '@shared/errors/base-error';
-import { ErrorCode } from '@shared/errors/error-code.enum';
+import { ValueObjectError } from '@entities/shared/errors/value-object-error';
 
-export class PasswordWithoutNumericCharError extends BaseError {
+export class PasswordWithoutNumericCharError extends ValueObjectError {
   constructor() {
-    super(
-      ErrorCode.INVALID_PARAM_VALUE,
-      'A password must have at least 1 numeric character.',
-    );
+    super('A password must have at least 1 numeric character.');
   }
 }

@@ -4,9 +4,11 @@ import { Email } from '@entities/shared/email/email';
 import { Password } from '@entities/shared/password/password';
 import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
-import { BaseError } from '@shared/errors/base-error';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { ReporterData } from '@entities/reporter/reporter-data';
+import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 
 interface Props {
   id: Id;
@@ -46,41 +48,38 @@ export class Reporter {
     return this.props.createdAt;
   }
 
-  static create(data: ReporterData): Either<BaseError, Reporter> {
+  static create(
+    data: ReporterData,
+  ): Either<InvalidParamError | MissingParamError, Reporter> {
     const idOrError = Id.create({ value: data.id });
     const nameOrError = Name.create({ value: data.name });
     const emailOrError = Email.create({ value: data.email });
     const passwordOrError = Password.create({ value: data.password });
     const { createdAt, avatar } = data;
 
-    if (idOrError.isLeft()) {
-      return left(idOrError.value);
+    const validation = getInvalidValueObject([
+      { name: 'id', valueObject: idOrError },
+      { name: 'name', valueObject: nameOrError },
+      { name: 'email', valueObject: emailOrError },
+      { name: 'password', valueObject: passwordOrError },
+    ]);
+
+    if (validation.isLeft()) {
+      return left(validation.value);
     }
 
-    if (nameOrError.isLeft()) {
-      return left(nameOrError.value);
-    }
-
-    if (emailOrError.isLeft()) {
-      return left(emailOrError.value);
-    }
-
-    if (passwordOrError.isLeft()) {
-      return left(passwordOrError.value);
-    }
-
-    if (avatar === null || avatar === undefined) {
+    if (isNullOrUndefined(avatar)) {
       return left(new MissingParamError('avatar'));
     }
 
-    if (createdAt === null || createdAt === undefined) {
+    if (isNullOrUndefined(createdAt)) {
       return left(new MissingParamError('createdAt'));
     }
 
-    const password = passwordOrError.value;
-    const name = nameOrError.value;
-    const id = idOrError.value;
-    const email = emailOrError.value;
+    const password = passwordOrError.value as Password;
+    const name = nameOrError.value as Name;
+    const id = idOrError.value as Id;
+    const email = emailOrError.value as Email;
 
     return right(
       new Reporter({ createdAt, avatar, password, name, id, email }),

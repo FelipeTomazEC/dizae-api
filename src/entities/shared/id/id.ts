@@ -1,7 +1,8 @@
 import { ValueObject } from '@entities/shared/value-object';
 import { Either, left, right } from '@shared/either.type';
-import { MissingParamError } from '@shared/errors/missing-param-error';
 import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 
 interface Props {
   value: string;
@@ -18,9 +19,9 @@ export class Id extends ValueObject<Props> {
 
   static create({
     value,
-  }: Props): Either<MissingParamError | ValueIsNotUUIDError, Id> {
-    if (value === null || value === undefined) {
-      return left(new MissingParamError('id'));
+  }: Props): Either<NullValueError | ValueIsNotUUIDError, Id> {
+    if (isNullOrUndefined(value)) {
+      return left(new NullValueError());
     }
 
     if (!this.isUUID(value)) {

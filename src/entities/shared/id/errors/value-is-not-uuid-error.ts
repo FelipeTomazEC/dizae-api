@@ -1,8 +1,7 @@
-import { BaseError } from '@shared/errors/base-error';
-import { ErrorCode } from '@shared/errors/error-code.enum';
+import { ValueObjectError } from '@entities/shared/errors/value-object-error';
 
-export class ValueIsNotUUIDError extends BaseError {
+export class ValueIsNotUUIDError extends ValueObjectError {
   constructor(value: string) {
-    super(ErrorCode.INVALID_PARAM_VALUE, `${value} is not a valid uuid.`);
+    super(`${value} is not a valid uuid.`);
   }
 }
