@@ -21,7 +21,8 @@
       "@entities/*": ["src/entities/*"],
       "@shared/*": ["src/shared/*"],
       "@test/*": ["test/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@use-cases/*": ["src/use-cases/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

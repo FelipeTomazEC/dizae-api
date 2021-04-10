@@ -48,6 +48,10 @@ export class Reporter {
     return this.props.createdAt;
   }
 
+  set password(newPassword: Password) {
+    this.props.password = newPassword;
+  }
+
   static create(
     data: ReporterData,
   ): Either<InvalidParamError | MissingParamError, Reporter> {
