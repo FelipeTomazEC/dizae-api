@@ -4,4 +4,5 @@ import { Reporter } from '@entities/reporter/reporter';
 export interface ReporterRepository {
   emailExists(email: Email): Promise<boolean>;
   save(reporter: Reporter): Promise<void>;
+  getReporterByEmail(email: Email): Promise<Reporter | undefined>;
 }
