@@ -1,11 +1,11 @@
-import * as faker from 'faker';
-import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
-import { MissingParamError } from '@shared/errors/missing-param-error';
-import { ItemData } from '@entities/item/item-data';
-import { Item } from '@entities/item/item';
+import { Item } from '@entities/location/item/item';
+import { ItemData } from '@entities/location/item/item-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
-import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
+import * as faker from 'faker';
 
 describe('Item entity tests.', () => {
   const example: ItemData = {
@@ -14,7 +14,6 @@ describe('Item entity tests.', () => {
     image: faker.image.image(),
     categoryId: faker.random.uuid(),
     createdAt: Date.now(),
-    id: faker.random.uuid(),
   };
 
   const getItemWithNullProps = getObjectWithNullProperty(example);
@@ -35,15 +34,6 @@ describe('Item entity tests.', () => {
       'creatorId',
       new ValueIsNotUUIDError('invalid-id'),
     );
-
-    expect(itemOrError.isLeft()).toBeTruthy();
-    expect(itemOrError.value).toStrictEqual(error);
-  });
-
-  it('should have a valid id.', () => {
-    const data = getItemWithNullProps('id');
-    const itemOrError = Item.create(data);
-    const error = new InvalidParamError('id', new NullValueError());
 
     expect(itemOrError.isLeft()).toBeTruthy();
     expect(itemOrError.value).toStrictEqual(error);
@@ -85,7 +75,6 @@ describe('Item entity tests.', () => {
     expect(item).toBeDefined();
     expect(item.categoryId.value).toBe(example.categoryId);
     expect(item.createdAt).toBe(example.createdAt);
-    expect(item.id.value).toBe(example.id);
     expect(item.image).toBe(example.image);
     expect(item.creatorId.value).toBe(example.creatorId);
     expect(item.name.value).toBe(example.name);

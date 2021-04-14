@@ -1,14 +1,13 @@
-import { Id } from '@entities/shared/id/id';
-import { Name } from '@entities/shared/name/name';
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
-import { ItemData } from '@entities/item/item-data';
-import { Either, left, right } from '@shared/either.type';
-import { MissingParamError } from '@shared/errors/missing-param-error';
-import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { Either, left, right } from '../../../shared/either.type';
+import { MissingParamError } from '../../../shared/errors/missing-param-error';
+import { InvalidParamError } from '../../shared/errors/invalid-param-error';
+import { getInvalidValueObject } from '../../shared/get-invalid-value-object';
+import { Id } from '../../shared/id/id';
+import { Name } from '../../shared/name/name';
+import { Timestamp, URL } from '../../shared/renamed-primitive-types';
+import { ItemData } from './item-data';
 
 interface Props {
-  id: Id;
   name: Name;
   creatorId: Id;
   createdAt: Timestamp;
@@ -18,10 +17,6 @@ interface Props {
 
 export class Item {
   private constructor(private readonly props: Props) {}
-
-  get id(): Id {
-    return this.props.id;
-  }
 
   get name(): Name {
     return this.props.name;
@@ -46,14 +41,12 @@ export class Item {
   static create(
     data: ItemData,
   ): Either<InvalidParamError | MissingParamError, Item> {
-    const idOrError = Id.create({ value: data.id });
     const nameOrError = Name.create({ value: data.name });
     const creatorIdOrError = Id.create({ value: data.creatorId });
     const categoryIdOrError = Id.create({ value: data.categoryId });
     const { image, createdAt } = data;
 
     const validation = getInvalidValueObject([
-      { name: 'id', valueObject: idOrError },
       { name: 'name', valueObject: nameOrError },
       { name: 'creatorId', valueObject: creatorIdOrError },
       { name: 'categoryId', valueObject: categoryIdOrError },
@@ -71,13 +64,10 @@ export class Item {
       return left(new MissingParamError('createdAt'));
     }
 
-    const id = idOrError.value as Id;
     const name = nameOrError.value as Name;
     const creatorId = creatorIdOrError.value as Id;
     const categoryId = categoryIdOrError.value as Id;
 
-    return right(
-      new Item({ creatorId, image, categoryId, createdAt, id, name }),
-    );
+    return right(new Item({ creatorId, image, categoryId, createdAt, name }));
   }
 }

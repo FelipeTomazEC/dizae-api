@@ -1,7 +1,6 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { Timestamp, URL } from '../../shared/renamed-primitive-types';
 
 export interface ItemData {
-  id: string;
   name: string;
   creatorId: string;
   image: URL;
