@@ -1,12 +1,13 @@
-import { Id } from '@entities/shared/id/id';
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
-import { Name } from '@entities/shared/name/name';
 import { LocationData } from '@entities/location/location-data';
-import { MissingParamError } from '@shared/errors/missing-param-error';
-import { Either, left, right } from '@shared/either.type';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
-import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { Id } from '@entities/shared/id/id';
+import { Name } from '@entities/shared/name/name';
+import { Timestamp } from '@entities/shared/renamed-primitive-types';
+import { Either, left, right } from '@shared/either.type';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { Item } from './item/item';
 
 interface Props {
   id: Id;
@@ -16,7 +17,10 @@ interface Props {
 }
 
 export class Location {
+  private readonly items: Item[];
+
   private constructor(private readonly props: Props) {
+    this.items = [];
     Object.freeze(this);
   }
 
@@ -34,6 +38,20 @@ export class Location {
 
   get name(): Name {
     return this.props.name;
+  }
+
+  public getItems(): Item[] {
+    return [...this.items];
+  }
+
+  public addItem(item: Item): void {
+    if (!this.isItemRegistered(item)) {
+      this.items.push(item);
+    }
+  }
+
+  public isItemRegistered(item: Item): boolean {
+    return this.items.some((i) => i.name.isEqual(item.name));
   }
 
   static create(
