@@ -1,9 +1,9 @@
+import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { PasswordLengthError } from '@entities/shared/password/errors/password-length-error';
+import { PasswordWithoutNumericCharError } from '@entities/shared/password/errors/password-without-numeric-char-error';
 import { ValueObject } from '@entities/shared/value-object';
 import { Either, left, right } from '@shared/either.type';
-import { PasswordWithoutNumericCharError } from '@entities/shared/password/errors/password-without-numeric-char-error';
-import { PasswordLengthError } from '@entities/shared/password/errors/password-length-error';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
-import { NullValueError } from '@entities/shared/errors/null-value-error';
 
 interface Props {
   value: string;
