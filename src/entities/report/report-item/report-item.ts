@@ -1,16 +1,16 @@
-import { ValueObject } from '@entities/shared/value-object';
-import { Either, left, right } from '@shared/either.type';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { ValueObject } from '@entities/shared/value-object';
+import { Either, left, right } from '@shared/either.type';
+import { getValueObjects } from '@utils/get-value-objects';
 
 interface ReportItemProps {
   locationId: Id;
   name: Name;
 }
 
-interface Props {
+interface Data {
   locationId: string;
   name: string;
 }
@@ -28,20 +28,19 @@ export class ReportItem extends ValueObject<ReportItemProps> {
     return this.props.locationId;
   }
 
-  static create(props: Props): Either<InvalidParamError, ReportItem> {
-    const nameOrError = Name.create({ value: props.name });
-    const locationIdOrError = Id.create({ value: props.locationId });
-    const validation = getInvalidValueObject([
-      { name: 'name', valueObject: nameOrError },
-      { name: 'locationId', valueObject: locationIdOrError },
+  static create(data: Data): Either<InvalidParamError, ReportItem> {
+    const nameOrError = Name.create({ value: data.name });
+    const locationIdOrError = Id.create({ value: data.locationId });
+    const validation = getValueObjects<[Name, Id]>([
+      { name: 'name', value: nameOrError },
+      { name: 'locationId', value: locationIdOrError },
     ]);
 
     if (validation.isLeft()) {
       return left(validation.value);
     }
 
-    const name = nameOrError.value as Name;
-    const locationId = locationIdOrError.value as Id;
+    const [name, locationId] = validation.value;
 
     return right(new ReportItem({ name, locationId }));
   }

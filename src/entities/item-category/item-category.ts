@@ -1,12 +1,12 @@
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
+import { ItemCategoryData } from '@entities/item-category/item-category-data';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { ItemCategoryData } from '@entities/item-category/item-category-data';
+import { Timestamp } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { getValueObjects } from '@utils/get-value-objects';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
 
 interface Props {
   name: Name;
@@ -37,9 +37,9 @@ export class ItemCategory {
     const nameOrError = Name.create({ value: data.name });
     const creatorIdOrError = Id.create({ value: data.creatorId });
 
-    const validation = getInvalidValueObject([
-      { name: 'name', valueObject: nameOrError },
-      { name: 'creatorId', valueObject: creatorIdOrError },
+    const validation = getValueObjects<[Name, Id]>([
+      { name: 'name', value: nameOrError },
+      { name: 'creatorId', value: creatorIdOrError },
     ]);
 
     if (validation.isLeft()) {
@@ -50,8 +50,7 @@ export class ItemCategory {
       return left(new MissingParamError('createdAt'));
     }
 
-    const creatorId = creatorIdOrError.value as Id;
-    const name = nameOrError.value as Name;
+    const [name, creatorId] = validation.value;
     const { createdAt } = data;
 
     return right(new ItemCategory({ creatorId, createdAt, name }));

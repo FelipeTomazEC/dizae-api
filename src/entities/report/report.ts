@@ -1,14 +1,14 @@
-import { Id } from '@entities/shared/id/id';
-import { Title } from '@entities/report/title/title';
 import { Description } from '@entities/report/description/description';
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { ReportData } from '@entities/report/report-data';
 import { ReportItem } from '@entities/report/report-item/report-item';
 import { Status } from '@entities/report/status';
-import { ReportData } from '@entities/report/report-data';
+import { Title } from '@entities/report/title/title';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { Id } from '@entities/shared/id/id';
+import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { getValueObjects } from '@utils/get-value-objects';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 
 interface Props {
@@ -72,17 +72,6 @@ export class Report {
     const idOrError = Id.create({ value: data.id });
     const { image, createdAt, status } = data;
 
-    const validation = getInvalidValueObject([
-      { name: 'creatorId', valueObject: creatorIdOrError },
-      { name: 'title', valueObject: titleOrError },
-      { name: 'description', valueObject: descriptionOrError },
-      { name: 'id', valueObject: idOrError },
-    ]);
-
-    if (validation.isLeft()) {
-      return left(validation.value);
-    }
-
     if (reportItemOrError.isLeft()) {
       return left(reportItemOrError.value);
     }
@@ -99,11 +88,19 @@ export class Report {
       return left(new MissingParamError('status'));
     }
 
+    const validation = getValueObjects<[Id, Title, Description, Id]>([
+      { name: 'creatorId', value: creatorIdOrError },
+      { name: 'title', value: titleOrError },
+      { name: 'description', value: descriptionOrError },
+      { name: 'id', value: idOrError },
+    ]);
+
+    if (validation.isLeft()) {
+      return left(validation.value);
+    }
+
+    const [creatorId, title, description, id] = validation.value;
     const item = reportItemOrError.value;
-    const title = titleOrError.value as Title;
-    const description = descriptionOrError.value as Description;
-    const creatorId = creatorIdOrError.value as Id;
-    const id = idOrError.value as Id;
 
     return right(
       new Report({

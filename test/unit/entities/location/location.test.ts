@@ -4,6 +4,7 @@ import { LocationData } from '@entities/location/location-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
 import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { Name } from '@entities/shared/name/name';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
 import * as faker from 'faker';
@@ -112,7 +113,22 @@ describe('Location entity tests.', () => {
 
     location.addItem(item1);
 
-    expect(location.isItemRegistered(item1)).toBeTruthy();
-    expect(location.isItemRegistered(item2)).toBeFalsy();
+    expect(location.isItemRegistered(item1.name)).toBeTruthy();
+    expect(location.isItemRegistered(item2.name)).toBeFalsy();
+  });
+
+  it('should return an item. The return must be undefined if the item does not exists.', () => {
+    const location = Location.create(example).value as Location;
+    const item1 = createItem();
+    const item2 = createItem();
+    const inexistentItemName = Name.create({ value: 'Not existent' })
+      .value as Name;
+
+    location.addItem(item1);
+    location.addItem(item2);
+
+    expect(location.getItem(item1.name)).toBe(item1);
+    expect(location.getItem(item2.name)).toBe(item2);
+    expect(location.getItem(inexistentItemName)).toBeFalsy();
   });
 });

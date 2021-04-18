@@ -1,10 +1,10 @@
-import { Either, left, right } from '../../../shared/either.type';
-import { MissingParamError } from '../../../shared/errors/missing-param-error';
-import { InvalidParamError } from '../../shared/errors/invalid-param-error';
-import { getInvalidValueObject } from '../../shared/get-invalid-value-object';
-import { Id } from '../../shared/id/id';
-import { Name } from '../../shared/name/name';
-import { Timestamp, URL } from '../../shared/renamed-primitive-types';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { Id } from '@entities/shared/id/id';
+import { Name } from '@entities/shared/name/name';
+import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { Either, left, right } from '@shared/either.type';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { getValueObjects } from '@utils/get-value-objects';
 import { ItemData } from './item-data';
 
 interface Props {
@@ -46,16 +46,6 @@ export class Item {
     const categoryIdOrError = Id.create({ value: data.categoryId });
     const { image, createdAt } = data;
 
-    const validation = getInvalidValueObject([
-      { name: 'name', valueObject: nameOrError },
-      { name: 'creatorId', valueObject: creatorIdOrError },
-      { name: 'categoryId', valueObject: categoryIdOrError },
-    ]);
-
-    if (validation.isLeft()) {
-      return left(validation.value);
-    }
-
     if (image === null || image === undefined) {
       return left(new MissingParamError('image'));
     }
@@ -64,9 +54,17 @@ export class Item {
       return left(new MissingParamError('createdAt'));
     }
 
-    const name = nameOrError.value as Name;
-    const creatorId = creatorIdOrError.value as Id;
-    const categoryId = categoryIdOrError.value as Id;
+    const validation = getValueObjects<[Name, Id, Id]>([
+      { name: 'name', value: nameOrError },
+      { name: 'creatorId', value: creatorIdOrError },
+      { name: 'categoryId', value: categoryIdOrError },
+    ]);
+
+    if (validation.isLeft()) {
+      return left(validation.value);
+    }
+
+    const [name, creatorId, categoryId] = validation.value;
 
     return right(new Item({ creatorId, image, categoryId, createdAt, name }));
   }

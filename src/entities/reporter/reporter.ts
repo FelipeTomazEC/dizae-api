@@ -1,14 +1,14 @@
+import { ReporterData } from '@entities/reporter/reporter-data';
+import { Email } from '@entities/shared/email/email';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { Email } from '@entities/shared/email/email';
 import { Password } from '@entities/shared/password/password';
 import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { ReporterData } from '@entities/reporter/reporter-data';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
+import { getValueObjects } from '@utils/get-value-objects';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
-import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 
 interface Props {
   id: Id;
@@ -61,16 +61,18 @@ export class Reporter {
     const passwordOrError = Password.create({ value: data.password });
     const { createdAt, avatar } = data;
 
-    const validation = getInvalidValueObject([
-      { name: 'id', valueObject: idOrError },
-      { name: 'name', valueObject: nameOrError },
-      { name: 'email', valueObject: emailOrError },
-      { name: 'password', valueObject: passwordOrError },
+    const validation = getValueObjects<[Id, Name, Email, Password]>([
+      { name: 'id', value: idOrError },
+      { name: 'name', value: nameOrError },
+      { name: 'email', value: emailOrError },
+      { name: 'password', value: passwordOrError },
     ]);
 
     if (validation.isLeft()) {
       return left(validation.value);
     }
+
+    const [id, name, email, password] = validation.value;
 
     if (isNullOrUndefined(avatar)) {
       return left(new MissingParamError('avatar'));
@@ -79,11 +81,6 @@ export class Reporter {
     if (isNullOrUndefined(createdAt)) {
       return left(new MissingParamError('createdAt'));
     }
-
-    const password = passwordOrError.value as Password;
-    const name = nameOrError.value as Name;
-    const id = idOrError.value as Id;
-    const email = emailOrError.value as Email;
 
     return right(
       new Reporter({ createdAt, avatar, password, name, id, email }),

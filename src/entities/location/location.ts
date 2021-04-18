@@ -1,11 +1,11 @@
 import { LocationData } from '@entities/location/location-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
-import { getInvalidValueObject } from '@entities/shared/get-invalid-value-object';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
 import { Timestamp } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
+import { getValueObjects } from '@utils/get-value-objects';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 import { Item } from './item/item';
 
@@ -45,13 +45,17 @@ export class Location {
   }
 
   public addItem(item: Item): void {
-    if (!this.isItemRegistered(item)) {
+    if (!this.isItemRegistered(item.name)) {
       this.items.push(item);
     }
   }
 
-  public isItemRegistered(item: Item): boolean {
-    return this.items.some((i) => i.name.isEqual(item.name));
+  public isItemRegistered(itemName: Name): boolean {
+    return this.items.some((i) => i.name.isEqual(itemName));
+  }
+
+  public getItem(name: Name): Item | undefined {
+    return this.items.find((i) => i.name.isEqual(name));
   }
 
   static create(
@@ -62,23 +66,21 @@ export class Location {
     const nameOrError = Name.create({ value: data.name });
     const { createdAt } = data;
 
-    const validation = getInvalidValueObject([
-      { name: 'id', valueObject: idOrError },
-      { name: 'creatorId', valueObject: creatorIdOrError },
-      { name: 'name', valueObject: nameOrError },
+    if (isNullOrUndefined(createdAt)) {
+      return left(new MissingParamError('createdAt'));
+    }
+
+    const validation = getValueObjects<[Id, Id, Name]>([
+      { name: 'id', value: idOrError },
+      { name: 'creatorId', value: creatorIdOrError },
+      { name: 'name', value: nameOrError },
     ]);
 
     if (validation.isLeft()) {
       return left(validation.value);
     }
 
-    if (isNullOrUndefined(createdAt)) {
-      return left(new MissingParamError('createdAt'));
-    }
-
-    const name = nameOrError.value as Name;
-    const id = idOrError.value as Id;
-    const creatorId = creatorIdOrError.value as Id;
+    const [id, creatorId, name] = validation.value;
 
     return right(new Location({ name, createdAt, creatorId, id }));
   }
