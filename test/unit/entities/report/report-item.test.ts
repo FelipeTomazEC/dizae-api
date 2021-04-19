@@ -1,13 +1,13 @@
-import { getNullAsType } from '@test/test-helpers/get-null-as-type';
-import * as faker from 'faker';
+import { ReportItem } from '@entities/report/report-item/report-item';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
-import { ReportItem } from '@entities/report/report-item/report-item';
+import { getNullAsType } from '@test/test-helpers/get-null-as-type';
+import * as faker from 'faker';
 
 describe('Report Item value object tests', () => {
   it('should have a valid item id.', () => {
     const name = getNullAsType<string>();
-    const locationId = faker.random.uuid();
+    const locationId = faker.datatype.uuid();
     const itemOrError = ReportItem.create({ name, locationId });
 
     expect(itemOrError.isLeft()).toBeTruthy();
@@ -29,7 +29,7 @@ describe('Report Item value object tests', () => {
 
   it('should create a report item instance.', () => {
     const name = faker.commerce.product();
-    const locationId = faker.random.uuid();
+    const locationId = faker.datatype.uuid();
     const itemOrError = ReportItem.create({ locationId, name });
     const item = itemOrError.value as ReportItem;
 

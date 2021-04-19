@@ -13,15 +13,15 @@ describe('Location entity tests.', () => {
   const example: LocationData = {
     name: 'SOME location HeRe',
     createdAt: Date.now(),
-    id: faker.random.uuid(),
-    creatorId: faker.random.uuid(),
+    id: faker.datatype.uuid(),
+    creatorId: faker.datatype.uuid(),
   };
 
   const createItem = (): Item =>
     Item.create({
-      categoryId: faker.random.uuid(),
+      categoryId: faker.datatype.uuid(),
       createdAt: Date.now(),
-      creatorId: faker.random.uuid(),
+      creatorId: faker.datatype.uuid(),
       image: faker.image.image(),
       name: faker.commerce.product(),
     }).value as Item;

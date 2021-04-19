@@ -1,18 +1,18 @@
-import { getMock } from '@test/test-helpers/get-mock';
-import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
-import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
-import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
-import { Password } from '@entities/shared/password/password';
-import { left } from '@shared/either.type';
-import * as faker from 'faker';
 import { Reporter } from '@entities/reporter/reporter';
 import { Email } from '@entities/shared/email/email';
-import { ReporterAuthService } from '@use-cases/interfaces/adapters/reporter-auth-service';
-import { AuthenticateReporterResponse } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-response';
+import { Password } from '@entities/shared/password/password';
+import { left } from '@shared/either.type';
+import { getMock } from '@test/test-helpers/get-mock';
 import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/authenticate-reporter';
 import { AuthenticateReporterRequest } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-request';
+import { AuthenticateReporterResponse } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-response';
 import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
+import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
+import { ReporterAuthService } from '@use-cases/interfaces/adapters/reporter-auth-service';
+import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
+import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
+import * as faker from 'faker';
 
 describe('Authenticate reporter use case tests.', () => {
   const repository = getMock<ReporterRepository>(['getReporterByEmail']);
@@ -36,7 +36,7 @@ describe('Authenticate reporter use case tests.', () => {
 
   beforeAll(() => {
     const reporter = Reporter.create({
-      id: faker.random.uuid(),
+      id: faker.datatype.uuid(),
       name: faker.name.firstName(),
       password: '$om3pAssword',
       email: faker.internet.email(),

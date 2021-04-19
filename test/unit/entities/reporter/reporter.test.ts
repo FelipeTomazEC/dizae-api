@@ -1,14 +1,14 @@
-import * as faker from 'faker';
-import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
-import { MissingParamError } from '@shared/errors/missing-param-error';
-import { ReporterData } from '@entities/reporter/reporter-data';
 import { Reporter } from '@entities/reporter/reporter';
+import { ReporterData } from '@entities/reporter/reporter-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
+import * as faker from 'faker';
 
 describe('Reporter entity tests.', () => {
   const example: ReporterData = {
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     name: faker.name.findName(),
     createdAt: Date.now(),
     email: faker.internet.email(),

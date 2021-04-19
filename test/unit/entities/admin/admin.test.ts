@@ -1,22 +1,22 @@
+import { Admin } from '@entities/admin/admin';
 import { AdminData } from '@entities/admin/admin-data';
 import { Email } from '@entities/shared/email/email';
-import { left } from '@shared/either.type';
-import * as faker from 'faker';
-import { MissingParamError } from '@shared/errors/missing-param-error';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { NullValueError } from '@entities/shared/errors/null-value-error';
 import { Id } from '@entities/shared/id/id';
-import { Admin } from '@entities/admin/admin';
 import { Name } from '@entities/shared/name/name';
 import { Password } from '@entities/shared/password/password';
+import { left } from '@shared/either.type';
+import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
-import { NullValueError } from '@entities/shared/errors/null-value-error';
-import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import * as faker from 'faker';
 
 describe('Admin entity tests.', () => {
   const example: AdminData = {
     avatar: faker.internet.avatar(),
     createdAt: Date.now(),
     email: faker.internet.email(),
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     name: faker.name.findName(),
     password: faker.internet.password(15, false),
   };

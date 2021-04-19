@@ -43,8 +43,8 @@ describe('Create report use case tests.', () => {
     description: faker.lorem.sentence(5),
     image: faker.image.image(),
     itemName: faker.commerce.product(),
-    locationId: faker.random.uuid(),
-    reporterId: faker.random.uuid(),
+    locationId: faker.datatype.uuid(),
+    reporterId: faker.datatype.uuid(),
     title: faker.lorem.words(2),
   };
 
@@ -60,20 +60,20 @@ describe('Create report use case tests.', () => {
 
     location = Location.create({
       name: faker.commerce.department(),
-      creatorId: faker.random.uuid(),
+      creatorId: faker.datatype.uuid(),
       id: request.locationId,
       createdAt: Date.now(),
     }).value as Location;
 
     item = Item.create({
-      categoryId: faker.random.uuid(),
+      categoryId: faker.datatype.uuid(),
       createdAt: Date.now(),
-      creatorId: faker.random.uuid(),
+      creatorId: faker.datatype.uuid(),
       image: faker.image.image(),
       name: request.itemName,
     }).value as Item;
 
-    id = Id.create({ value: faker.random.uuid() }).value as Id;
+    id = Id.create({ value: faker.datatype.uuid() }).value as Id;
 
     location.addItem(item);
 

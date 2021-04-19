@@ -10,9 +10,9 @@ import * as faker from 'faker';
 describe('Item entity tests.', () => {
   const example: ItemData = {
     name: faker.commerce.product(),
-    creatorId: faker.random.uuid(),
+    creatorId: faker.datatype.uuid(),
     image: faker.image.image(),
-    categoryId: faker.random.uuid(),
+    categoryId: faker.datatype.uuid(),
     createdAt: Date.now(),
   };
 

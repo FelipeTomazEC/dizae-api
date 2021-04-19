@@ -1,7 +1,7 @@
-import * as faker from 'faker';
-import { Id } from '@entities/shared/id/id';
-import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
+import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { Id } from '@entities/shared/id/id';
+import * as faker from 'faker';
 
 describe('Id value object tests.', () => {
   it('should be defined.', () => {
@@ -21,7 +21,7 @@ describe('Id value object tests.', () => {
   });
 
   it('should create an id object.', () => {
-    const value = faker.random.uuid();
+    const value = faker.datatype.uuid();
     const idOrError = Id.create({ value });
     const id = idOrError.value as Id;
 

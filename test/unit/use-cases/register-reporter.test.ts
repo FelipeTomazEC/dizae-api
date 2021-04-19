@@ -22,7 +22,7 @@ describe('Register Reporter use case tests.', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
 
   beforeAll(() => {
-    const id = Id.create({ value: faker.random.uuid() }).value as Id;
+    const id = Id.create({ value: faker.datatype.uuid() }).value as Id;
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
   });
 
@@ -53,7 +53,7 @@ describe('Register Reporter use case tests.', () => {
 
   it('should encrypt the password before saving the user.', async () => {
     const createdAt = Date.now();
-    const id = Id.create({ value: faker.random.uuid() }).value as Id;
+    const id = Id.create({ value: faker.datatype.uuid() }).value as Id;
     const encodedPassword = Password.create({ value: '3nc0DedP@$$word' })
       .value as Password;
     jest.spyOn(Date, 'now').mockReturnValueOnce(createdAt);
@@ -84,7 +84,7 @@ describe('Register Reporter use case tests.', () => {
   });
 
   it(`should return the new reporter's id.`, async () => {
-    const id = Id.create({ value: faker.random.uuid() }).value as Id;
+    const id = Id.create({ value: faker.datatype.uuid() }).value as Id;
     jest.spyOn(idGenerator, 'generate').mockReturnValueOnce(id);
 
     await sut.execute(request);

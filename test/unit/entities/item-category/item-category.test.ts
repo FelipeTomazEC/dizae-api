@@ -1,16 +1,16 @@
-import * as faker from 'faker';
-import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
-import { MissingParamError } from '@shared/errors/missing-param-error';
-import { ItemCategoryData } from '@entities/item-category/item-category-data';
 import { ItemCategory } from '@entities/item-category/item-category';
+import { ItemCategoryData } from '@entities/item-category/item-category-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
 import { ValueIsNotUUIDError } from '@entities/shared/id/errors/value-is-not-uuid-error';
+import { MissingParamError } from '@shared/errors/missing-param-error';
+import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
+import * as faker from 'faker';
 
 describe('Category entity tests.', () => {
   const example: ItemCategoryData = {
     name: faker.commerce.product(),
-    creatorId: faker.random.uuid(),
+    creatorId: faker.datatype.uuid(),
     createdAt: Date.now(),
   };
 

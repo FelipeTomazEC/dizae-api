@@ -1,20 +1,20 @@
-import * as faker from 'faker';
+import { Description } from '@entities/report/description/description';
+import { TooLongDescriptionError } from '@entities/report/description/errors/too-long-description-error';
+import { Report } from '@entities/report/report';
+import { ReportData } from '@entities/report/report-data';
 import { Status } from '@entities/report/status';
-import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { NullValueError } from '@entities/shared/errors/null-value-error';
-import { TooLongDescriptionError } from '@entities/report/description/errors/too-long-description-error';
-import { Description } from '@entities/report/description/description';
 import { MissingParamError } from '@shared/errors/missing-param-error';
-import { ReportData } from '@entities/report/report-data';
-import { Report } from '@entities/report/report';
+import { getObjectWithNullProperty } from '@test/test-helpers/get-object-with-null-property';
+import * as faker from 'faker';
 
 describe('Report entity tests', () => {
   const example: ReportData = {
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     createdAt: Date.now(),
-    creatorId: faker.random.uuid(),
-    itemLocationId: faker.random.uuid(),
+    creatorId: faker.datatype.uuid(),
+    itemLocationId: faker.datatype.uuid(),
     itemName: faker.commerce.productName(),
     description:
       'A description for the brand new report. Some item might be broken.',
