@@ -22,7 +22,8 @@
       "@shared/*": ["src/shared/*"],
       "@test/*": ["test/*"],
       "@utils/*": ["src/utils/*"],
-      "@use-cases/*": ["src/use-cases/*"]
+      "@use-cases/*": ["src/use-cases/*"],
+      "@interface-adapters/*": ["src/interface-adapters/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
