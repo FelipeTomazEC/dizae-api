@@ -1,3 +1,6 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-extraneous-dependencies */
+// eslint-disable-next-line func-names
 module.exports = function (api) {
   api.cache(false);
   const presets = ['@babel/preset-env', '@babel/preset-typescript'];
@@ -12,6 +15,7 @@ module.exports = function (api) {
           '@shared': './src/shared',
           '@utils': './src/utils',
           '@use-cases': './src/use-cases',
+          '@interface-adapters': './src/interface-adapters'
         },
       },
     ],
