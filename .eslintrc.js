@@ -27,5 +27,6 @@ module.exports = {
     '@typescript-eslint/indent': ['error'],
     'no-constant-condition': ['error'],
     'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off'
   },
 };
