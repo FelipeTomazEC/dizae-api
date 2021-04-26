@@ -1,8 +1,11 @@
 import { BaseError } from './base-error';
-import { ErrorCode } from './error-code.enum';
+import { ErrorType } from './error-type.enum';
 
 export class MissingParamError extends BaseError {
   constructor(paramName: string) {
-    super(ErrorCode.MISSING_PARAM, `The param ${paramName} is required.`);
+    super(
+      ErrorType.MISSING_REQUIRED_PARAM,
+      `The param ${paramName} is required.`,
+    );
   }
 }
