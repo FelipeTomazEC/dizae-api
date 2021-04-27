@@ -14,18 +14,20 @@ interface Param {
   value: ParamValue;
 }
 
-interface MappedError {
-  type: string;
-  message: string;
-  info?: string;
-}
-
 export interface RequestBody {
   readonly [index: string]: any;
 }
 
-export interface ResponseBody {
-  success: boolean;
-  data?: any;
-  error?: MappedError;
+export interface SuccessResponseBody {
+  success: true;
+  data: any;
 }
+
+export interface ErrorResponseBody {
+  success: false;
+  error: {
+    message: string;
+  };
+}
+
+export type ResponseBody = SuccessResponseBody | ErrorResponseBody;
