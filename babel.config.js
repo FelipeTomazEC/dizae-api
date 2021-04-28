@@ -15,7 +15,8 @@ module.exports = function (api) {
           '@shared': './src/shared',
           '@utils': './src/utils',
           '@use-cases': './src/use-cases',
-          '@interface-adapters': './src/interface-adapters'
+          '@interface-adapters': './src/interface-adapters',
+          '@infra': '.src/infra'
         },
       },
     ],

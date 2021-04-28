@@ -23,7 +23,8 @@
       "@test/*": ["test/*"],
       "@utils/*": ["src/utils/*"],
       "@use-cases/*": ["src/use-cases/*"],
-      "@interface-adapters/*": ["src/interface-adapters/*"]
+      "@interface-adapters/*": ["src/interface-adapters/*"],
+      "@infra/*": ["src/infra/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
