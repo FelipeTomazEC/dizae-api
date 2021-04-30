@@ -6,6 +6,7 @@ module.exports = function (api) {
   const presets = ['@babel/preset-env', '@babel/preset-typescript'];
   const plugins = [
     [require('@babel/plugin-proposal-class-properties'), { loose: false }],
+    [require('@babel/plugin-transform-runtime')],
     [
       require.resolve('babel-plugin-module-resolver'),
       {
@@ -16,7 +17,7 @@ module.exports = function (api) {
           '@utils': './src/utils',
           '@use-cases': './src/use-cases',
           '@interface-adapters': './src/interface-adapters',
-          '@infra': '.src/infra'
+          '@infra': './src/infra'
         },
       },
     ],
