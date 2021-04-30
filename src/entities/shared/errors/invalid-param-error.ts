@@ -6,8 +6,7 @@ export class InvalidParamError extends BaseError {
   constructor(paramName: string, detailedError: ValueObjectError) {
     super(
       ErrorType.INVALID_INPUT_ERROR,
-      `Invalid ${paramName} value.`,
-      detailedError.message,
+      `Invalid ${paramName} value. ${detailedError.message}`,
     );
   }
 }
