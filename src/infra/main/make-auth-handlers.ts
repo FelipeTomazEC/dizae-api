@@ -6,7 +6,7 @@ import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
 
 export const makeAuthHandlers = () => {
   const reporterRepository = InMemoryReporterRepository.getInstance();
-  const authService = new JWTAuthService('som3$secret');
+  const authService = new JWTAuthService(process.env.JWT_SECRET!);
   const encoder = new BcryptPasswordEncoder();
   const logger = new ConsoleErrorLogger();
 
