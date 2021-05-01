@@ -5,7 +5,7 @@ import { UUIDV4Generator } from '@infra/implementations/uuid-v4-generator';
 import { handleRegisterReporter } from '../handlers/handle-register-report';
 
 export const makeReporterHandlers = () => {
-  const repository = new InMemoryReporterRepository();
+  const repository = InMemoryReporterRepository.getInstance();
   const idGenerator = new UUIDV4Generator();
   const encoder = new BcryptPasswordEncoder();
   const logger = new ConsoleErrorLogger();

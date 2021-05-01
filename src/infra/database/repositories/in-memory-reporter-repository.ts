@@ -4,10 +4,20 @@ import { Id } from '@entities/shared/id/id';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 
 export class InMemoryReporterRepository implements ReporterRepository {
+  private static instance: InMemoryReporterRepository | null = null;
+
   private readonly records: Reporter[];
 
-  constructor() {
+  private constructor() {
     this.records = [];
+  }
+
+  static getInstance(): InMemoryReporterRepository {
+    if (this.instance === null) {
+      this.instance = new InMemoryReporterRepository();
+    }
+
+    return this.instance;
   }
 
   emailExists(email: Email): Promise<boolean> {

@@ -15,7 +15,7 @@ describe('In memory reporter repository tests.', () => {
   }).value as Reporter;
 
   beforeEach(() => {
-    sut = new InMemoryReporterRepository();
+    sut = InMemoryReporterRepository.getInstance();
   });
 
   it('should store a reporter.', async () => {
@@ -45,5 +45,12 @@ describe('In memory reporter repository tests.', () => {
 
     expect(isTestReporterRegistered).toBeTruthy();
     expect(isEmailRegistered).toBeFalsy();
+  });
+
+  it('should be a singleton.', async () => {
+    const instance1 = InMemoryReporterRepository.getInstance();
+    const instance2 = InMemoryReporterRepository.getInstance();
+
+    expect(instance1).toEqual(instance2);
   });
 });
