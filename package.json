@@ -13,7 +13,7 @@
     "test:unit": "jest unit",
     "test": "jest",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register src/index.ts' -e ts"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register -r ./src/infra/main/setup-environment.ts src/index.ts' -e ts"
   },
   "lint-staged": {
     "*.ts": [
@@ -64,6 +64,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "bcrypt": "^5.0.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
