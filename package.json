@@ -39,6 +39,7 @@
     "@types/faker": "^5.5.3",
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
+    "@types/swagger-ui-express": "^4.1.2",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
@@ -64,6 +65,7 @@
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2"
   }
 }
