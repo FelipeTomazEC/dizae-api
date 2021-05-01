@@ -1,11 +1,11 @@
 import { HttpRequest } from '@interface-adapters/http/http-request';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
-import { AuthorizationError } from './errors/authorization-error';
-import { InternalServerError } from './errors/internal-server-error';
-import { AuthorizationService } from './interfaces/authorization-service';
-import { ErrorLogger } from './interfaces/error-logger';
-import { HttpController } from './interfaces/http-controller';
+import { AuthorizationError } from '../errors/authorization-error';
+import { InternalServerError } from '../errors/internal-server-error';
+import { AuthorizationService } from './authorization-service';
+import { ErrorLogger } from './error-logger';
+import { HttpController } from './http-controller';
 
 export abstract class ProtectedWebController<T> implements HttpController {
   constructor(

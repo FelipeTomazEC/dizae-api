@@ -1,9 +1,9 @@
 import { HttpRequest } from '@interface-adapters/http/http-request';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
-import { InternalServerError } from './errors/internal-server-error';
-import { ErrorLogger } from './interfaces/error-logger';
-import { HttpController } from './interfaces/http-controller';
+import { InternalServerError } from '../errors/internal-server-error';
+import { ErrorLogger } from './error-logger';
+import { HttpController } from './http-controller';
 
 export abstract class WebController<T> implements HttpController {
   constructor(

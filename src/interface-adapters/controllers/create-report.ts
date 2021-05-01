@@ -1,6 +1,6 @@
 import { HttpRequest } from '@interface-adapters/http/http-request';
 import { CreateReportRequest as Request } from '@use-cases/create-report/dtos/create-report-request';
-import { ProtectedWebController } from './protected-web-controller';
+import { ProtectedWebController } from './interfaces/protected-web-controller';
 
 export class CreateReportController extends ProtectedWebController<Request> {
   getParamsFromHttpRequest(request: HttpRequest): Request {
