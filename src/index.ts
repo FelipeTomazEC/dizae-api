@@ -2,6 +2,7 @@
 import { setupMiddlewares } from '@infra/express/helpers/setup-middlewares';
 import { setupRoutes } from '@infra/express/helpers/setup-routes';
 import express from 'express';
+import { setupDocs } from './docs/setup-docs';
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT ?? 3000;
 
     setupMiddlewares(application);
     setupRoutes(application);
+    setupDocs(application);
 
     application.listen(PORT, () => {
       console.log(`Server running on port ${PORT}...`);
