@@ -1,5 +1,5 @@
+import { makeReporterHandlers } from '@infra/main/make-reporter-handlers';
 import { Router } from 'express';
-import { makeReporterHandlers } from '../factories/make-reporter-handlers';
 
 export const getReporterRouter = (): Router => {
   const router = Router();

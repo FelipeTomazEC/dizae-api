@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { setupMiddlewares } from '@infra/express/helpers/setup-middlewares';
-import { setupRoutes } from '@infra/express/helpers/setup-routes';
+import { setupMiddlewares } from '@infra/main/setup-middlewares';
+import { setupRoutes } from '@infra/main/setup-routes';
 import express from 'express';
 import { setupDocs } from './docs/setup-docs';
 
