@@ -100,4 +100,16 @@ describe('Admin entity tests.', () => {
     expect(admin.email.value).toBe(example.email);
     expect(admin.password.value).toBe(example.password);
   });
+
+  it('should change the password of the admin to the new value.', () => {
+    const admin = Admin.create(example).value as Admin;
+    const newPassword = Password.create({ value: 'n3wPassword' })
+      .value as Password;
+
+    expect(admin.password.value).toBe(example.password);
+
+    admin.password = newPassword;
+
+    expect(admin.password.value).toBe('n3wPassword');
+  });
 });
