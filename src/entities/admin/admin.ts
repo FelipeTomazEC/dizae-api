@@ -44,6 +44,10 @@ export class Admin {
     return this.props.password;
   }
 
+  set password(value: Password) {
+    this.props.password = value;
+  }
+
   get email(): Email {
     return this.props.email;
   }
