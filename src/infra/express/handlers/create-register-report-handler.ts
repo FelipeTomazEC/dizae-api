@@ -16,7 +16,7 @@ interface Dependencies {
   encoder: PasswordEncoder;
 }
 
-export const handleRegisterReporter = (deps: Dependencies) => (
+export const createRegisterReporterHandler = (deps: Dependencies) => (
   req: Request,
   res: Response,
 ): void => {
