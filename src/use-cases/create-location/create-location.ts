@@ -7,22 +7,21 @@ import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ResourceNotFoundError } from '@use-cases/shared/errors/resource-not-found-error';
 import { isNullOrUndefined } from '@utils/is-null-or-undefined';
-import { CreateLocationRequest } from './dtos/create-location-request';
-import { CreateLocationResponse } from './dtos/create-location-response';
+import { CreateLocationRequest as Request } from './dtos/create-location-request';
+import { CreateLocationResponse as Response } from './dtos/create-location-response';
 import { LocationAlreadyRegisteredError } from './errors/location-already-registered-error';
 
 interface Dependencies {
   adminRepo: AdminRepository;
   idGenerator: IdGenerator;
   locationRepo: LocationRepository;
-  presenter: UseCaseOutputPort<CreateLocationResponse>;
+  presenter: UseCaseOutputPort<Response>;
 }
 
-export class CreateLocationUseCase
-  implements UseCaseInputPort<CreateLocationRequest> {
+export class CreateLocationUseCase implements UseCaseInputPort<Request> {
   constructor(private readonly dependencies: Dependencies) {}
 
-  async execute(request: CreateLocationRequest): Promise<void> {
+  async execute(request: Request): Promise<void> {
     const { adminRepo, idGenerator, locationRepo } = this.dependencies;
     const { presenter } = this.dependencies;
 
