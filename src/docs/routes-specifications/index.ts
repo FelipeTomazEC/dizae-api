@@ -1,3 +1,4 @@
+import { authPaths } from './auth';
 import { reportersPaths } from './reporters';
 
 export default {
@@ -14,6 +15,7 @@ export default {
   },
   servers: [{ url: 'http://localhost:3000/' }],
   paths: {
+    ...authPaths,
     ...reportersPaths,
   },
 };
