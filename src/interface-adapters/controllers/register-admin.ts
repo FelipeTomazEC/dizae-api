@@ -1,8 +1,8 @@
 import { RegisterAdminRequest as Request } from '@use-cases/register-admin/dtos/register-admin-request';
 import { HttpRequest } from '@interface-adapters/http/http-request';
-import { ProtectedWebController } from './interfaces/protected-web-controller';
+import { WebController } from './interfaces/web-controller';
 
-export class RegisterAdminController extends ProtectedWebController<Request> {
+export class RegisterAdminController extends WebController<Request> {
   getParamsFromHttpRequest(request: HttpRequest): Request {
     const { avatar, email, name, password } = request.body;
 

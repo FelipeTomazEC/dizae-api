@@ -1,4 +1,3 @@
-import { AuthorizationService } from '@interface-adapters/controllers/interfaces/authorization-service';
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { RegisterAdminController } from '@interface-adapters/controllers/register-admin';
 import { HttpStatusCode } from '@interface-adapters/http/http-status-code';
@@ -12,7 +11,6 @@ import { parseToHttpRequest } from '../helpers/parse-to-http-request';
 
 interface Dependencies {
   adminRepo: AdminRepository;
-  authService: AuthorizationService;
   encoder: PasswordEncoder;
   logger: ErrorLogger;
   idGenerator: IdGenerator;
@@ -21,7 +19,7 @@ export const createRegisterAdminHandler = (deps: Dependencies) => (
   req: Request,
   res: Response,
 ) => {
-  const { adminRepo, authService, encoder, idGenerator, logger } = deps;
+  const { adminRepo, encoder, idGenerator, logger } = deps;
   const presenter = createHttpPresenter(res, HttpStatusCode.RESOURCE_CREATED);
   const useCase = new RegisterAdminUseCase({
     adminRepo,
@@ -29,12 +27,7 @@ export const createRegisterAdminHandler = (deps: Dependencies) => (
     idGenerator,
     presenter,
   });
-  const controller = new RegisterAdminController(
-    authService,
-    logger,
-    useCase,
-    presenter,
-  );
+  const controller = new RegisterAdminController(logger, useCase, presenter);
 
   controller.handle(parseToHttpRequest(req));
 };

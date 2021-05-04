@@ -1,6 +1,4 @@
-import { AuthorizationError } from '@interface-adapters/controllers/errors/authorization-error';
 import { InternalServerError } from '@interface-adapters/controllers/errors/internal-server-error';
-import { AuthorizationService } from '@interface-adapters/controllers/interfaces/authorization-service';
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { RegisterAdminController } from '@interface-adapters/controllers/register-admin';
 import { HttpRequest } from '@interface-adapters/http/http-request';
@@ -13,13 +11,7 @@ describe('Register admin controller tests.', () => {
   const presenter = getMock<UseCaseOutputPort<any>>(['failure']);
   const logger = getMock<ErrorLogger>(['log']);
   const useCase = getMock<RegisterAdminUseCase>(['execute']);
-  const authService = getMock<AuthorizationService>(['validate']);
-  const sut = new RegisterAdminController(
-    authService,
-    logger,
-    useCase,
-    presenter,
-  );
+  const sut = new RegisterAdminController(logger, useCase, presenter);
 
   const httpRequest = new HttpRequest({
     method: 'POST',
@@ -29,11 +21,6 @@ describe('Register admin controller tests.', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
     },
-    headers: [{ name: 'authorization', value: 'Bearer some-token-here' }],
-  });
-
-  beforeAll(() => {
-    jest.spyOn(authService, 'validate').mockResolvedValue(true);
   });
 
   it('should parse the http request and send it to the use case.', async () => {
@@ -45,14 +32,6 @@ describe('Register admin controller tests.', () => {
       email: httpRequest.body.email,
       password: httpRequest.body.password,
     });
-  });
-
-  it('should not allow unauthenticated accesses.', async () => {
-    jest.spyOn(authService, 'validate').mockResolvedValueOnce(false);
-
-    await sut.handle(httpRequest);
-
-    expect(presenter.failure).toBeCalledWith(new AuthorizationError());
   });
 
   it('should log internal errors and send it to the presenter.', async () => {
