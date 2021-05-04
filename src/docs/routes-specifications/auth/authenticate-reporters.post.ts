@@ -99,6 +99,15 @@ export default {
         },
       },
 
+      400: {
+        description: 'Returns an error if the require params are missing.',
+        content: {
+          'application/json': {
+            schema: errorSchema,
+          },
+        },
+      },
+
       401: {
         description: 'Returns an error informing that the password is wrong.',
         content: {
