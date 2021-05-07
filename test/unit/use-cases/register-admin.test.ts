@@ -38,6 +38,7 @@ describe('Register admin use case tests.', () => {
   beforeAll(() => {
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
     jest.spyOn(encoder, 'encode').mockReturnValue(encodedPassword);
+    jest.spyOn(Date, 'now').mockReturnValue(Date.now());
   });
 
   const request: RegisterAdminRequest = {
@@ -59,8 +60,6 @@ describe('Register admin use case tests.', () => {
   });
 
   it('should save the admin in the repository and send the id to the presenter.', async () => {
-    jest.spyOn(Date, 'now').mockReturnValueOnce(Date.now());
-
     const admin = Admin.create({
       avatar: request.avatar,
       createdAt: Date.now(),
