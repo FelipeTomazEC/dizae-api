@@ -1,10 +1,13 @@
-import { getAdminRouter } from '@infra/express/routers/get-admin-router';
+import { getAdminsRouter } from '@infra/express/routers/get-admins-router';
 import { Express } from 'express';
 import { getAuthRouter } from '../express/routers/get-auth-router';
-import { getReporterRouter } from '../express/routers/get-reporter-router';
+import { getReportersRouter } from '../express/routers/get-reporters-router';
+import { makeAdminsHandler } from './make-admins-handler';
+import { makeAuthHandler } from './make-auth-handler';
+import { makeReportersHandler } from './make-reporters-handler';
 
 export const setupRoutes = (app: Express): void => {
-  app.use(getReporterRouter());
-  app.use(getAuthRouter());
-  app.use(getAdminRouter());
+  app.use(getReportersRouter(makeReportersHandler()));
+  app.use(getAuthRouter(makeAuthHandler()));
+  app.use(getAdminsRouter(makeAdminsHandler()));
 };

@@ -1,11 +1,14 @@
-import { makeAuthHandlers } from '@infra/main/make-auth-handlers';
 import { Router } from 'express';
+import { ExpressHandleFunction } from './express-handle-function.type';
 
-export const getAuthRouter = (): Router => {
+export interface AuthHandler {
+  handleReportersAuthentication: ExpressHandleFunction;
+}
+
+export const getAuthRouter = (handler: AuthHandler): Router => {
   const router = Router();
-  const handlers = makeAuthHandlers();
 
-  router.post('/auth/reporters', handlers.authenticateReporterHandler);
+  router.post('/auth/reporters', handler.handleReportersAuthentication);
 
   return router;
 };
