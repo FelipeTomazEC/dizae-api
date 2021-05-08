@@ -1,10 +1,10 @@
 import { Reporter } from '@entities/reporter/reporter';
 import { AuthorizationService } from '@interface-adapters/controllers/interfaces/authorization-service';
-import { ReporterAuthService } from '@use-cases/interfaces/adapters/reporter-auth-service';
+import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 
 export class JWTAuthService
-  implements ReporterAuthService, AuthorizationService {
+  implements AuthenticationService<Reporter>, AuthorizationService {
   constructor(private readonly secret: string) {}
 
   generateCredentials(reporter: Reporter, ttl: number = 3600): Promise<string> {

@@ -1,17 +1,18 @@
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
-import { ReporterAuthService } from '@use-cases/interfaces/adapters/reporter-auth-service';
+import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import { Request, Response } from 'express';
 import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/authenticate-reporter';
 import { AuthenticateReporterController } from '@interface-adapters/controllers/authenticate-reporter';
+import { Reporter } from '@entities/reporter/reporter';
 import { parseToHttpRequest } from '../helpers/parse-to-http-request';
 import { createHttpPresenter } from '../helpers/create-http-presenter';
 
 interface Dependencies {
   repository: ReporterRepository;
   encoder: PasswordEncoder;
-  authService: ReporterAuthService;
+  authService: AuthenticationService<Reporter>;
   logger: ErrorLogger;
 }
 

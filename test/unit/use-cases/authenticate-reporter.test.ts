@@ -9,7 +9,7 @@ import { AuthenticateReporterResponse } from '@use-cases/authenticate-reporter/d
 import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
-import { ReporterAuthService } from '@use-cases/interfaces/adapters/reporter-auth-service';
+import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import * as faker from 'faker';
@@ -17,7 +17,9 @@ import * as faker from 'faker';
 describe('Authenticate reporter use case tests.', () => {
   const repository = getMock<ReporterRepository>(['getReporterByEmail']);
   const encoder = getMock<PasswordEncoder>(['verify']);
-  const authService = getMock<ReporterAuthService>(['generateCredentials']);
+  const authService = getMock<AuthenticationService<Reporter>>([
+    'generateCredentials',
+  ]);
   const presenter = getMock<UseCaseOutputPort<AuthenticateReporterResponse>>([
     'failure',
     'success',
