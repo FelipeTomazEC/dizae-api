@@ -52,6 +52,7 @@ describe('Create location use case tests.', () => {
     jest.spyOn(adminRepo, 'getById').mockResolvedValue(admin);
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
     jest.spyOn(Date, 'now').mockReturnValue(Date.now());
+    jest.spyOn(locationRepo, 'exists').mockResolvedValue(false);
   });
 
   it('should validate if the admin exists.', async () => {

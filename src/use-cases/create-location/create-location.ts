@@ -48,7 +48,10 @@ export class CreateLocationUseCase implements UseCaseInputPort<Request> {
     }
 
     const location = locationOrError.value;
-    if (locationRepo.exists(location.name)) {
+    const isLocationAlreadyRegistered = await locationRepo.exists(
+      location.name,
+    );
+    if (isLocationAlreadyRegistered) {
       const error = new LocationAlreadyRegisteredError(location.name);
       return presenter.failure(error);
     }
