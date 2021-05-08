@@ -34,4 +34,10 @@ export class InMemoryAdminRepository implements AdminRepository {
     this.records.push(admin);
     return Promise.resolve();
   }
+
+  getByEmail(email: Email): Promise<Admin | undefined> {
+    const admin = this.records.find((r) => r.email.isEqual(email));
+
+    return Promise.resolve(admin);
+  }
 }

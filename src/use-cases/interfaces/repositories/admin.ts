@@ -6,4 +6,5 @@ export interface AdminRepository {
   getById(id: Id): Promise<Admin | undefined>;
   emailExists(email: Email): Promise<boolean>;
   save(admin: Admin): Promise<void>;
+  getByEmail(email: Email): Promise<Admin | undefined>;
 }
