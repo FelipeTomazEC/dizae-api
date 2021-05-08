@@ -13,6 +13,7 @@ import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import faker from 'faker';
+import { Password } from '@entities/shared/password/password';
 
 describe('Authenticate admin use case tests.', () => {
   const repository = getMock<AdminRepository>(['getByEmail']);
@@ -36,14 +37,16 @@ describe('Authenticate admin use case tests.', () => {
     password: 'som3#pass$worD',
   };
 
+  let admin: Admin;
+
   beforeAll(() => {
-    const admin = Admin.create({
+    admin = Admin.create({
       avatar: faker.internet.avatar(),
       createdAt: Date.now(),
       email: request.email,
       id: faker.datatype.uuid(),
       name: faker.name.findName(),
-      password: request.password,
+      password: 'admin-p4a$word',
     }).value as Admin;
 
     jest.spyOn(repository, 'getByEmail').mockResolvedValue(admin);
@@ -88,6 +91,15 @@ describe('Authenticate admin use case tests.', () => {
     expect(presenter.failure).toBeCalledWith(
       new IncorrectEmailOrPasswordError(),
     );
+  });
+
+  it(`should compare the request's password with the admin's password.`, async () => {
+    const password = Password.create({ value: request.password })
+      .value as Password;
+
+    await sut.execute(request);
+
+    expect(encoder.verify).toBeCalledWith(password, admin.password);
   });
 
   it('should generate a token and send it to the presenter.', async () => {
