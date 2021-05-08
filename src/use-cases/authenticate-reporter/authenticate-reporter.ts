@@ -4,12 +4,13 @@ import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-p
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { Email } from '@entities/shared/email/email';
-import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { Password } from '@entities/shared/password/password';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
 import { Reporter } from '@entities/reporter/reporter';
 import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
 import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { IncorrectPasswordError } from '@use-cases/shared/errors/incorrect-password-error';
 
 interface Dependencies {
   authService: AuthenticationService<Reporter>;
@@ -28,8 +29,14 @@ export class AuthenticateReporterUseCase implements UseCaseInputPort<Request> {
     const emailOrError = Email.create({ value: request.email });
     const passwordOrError = Password.create({ value: request.password });
 
-    if (emailOrError.isLeft() || passwordOrError.isLeft()) {
-      return presenter.failure(new IncorrectEmailOrPasswordError());
+    if (emailOrError.isLeft()) {
+      return presenter.failure(
+        new InvalidParamError('email', emailOrError.value),
+      );
+    }
+
+    if (passwordOrError.isLeft()) {
+      return presenter.failure(new IncorrectPasswordError());
     }
 
     const [email, password] = [emailOrError.value, passwordOrError.value];
@@ -41,7 +48,7 @@ export class AuthenticateReporterUseCase implements UseCaseInputPort<Request> {
 
     const isPasswordCorrect = await encoder.verify(password, reporter.password);
     if (!isPasswordCorrect) {
-      return presenter.failure(new IncorrectEmailOrPasswordError());
+      return presenter.failure(new IncorrectPasswordError());
     }
 
     const credentials = await authService.generateCredentials(

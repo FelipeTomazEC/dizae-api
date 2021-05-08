@@ -2,7 +2,6 @@ import { Admin } from '@entities/admin/admin';
 import { Email } from '@entities/shared/email/email';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Password } from '@entities/shared/password/password';
-import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
@@ -10,6 +9,7 @@ import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-p
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
 import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
+import { IncorrectPasswordError } from '@use-cases/shared/errors/incorrect-password-error';
 import { AdminNotRegisteredError } from './errors/admin-not-registered-error';
 
 interface Dependencies {
@@ -34,7 +34,7 @@ export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
 
     const passwordOrError = Password.create({ value: request.password });
     if (passwordOrError.isLeft()) {
-      return presenter.failure(new IncorrectEmailOrPasswordError());
+      return presenter.failure(new IncorrectPasswordError());
     }
 
     const email = emailOrError.value;
@@ -47,7 +47,7 @@ export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
 
     const isPasswordRight = await encoder.verify(password, admin!.password);
     if (!isPasswordRight) {
-      return presenter.failure(new IncorrectEmailOrPasswordError());
+      return presenter.failure(new IncorrectPasswordError());
     }
 
     const credentials = await authService.generateCredentials(admin, 3600);

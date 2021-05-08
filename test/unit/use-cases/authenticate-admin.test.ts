@@ -7,13 +7,13 @@ import { AuthenticateAdminUseCase } from '@use-cases/authenticate-admin/authenti
 import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
 import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
 import { AdminNotRegisteredError } from '@use-cases/authenticate-admin/errors/admin-not-registered-error';
-import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import faker from 'faker';
 import { Password } from '@entities/shared/password/password';
+import { IncorrectPasswordError } from '@use-cases/shared/errors/incorrect-password-error';
 
 describe('Authenticate admin use case tests.', () => {
   const repository = getMock<AdminRepository>(['getByEmail']);
@@ -78,9 +78,7 @@ describe('Authenticate admin use case tests.', () => {
   it('should not authenticate with invalid password.', async () => {
     await sut.execute({ ...request, password: 'inva' });
 
-    expect(presenter.failure).toBeCalledWith(
-      new IncorrectEmailOrPasswordError(),
-    );
+    expect(presenter.failure).toBeCalledWith(new IncorrectPasswordError());
   });
 
   it('should not authenticate with a wrong password.', async () => {
@@ -88,9 +86,7 @@ describe('Authenticate admin use case tests.', () => {
 
     await sut.execute(request);
 
-    expect(presenter.failure).toBeCalledWith(
-      new IncorrectEmailOrPasswordError(),
-    );
+    expect(presenter.failure).toBeCalledWith(new IncorrectPasswordError());
   });
 
   it(`should compare the request's password with the admin's password.`, async () => {

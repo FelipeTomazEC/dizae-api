@@ -4,7 +4,6 @@ import { Password } from '@entities/shared/password/password';
 import { left } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
 import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/authenticate-reporter';
-import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
@@ -13,6 +12,9 @@ import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter'
 import * as faker from 'faker';
 import { AuthenticationResponse } from '@use-cases/shared/dtos/authentication-response';
 import { AuthenticationRequest } from '@use-cases/shared/dtos/authentication-request';
+import { IncorrectPasswordError } from '@use-cases/shared/errors/incorrect-password-error';
+import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
+import { InvalidEmailError } from '@entities/shared/email/errors/invalid-email-error';
 
 describe('Authenticate reporter use case tests.', () => {
   const repository = getMock<ReporterRepository>(['getReporterByEmail']);
@@ -54,18 +56,14 @@ describe('Authenticate reporter use case tests.', () => {
 
     await sut.execute(request);
 
-    expect(presenter.failure).toBeCalledWith(
-      new IncorrectEmailOrPasswordError(),
-    );
+    expect(presenter.failure).toBeCalledWith(new IncorrectPasswordError());
   });
 
   it('should not authenticate with invalid e-mails.', async () => {
-    jest.spyOn(Email, 'create').mockReturnValueOnce(left(new Error()));
-
-    await sut.execute(request);
+    await sut.execute({ ...request, email: 'invalid-email' });
 
     expect(presenter.failure).toBeCalledWith(
-      new IncorrectEmailOrPasswordError(),
+      new InvalidParamError('email', new InvalidEmailError('invalid-email')),
     );
   });
 
@@ -74,9 +72,7 @@ describe('Authenticate reporter use case tests.', () => {
 
     await sut.execute(request);
 
-    expect(presenter.failure).toBeCalledWith(
-      new IncorrectEmailOrPasswordError(),
-    );
+    expect(presenter.failure).toBeCalledWith(new IncorrectPasswordError());
   });
 
   it('should inform if the reporter is not registered.', async () => {
