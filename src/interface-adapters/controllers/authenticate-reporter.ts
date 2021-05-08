@@ -1,5 +1,6 @@
 import { HttpRequest } from '@interface-adapters/http/http-request';
-import { AuthenticateReporterRequest as Request } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-request';
+import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
+
 import { WebController } from './interfaces/web-controller';
 
 export class AuthenticateReporterController extends WebController<Request> {

@@ -1,4 +1,4 @@
-export interface AuthenticateAdminResponse {
+export interface AuthenticationResponse {
   credentials: string;
   expiresIn: number;
 }

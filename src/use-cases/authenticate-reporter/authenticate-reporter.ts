@@ -1,8 +1,6 @@
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
-import { AuthenticateReporterRequest as Request } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-request';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
-import { AuthenticateReporterResponse as Response } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-response';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';
 import { Email } from '@entities/shared/email/email';
@@ -10,6 +8,8 @@ import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/
 import { Password } from '@entities/shared/password/password';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
 import { Reporter } from '@entities/reporter/reporter';
+import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
+import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
 
 interface Dependencies {
   authService: AuthenticationService<Reporter>;

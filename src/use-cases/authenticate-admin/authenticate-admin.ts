@@ -8,8 +8,8 @@ import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
-import { AuthenticateAdminRequest as Request } from './dtos/authenticate-admin-request';
-import { AuthenticateAdminResponse as Response } from './dtos/authenticate-admin-response';
+import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
+import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
 import { AdminNotRegisteredError } from './errors/admin-not-registered-error';
 
 interface Dependencies {

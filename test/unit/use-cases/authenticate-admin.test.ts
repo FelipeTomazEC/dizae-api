@@ -4,8 +4,8 @@ import { InvalidEmailError } from '@entities/shared/email/errors/invalid-email-e
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { getMock } from '@test/test-helpers/get-mock';
 import { AuthenticateAdminUseCase } from '@use-cases/authenticate-admin/authenticate-admin';
-import { AuthenticateAdminRequest as Request } from '@use-cases/authenticate-admin/dtos/authenticate-admin-request';
-import { AuthenticateAdminResponse as Response } from '@use-cases/authenticate-admin/dtos/authenticate-admin-response';
+import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authentication-request';
+import { AuthenticationResponse as Response } from '@use-cases/shared/dtos/authentication-response';
 import { AdminNotRegisteredError } from '@use-cases/authenticate-admin/errors/admin-not-registered-error';
 import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { AuthenticationService } from '@use-cases/interfaces/adapters/authentication-service';

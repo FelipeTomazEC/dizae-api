@@ -4,8 +4,6 @@ import { Password } from '@entities/shared/password/password';
 import { left } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
 import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/authenticate-reporter';
-import { AuthenticateReporterRequest } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-request';
-import { AuthenticateReporterResponse } from '@use-cases/authenticate-reporter/dtos/authenticate-reporter-response';
 import { IncorrectEmailOrPasswordError } from '@use-cases/authenticate-reporter/errors/incorrect-email-or-password-error';
 import { ReporterNotRegisteredError } from '@use-cases/authenticate-reporter/errors/reporter-not-registered-error';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
@@ -13,6 +11,8 @@ import { AuthenticationService } from '@use-cases/interfaces/adapters/authentica
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import * as faker from 'faker';
+import { AuthenticationResponse } from '@use-cases/shared/dtos/authentication-response';
+import { AuthenticationRequest } from '@use-cases/shared/dtos/authentication-request';
 
 describe('Authenticate reporter use case tests.', () => {
   const repository = getMock<ReporterRepository>(['getReporterByEmail']);
@@ -20,7 +20,7 @@ describe('Authenticate reporter use case tests.', () => {
   const authService = getMock<AuthenticationService<Reporter>>([
     'generateCredentials',
   ]);
-  const presenter = getMock<UseCaseOutputPort<AuthenticateReporterResponse>>([
+  const presenter = getMock<UseCaseOutputPort<AuthenticationResponse>>([
     'failure',
     'success',
   ]);
@@ -31,7 +31,7 @@ describe('Authenticate reporter use case tests.', () => {
     repository,
   });
 
-  const request: AuthenticateReporterRequest = {
+  const request: AuthenticationRequest = {
     email: 'reporter@email.com',
     password: 's0m3P@$$word',
   };
