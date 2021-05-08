@@ -1,5 +1,6 @@
 import { adminPaths } from './admins';
 import { authPaths } from './auth';
+import { locationsPaths } from './locations';
 import { reportersPaths } from './reporters';
 
 export default {
@@ -15,9 +16,20 @@ export default {
     description: `This is the API of the Dizaê APP: an application that connects users to place managers, making easier to report problems.`,
   },
   servers: [{ url: 'http://localhost:3000/' }],
+  components: {
+    securitySchemes: {
+      bearer: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+  },
+
   paths: {
     ...authPaths,
     ...adminPaths,
+    ...locationsPaths,
     ...reportersPaths,
   },
 };
