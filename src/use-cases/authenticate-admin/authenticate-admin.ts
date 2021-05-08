@@ -38,7 +38,7 @@ export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
     }
 
     const email = emailOrError.value;
-    const password = emailOrError.value;
+    const password = passwordOrError.value;
 
     const admin = await repository.getByEmail(email);
     if (!admin) {
