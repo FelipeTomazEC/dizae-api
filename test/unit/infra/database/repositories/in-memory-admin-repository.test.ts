@@ -50,4 +50,10 @@ describe('In memory admin repository tests.', () => {
 
     expect(instance1).toBe(instance2);
   });
+
+  it('should return an admin by its e-mail.', async () => {
+    const retrieved = await sut.getByEmail(admin.email);
+
+    expect(retrieved).toStrictEqual(admin);
+  });
 });
