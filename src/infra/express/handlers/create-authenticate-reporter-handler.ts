@@ -4,8 +4,8 @@ import { AuthenticationService } from '@use-cases/interfaces/adapters/authentica
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import { Request, Response } from 'express';
 import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/authenticate-reporter';
-import { AuthenticateReporterController } from '@interface-adapters/controllers/authenticate-reporter';
 import { Reporter } from '@entities/reporter/reporter';
+import { AuthenticationController } from '@interface-adapters/controllers/authentication';
 import { parseToHttpRequest } from '../helpers/parse-to-http-request';
 import { createHttpPresenter } from '../helpers/create-http-presenter';
 
@@ -28,11 +28,7 @@ export const createAuthenticateReporterHandler = (deps: Dependencies) => (
     presenter,
     repository,
   });
-  const controller = new AuthenticateReporterController(
-    logger,
-    useCase,
-    presenter,
-  );
+  const controller = new AuthenticationController(logger, useCase, presenter);
 
   controller.handle(parseToHttpRequest(req));
 };

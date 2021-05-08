@@ -3,7 +3,7 @@ import { AuthenticationRequest as Request } from '@use-cases/shared/dtos/authent
 
 import { WebController } from './interfaces/web-controller';
 
-export class AuthenticateReporterController extends WebController<Request> {
+export class AuthenticationController extends WebController<Request> {
   getParamsFromHttpRequest(request: HttpRequest): Request {
     return {
       email: request.body.email,

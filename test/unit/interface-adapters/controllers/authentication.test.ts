@@ -1,4 +1,4 @@
-import { AuthenticateReporterController } from '@interface-adapters/controllers/authenticate-reporter';
+import { AuthenticationController } from '@interface-adapters/controllers/authentication';
 import { InternalServerError } from '@interface-adapters/controllers/errors/internal-server-error';
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { HttpRequest } from '@interface-adapters/http/http-request';
@@ -7,11 +7,11 @@ import { AuthenticateReporterUseCase } from '@use-cases/authenticate-reporter/au
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import faker from 'faker';
 
-describe('Authenticate reporter controller tests.', () => {
+describe('Authentication controller tests.', () => {
   const useCase = getMock<AuthenticateReporterUseCase>(['execute']);
   const presenter = getMock<UseCaseOutputPort<any>>(['failure']);
   const logger = getMock<ErrorLogger>(['log']);
-  const sut = new AuthenticateReporterController(logger, useCase, presenter);
+  const sut = new AuthenticationController(logger, useCase, presenter);
   const request = new HttpRequest({
     method: 'POST',
     body: {
