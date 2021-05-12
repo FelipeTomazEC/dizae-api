@@ -40,7 +40,7 @@ const responseSchema = {
   example: {
     success: true,
     data: {
-      reporterId: '26cac0ce-7e10-4384-bf0c-2d7e5d9ba68d',
+      locationId: '26cac0ce-7e10-4384-bf0c-2d7e5d9ba68d',
     },
   },
 };
