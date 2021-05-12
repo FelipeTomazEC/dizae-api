@@ -12,7 +12,7 @@ describe('Item entity tests.', () => {
     name: faker.commerce.product(),
     creatorId: faker.datatype.uuid(),
     image: faker.image.image(),
-    categoryId: faker.datatype.uuid(),
+    categoryName: faker.commerce.productMaterial(),
     createdAt: Date.now(),
   };
 
@@ -40,12 +40,9 @@ describe('Item entity tests.', () => {
   });
 
   it('should have a category.', () => {
-    const data = getItemWithNullProps('categoryId');
-    const itemOrError = Item.create({ ...data, categoryId: 'invalid' });
-    const error = new InvalidParamError(
-      'categoryId',
-      new ValueIsNotUUIDError('invalid'),
-    );
+    const data = getItemWithNullProps('categoryName');
+    const itemOrError = Item.create(data);
+    const error = new InvalidParamError('categoryName', new NullValueError());
 
     expect(itemOrError.isLeft()).toBeTruthy();
     expect(itemOrError.value).toStrictEqual(error);
@@ -73,7 +70,7 @@ describe('Item entity tests.', () => {
 
     expect(itemOrError.isRight()).toBeTruthy();
     expect(item).toBeDefined();
-    expect(item.categoryId.value).toBe(example.categoryId);
+    expect(item.categoryName.value).toBe(example.categoryName);
     expect(item.createdAt).toBe(example.createdAt);
     expect(item.image).toBe(example.image);
     expect(item.creatorId.value).toBe(example.creatorId);
