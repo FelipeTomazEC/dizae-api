@@ -5,13 +5,14 @@ import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getValueObjects } from '@utils/get-value-objects';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 import { ItemData } from './item-data';
 
 interface Props {
   name: Name;
   creatorId: Id;
   createdAt: Timestamp;
-  categoryId: Id;
+  categoryName: Name;
   image: URL;
 }
 
@@ -30,8 +31,8 @@ export class Item {
     return this.props.createdAt;
   }
 
-  get categoryId(): Id {
-    return this.props.categoryId;
+  get categoryName(): Name {
+    return this.props.categoryName;
   }
 
   get image(): URL {
@@ -43,29 +44,29 @@ export class Item {
   ): Either<InvalidParamError | MissingParamError, Item> {
     const nameOrError = Name.create({ value: data.name });
     const creatorIdOrError = Id.create({ value: data.creatorId });
-    const categoryIdOrError = Id.create({ value: data.categoryId });
+    const categoryNameOrError = Name.create({ value: data.categoryName });
     const { image, createdAt } = data;
 
-    if (image === null || image === undefined) {
+    if (isNullOrUndefined(image)) {
       return left(new MissingParamError('image'));
     }
 
-    if (createdAt === null || createdAt === undefined) {
+    if (isNullOrUndefined(createdAt)) {
       return left(new MissingParamError('createdAt'));
     }
 
-    const validation = getValueObjects<[Name, Id, Id]>([
+    const validation = getValueObjects<[Name, Id, Name]>([
       { name: 'name', value: nameOrError },
       { name: 'creatorId', value: creatorIdOrError },
-      { name: 'categoryId', value: categoryIdOrError },
+      { name: 'categoryName', value: categoryNameOrError },
     ]);
 
     if (validation.isLeft()) {
       return left(validation.value);
     }
 
-    const [name, creatorId, categoryId] = validation.value;
+    const [name, creatorId, categoryName] = validation.value;
 
-    return right(new Item({ creatorId, image, categoryId, createdAt, name }));
+    return right(new Item({ creatorId, image, categoryName, createdAt, name }));
   }
 }

@@ -4,6 +4,6 @@ export interface ItemData {
   name: string;
   creatorId: string;
   image: URL;
-  categoryId: string;
+  categoryName: string;
   createdAt: Timestamp;
 }
