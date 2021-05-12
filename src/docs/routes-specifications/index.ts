@@ -1,5 +1,6 @@
 import { adminPaths } from './admins';
 import { authPaths } from './auth';
+import { itemCategoriesPath } from './item-categories';
 import { locationsPaths } from './locations';
 import { reportersPaths } from './reporters';
 
@@ -29,6 +30,7 @@ export default {
   paths: {
     ...authPaths,
     ...adminPaths,
+    ...itemCategoriesPath,
     ...locationsPaths,
     ...reportersPaths,
   },
