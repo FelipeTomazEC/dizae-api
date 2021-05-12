@@ -3,7 +3,7 @@ import { ReportersHandler } from '@infra/express/routers/get-reporters-router';
 import { BcryptPasswordEncoder } from '@infra/implementations/bcrypt-password-encoder';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { UUIDV4Generator } from '@infra/implementations/uuid-v4-generator';
-import { createRegisterReporterHandler } from '../express/handlers/create-register-report-handler';
+import { createRegisterReporterHandler } from '../express/handlers/create-register-reporter-handler';
 
 export const makeReportersHandler = (): ReportersHandler => {
   const repository = InMemoryReporterRepository.getInstance();
