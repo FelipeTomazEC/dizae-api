@@ -3,6 +3,7 @@ import { authPaths } from './auth';
 import { itemCategoriesPath } from './item-categories';
 import { locationsPaths } from './locations';
 import { reportersPaths } from './reporters';
+import { reportsPaths } from './reports';
 
 export default {
   openapi: '3.0.0',
@@ -33,5 +34,6 @@ export default {
     ...itemCategoriesPath,
     ...locationsPaths,
     ...reportersPaths,
+    ...reportsPaths,
   },
 };
