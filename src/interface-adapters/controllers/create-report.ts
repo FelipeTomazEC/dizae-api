@@ -8,7 +8,7 @@ export class CreateReportController extends ProtectedWebController<Request> {
       description: request.body.description,
       image: request.body.image,
       itemName: request.body.itemName,
-      locationId: request.getParam('locationId'),
+      locationId: request.body.locationId,
       reporterId: request.body.reporterId,
       title: request.body.title,
     };

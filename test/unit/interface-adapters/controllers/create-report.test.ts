@@ -41,9 +41,9 @@ describe('Create Report Controller', () => {
       image: faker.image.image(),
       reporterId: faker.datatype.uuid(),
       itemName: faker.commerce.product(),
+      locationId: 'location-uuid',
     },
     headers: [{ name: 'authorization', value: `Bearer some-token-here` }],
-    params: [{ name: 'locationId', value: 'location-uuid' }],
   });
 
   beforeAll(() => {
