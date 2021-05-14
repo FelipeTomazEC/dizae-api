@@ -3,6 +3,7 @@ import { InMemoryItemCategoryRepository } from '@infra/database/repositories/in-
 import { InMemoryLocationRepository } from '@infra/database/repositories/in-memory-location-repository';
 import { createAddItemToLocationHandler } from '@infra/express/handlers/create-add-item-to-location-handler';
 import { getCreateLocationHandler } from '@infra/express/handlers/get-create-location-handler';
+import { getItemsFromLocationHandler } from '@infra/express/handlers/get-items-from-location-handler';
 import { LocationsHandler } from '@infra/express/routers/get-location-router';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
@@ -32,5 +33,14 @@ export const makeLocationsHandler = (): LocationsHandler => {
     logger,
   });
 
-  return { handleCreateLocation, handleAddItemToLocation };
+  const handleGetItemsFromLocation = getItemsFromLocationHandler({
+    locationRepo,
+    logger,
+  });
+
+  return {
+    handleCreateLocation,
+    handleAddItemToLocation,
+    handleGetItemsFromLocation,
+  };
 };
