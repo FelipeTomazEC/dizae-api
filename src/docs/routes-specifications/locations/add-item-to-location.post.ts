@@ -1,11 +1,7 @@
 const requestSchema = {
   type: 'object',
-  required: ['adminId', 'categoryName', 'image', 'name'],
+  required: ['categoryName', 'image', 'name'],
   properties: {
-    adminId: {
-      type: 'string',
-      description: 'The id of the admin that is adding the new item.',
-    },
     categoryName: {
       type: 'string',
       description: 'The category of the new item.',
@@ -21,7 +17,6 @@ const requestSchema = {
   },
 
   example: {
-    adminId: '52ae07cc-c686-4606-beaa-4b3cf351be77',
     name: 'Door',
     categoryName: 'Infrastructure',
     image: 'http://imagens.com/door.jpg',
@@ -122,8 +117,16 @@ export default {
       },
 
       404: {
-        description:
-          'Inform if the admin, category or the location were not found.',
+        description: 'Inform if the category or location were not found.',
+        content: {
+          'application/json': {
+            schema: errorSchema,
+          },
+        },
+      },
+
+      500: {
+        description: 'Inform the occurrence of an internal server error.',
         content: {
           'application/json': {
             schema: errorSchema,

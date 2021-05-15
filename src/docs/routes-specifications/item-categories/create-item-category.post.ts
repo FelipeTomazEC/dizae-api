@@ -1,11 +1,7 @@
 const requestSchema = {
   type: 'object',
-  required: ['adminId', 'name'],
+  required: ['name'],
   properties: {
-    adminId: {
-      type: 'string',
-      description: 'The id of the admin that is creating the item category.',
-    },
     name: {
       type: 'string',
       description:
@@ -13,7 +9,6 @@ const requestSchema = {
     },
   },
   example: {
-    adminId: '52ae07cc-c686-4606-beaa-4b3cf351be77',
     name: 'Restaurant',
   },
 };
@@ -105,6 +100,15 @@ export default {
 
       409: {
         description: 'Inform that the item category is already registered.',
+        content: {
+          'application/json': {
+            schema: errorSchema,
+          },
+        },
+      },
+
+      500: {
+        description: 'Inform the occurrence of an internal server error.',
         content: {
           'application/json': {
             schema: errorSchema,

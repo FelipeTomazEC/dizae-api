@@ -1,13 +1,6 @@
 const requestSchema = {
   type: 'object',
-  required: [
-    'description',
-    'image',
-    'itemName',
-    'locationId',
-    'reporterId',
-    'title',
-  ],
+  required: ['description', 'image', 'itemName', 'locationId', 'title'],
   properties: {
     description: {
       type: 'string',
@@ -26,10 +19,6 @@ const requestSchema = {
       type: 'string',
       description: 'Id of the location where the item is located.',
     },
-    reporterId: {
-      type: 'string',
-      description: 'Id of the reporter.',
-    },
     title: {
       type: 'string',
       description:
@@ -42,7 +31,6 @@ const requestSchema = {
     image: 'http://www.images.com/broken-chair.jpg',
     itemName: 'Chair',
     locationId: '33389f61-df55-4934-adf5-2aeb65ec7f88',
-    reporterId: '7dc8fec8-3d5c-463b-bfc9-ba5a539cb01b',
     title: 'Broken chair',
   },
 };
@@ -142,8 +130,16 @@ export default {
       },
 
       404: {
-        description:
-          'Inform if the location, item or the reporter were not found.',
+        description: 'Inform if the location or item were not found.',
+        content: {
+          'application/json': {
+            schema: errorSchema,
+          },
+        },
+      },
+
+      500: {
+        description: 'Inform the occurrence of an internal server error.',
         content: {
           'application/json': {
             schema: errorSchema,
