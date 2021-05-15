@@ -67,64 +67,62 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Locations'],
-    summary: 'Register a new location in the application.',
-    security: [{ bearer: [] }],
+  tags: ['Locations'],
+  summary: 'Register a new location in the application.',
+  security: [{ bearer: [] }],
 
-    requestBody: {
-      description: 'The expected params for create a new location.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for create a new location.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    201: {
+      description: 'Returns the id of the new location.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      201: {
-        description: 'Returns the id of the new location.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns what is wrong with the informed request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns what is wrong with the informed request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    403: {
+      description: `Inform that the admin's credentials are missing or invalid.`,
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      403: {
-        description: `Inform that the admin's credentials are missing or invalid.`,
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    409: {
+      description: 'Inform that the location is already registered.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      409: {
-        description: 'Inform that the location is already registered.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      500: {
-        description: 'Inform the occurrence of an internal server error.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    500: {
+      description: 'Inform the occurrence of an internal server error.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

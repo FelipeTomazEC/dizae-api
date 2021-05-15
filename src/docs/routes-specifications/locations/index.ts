@@ -3,9 +3,11 @@ import createLocationSpecifications from './create-location.post';
 import getItemsFromLocationSpecifications from './get-items-from-location.get';
 
 export const locationPaths = {
-  '/locations': createLocationSpecifications,
+  '/locations': {
+    post: createLocationSpecifications,
+  },
   '/locations/{locationId}/items': {
-    post: addItemToLocationSpecifications.post,
-    get: getItemsFromLocationSpecifications.get,
+    post: addItemToLocationSpecifications,
+    get: getItemsFromLocationSpecifications,
   },
 };

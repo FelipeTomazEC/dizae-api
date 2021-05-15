@@ -86,64 +86,62 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Reports'],
-    summary: 'Register a new report.',
-    security: [{ bearer: [] }],
+  tags: ['Reports'],
+  summary: 'Register a new report.',
+  security: [{ bearer: [] }],
 
-    requestBody: {
-      description: 'The expected params for add a new item.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for add a new item.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    201: {
+      description: 'Inform that the report was registered successfully.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      201: {
-        description: 'Inform that the report was registered successfully.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns what is wrong with the informed request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns what is wrong with the informed request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    403: {
+      description: `Inform that the reporter's credentials are missing or invalid.`,
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      403: {
-        description: `Inform that the reporter's credentials are missing or invalid.`,
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    404: {
+      description: 'Inform if the location or item were not found.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      404: {
-        description: 'Inform if the location or item were not found.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      500: {
-        description: 'Inform the occurrence of an internal server error.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    500: {
+      description: 'Inform the occurrence of an internal server error.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

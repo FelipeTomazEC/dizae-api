@@ -80,45 +80,43 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Admins'],
-    summary: 'Register a new admin in the system.',
+  tags: ['Admins'],
+  summary: 'Register a new admin in the system.',
 
-    requestBody: {
-      description: 'The expected params for create an admin.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for create an admin.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    200: {
+      description: 'Returns the id of the new admin.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      200: {
-        description: 'Returns the id of the new admin.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Inform if there is something wrong with the request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Inform if there is something wrong with the request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      409: {
-        description: 'Inform that the given e-mail is already registered.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    409: {
+      description: 'Inform that the given e-mail is already registered.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

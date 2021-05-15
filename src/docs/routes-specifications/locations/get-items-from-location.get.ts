@@ -64,45 +64,42 @@ const errorSchema = {
 };
 
 export default {
-  get: {
-    tags: ['Locations'],
-    summary: 'Returns all items that are registered to a location.',
-    parameters: [
-      {
-        in: 'path',
-        name: 'locationId',
-        required: true,
-        type: 'uuid',
-        description: 'The uuid of the location where the item will be added.',
-      },
-    ],
+  tags: ['Locations'],
+  summary: 'Returns all items that are registered to a location.',
+  parameters: [
+    {
+      in: 'path',
+      name: 'locationId',
+      required: true,
+      type: 'uuid',
+      description: 'The uuid of the location where the item will be added.',
+    },
+  ],
 
-    responses: {
-      200: {
-        description: 'Returns the items registered in the specified location.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+  responses: {
+    200: {
+      description: 'Returns the items registered in the specified location.',
+      content: {
+        'application/json': {
+          schema: responseSchema,
         },
       },
+    },
 
-      404: {
-        description:
-          'Informs that there is not location with the specified id.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    404: {
+      description: 'Informs that there is not location with the specified id.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      500: {
-        description: 'Indicates the occurrence of some internal error.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    500: {
+      description: 'Indicates the occurrence of some internal error.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

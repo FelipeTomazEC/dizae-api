@@ -64,73 +64,71 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Locations'],
-    summary: 'Add a new item to a specific location.',
-    security: [{ bearer: [] }],
-    parameters: [
-      {
-        in: 'path',
-        name: 'locationId',
-        required: true,
-        type: 'uuid',
-        description: 'The uuid of the location where the item will be added.',
-      },
-    ],
-
-    requestBody: {
-      description: 'The expected params for add a new item.',
+  tags: ['Locations'],
+  summary: 'Add a new item to a specific location.',
+  security: [{ bearer: [] }],
+  parameters: [
+    {
+      in: 'path',
+      name: 'locationId',
       required: true,
+      type: 'uuid',
+      description: 'The uuid of the location where the item will be added.',
+    },
+  ],
+
+  requestBody: {
+    description: 'The expected params for add a new item.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    201: {
+      description: 'Inform that the item was added successfully.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      201: {
-        description: 'Inform that the item was added successfully.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns what is wrong with the informed request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns what is wrong with the informed request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    403: {
+      description: `Inform that the admin's credentials are missing or invalid.`,
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      403: {
-        description: `Inform that the admin's credentials are missing or invalid.`,
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    404: {
+      description: 'Inform if the category or location were not found.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      404: {
-        description: 'Inform if the category or location were not found.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      500: {
-        description: 'Inform the occurrence of an internal server error.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    500: {
+      description: 'Inform the occurrence of an internal server error.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

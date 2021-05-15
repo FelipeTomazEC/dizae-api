@@ -74,54 +74,52 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Auth'],
-    summary: 'Authenticate the admin in the application.',
+  tags: ['Auth'],
+  summary: 'Authenticate the admin in the application.',
 
-    requestBody: {
-      description: 'The expected params for authenticate an admin.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for authenticate an admin.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    200: {
+      description: 'Returns a token for the admin.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      200: {
-        description: 'Returns a token for the admin.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns an error informing that the e-mail is not valid.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns an error informing that the e-mail is not valid.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    401: {
+      description: 'Returns an error informing that the password is wrong.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      401: {
-        description: 'Returns an error informing that the password is wrong.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      404: {
-        description: 'Inform that the given e-mail is not registered.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    404: {
+      description: 'Inform that the given e-mail is not registered.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

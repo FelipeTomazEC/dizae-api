@@ -54,65 +54,63 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Item Categories'],
-    summary: 'Register a new item category in the application.',
-    security: [{ bearer: [] }],
+  tags: ['Item Categories'],
+  summary: 'Register a new item category in the application.',
+  security: [{ bearer: [] }],
 
-    requestBody: {
-      description: 'The expected params for create a new item category.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for create a new item category.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    201: {
+      description:
+        'Returns the success flag indicating that the item category was created successfully.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      201: {
-        description:
-          'Returns the success flag indicating that the item category was created successfully.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns what is wrong with the informed request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns what is wrong with the informed request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    403: {
+      description: `Inform that the admin's credentials are missing or invalid.`,
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      403: {
-        description: `Inform that the admin's credentials are missing or invalid.`,
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    409: {
+      description: 'Inform that the item category is already registered.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      409: {
-        description: 'Inform that the item category is already registered.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      500: {
-        description: 'Inform the occurrence of an internal server error.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    500: {
+      description: 'Inform the occurrence of an internal server error.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

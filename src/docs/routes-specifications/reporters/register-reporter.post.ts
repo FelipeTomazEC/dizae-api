@@ -83,45 +83,43 @@ const errorSchema = {
 };
 
 export default {
-  post: {
-    tags: ['Reporters'],
-    summary: 'Register a reporter in the application.',
+  tags: ['Reporters'],
+  summary: 'Register a reporter in the application.',
 
-    requestBody: {
-      description: 'The expected params for register a new reporter.',
-      required: true,
+  requestBody: {
+    description: 'The expected params for register a new reporter.',
+    required: true,
+    content: {
+      'application/json': {
+        schema: requestSchema,
+      },
+    },
+  },
+
+  responses: {
+    201: {
+      description: 'Returns the id of the new reporter.',
       content: {
         'application/json': {
-          schema: requestSchema,
+          schema: responseSchema,
         },
       },
     },
 
-    responses: {
-      201: {
-        description: 'Returns the id of the new reporter.',
-        content: {
-          'application/json': {
-            schema: responseSchema,
-          },
+    400: {
+      description: 'Returns what is wrong with the informed request.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
+    },
 
-      400: {
-        description: 'Returns what is wrong with the informed request.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
-        },
-      },
-
-      409: {
-        description: 'Inform that the e-mail is already registered.',
-        content: {
-          'application/json': {
-            schema: errorSchema,
-          },
+    409: {
+      description: 'Inform that the e-mail is already registered.',
+      content: {
+        'application/json': {
+          schema: errorSchema,
         },
       },
     },

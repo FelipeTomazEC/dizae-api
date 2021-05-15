@@ -1,5 +1,7 @@
 import createItemCategorySpecification from './create-item-category.post';
 
 export const itemCategoriesPath = {
-  '/item-categories': createItemCategorySpecification,
+  '/item-categories': {
+    post: createItemCategorySpecification,
+  },
 };
