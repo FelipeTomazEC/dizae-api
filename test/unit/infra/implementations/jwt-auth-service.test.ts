@@ -1,5 +1,7 @@
 import { Reporter } from '@entities/reporter/reporter';
+import { Id } from '@entities/shared/id/id';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { AuthorizationError } from '@interface-adapters/controllers/errors/authorization-error';
 import faker from 'faker';
 
 describe('JWT auth service implementation tests', () => {
@@ -20,23 +22,27 @@ describe('JWT auth service implementation tests', () => {
     expect(credentials).toBeTruthy();
   });
 
-  test('It should return false to invalid tokens.', async () => {
-    const isValidToken = await sut.validate('invalid-token');
+  test('It should return an error to invalid tokens.', async () => {
+    const ownerIdOrError = await sut.validate('invalid-token');
 
-    expect(isValidToken).toBeFalsy();
+    expect(ownerIdOrError.isLeft()).toBe(true);
+    expect(ownerIdOrError.value).toStrictEqual(new AuthorizationError());
   });
 
-  test('It should return true to valid tokens.', async () => {
+  test('It should return the id of the owner to valid tokens.', async () => {
     const credentials = await sut.generateCredentials(reporter, 3600);
-    const isValidToken = await sut.validate(credentials);
+    const ownerIdOrError = await sut.validate(credentials);
 
-    expect(isValidToken).toBeTruthy();
+    expect(ownerIdOrError.isRight()).toBe(true);
+    expect(ownerIdOrError.value).toBeInstanceOf(Id);
+    expect(ownerIdOrError.value).toStrictEqual(reporter.id);
   });
 
   test('It should return false to expired tokens.', async () => {
     const credentials = await sut.generateCredentials(reporter, 0);
-    const isValidToken = await sut.validate(credentials);
+    const ownerIdOrError = await sut.validate(credentials);
 
-    expect(isValidToken).toBeFalsy();
+    expect(ownerIdOrError.isLeft()).toBe(true);
+    expect(ownerIdOrError.value).toStrictEqual(new AuthorizationError());
   });
 });

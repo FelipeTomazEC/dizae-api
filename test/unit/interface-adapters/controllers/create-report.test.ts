@@ -1,9 +1,11 @@
+import { Id } from '@entities/shared/id/id';
 import { CreateReportController } from '@interface-adapters/controllers/create-report';
 import { AuthorizationError } from '@interface-adapters/controllers/errors/authorization-error';
 import { InternalServerError } from '@interface-adapters/controllers/errors/internal-server-error';
 import { AuthorizationService } from '@interface-adapters/controllers/interfaces/authorization-service';
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { HttpRequest } from '@interface-adapters/http/http-request';
+import { left, right } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
 import { CreateReportUseCase } from '@use-cases/create-report/create-report';
 import { CreateReportResponse } from '@use-cases/create-report/dtos/create-report-response';
@@ -39,19 +41,21 @@ describe('Create Report Controller', () => {
       title: 'Some fake title',
       description: 'Some fake description here!',
       image: faker.image.image(),
-      reporterId: faker.datatype.uuid(),
       itemName: faker.commerce.product(),
       locationId: 'location-uuid',
     },
     headers: [{ name: 'authorization', value: `Bearer some-token-here` }],
   });
 
+  const reporterId = Id.create({ value: faker.datatype.uuid() }).value as Id;
+
   beforeAll(() => {
-    jest.spyOn(authorizer, 'validate').mockResolvedValue(true);
+    jest.spyOn(authorizer, 'validate').mockResolvedValue(right(reporterId));
   });
 
   it('should not allow create reports with invalid credentials.', async () => {
-    jest.spyOn(authorizer, 'validate').mockResolvedValueOnce(false);
+    const error = new AuthorizationError();
+    jest.spyOn(authorizer, 'validate').mockResolvedValueOnce(left(error));
 
     await sut.handle(request);
 
@@ -67,7 +71,7 @@ describe('Create Report Controller', () => {
       title: request.body.title,
       description: request.body.description,
       image: request.body.image,
-      reporterId: request.body.reporterId,
+      reporterId: reporterId.value,
       locationId: 'location-uuid',
       itemName: request.body.itemName,
     });
@@ -81,5 +85,11 @@ describe('Create Report Controller', () => {
 
     expect(logger.log).toBeCalledWith(error);
     expect(presenter.failure).toBeCalledWith(new InternalServerError());
+  });
+
+  it('should pass the token to the authorizer.', async () => {
+    await sut.handle(request);
+
+    expect(authorizer.validate).toBeCalledWith('some-token-here');
   });
 });

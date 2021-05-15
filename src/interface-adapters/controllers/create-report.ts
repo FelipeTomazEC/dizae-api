@@ -1,16 +1,19 @@
+import { Id } from '@entities/shared/id/id';
 import { HttpRequest } from '@interface-adapters/http/http-request';
 import { CreateReportRequest as Request } from '@use-cases/create-report/dtos/create-report-request';
 import { ProtectedWebController } from './interfaces/protected-web-controller';
 
 export class CreateReportController extends ProtectedWebController<Request> {
-  getParamsFromHttpRequest(request: HttpRequest): Request {
+  getParamsFromHttpRequest(request: HttpRequest, requesterId: Id): Request {
+    const { description, title, image, itemName, locationId } = request.body;
+
     return {
-      description: request.body.description,
-      image: request.body.image,
-      itemName: request.body.itemName,
-      locationId: request.body.locationId,
-      reporterId: request.body.reporterId,
-      title: request.body.title,
+      description,
+      image,
+      title,
+      itemName,
+      locationId,
+      reporterId: requesterId.value,
     };
   }
 }

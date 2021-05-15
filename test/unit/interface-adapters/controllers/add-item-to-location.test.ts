@@ -1,9 +1,11 @@
+import { Id } from '@entities/shared/id/id';
 import { AddItemToLocationController } from '@interface-adapters/controllers/add-item-to-location';
 import { AuthorizationError } from '@interface-adapters/controllers/errors/authorization-error';
 import { InternalServerError } from '@interface-adapters/controllers/errors/internal-server-error';
 import { AuthorizationService } from '@interface-adapters/controllers/interfaces/authorization-service';
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { HttpRequest } from '@interface-adapters/http/http-request';
+import { left, right } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
 import { AddItemToLocationUseCase } from '@use-cases/add-item-to-location/add-item-to-location';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
@@ -22,6 +24,7 @@ describe('Add item to location controller tests.', () => {
   );
 
   const locationId = faker.datatype.uuid();
+  const adminId = Id.create({ value: faker.datatype.uuid() }).value as Id;
   const request = new HttpRequest({
     method: 'POST',
     headers: [{ name: 'authorization', value: 'Bearer some-token-here' }],
@@ -29,20 +32,20 @@ describe('Add item to location controller tests.', () => {
     body: {
       categoryName: faker.commerce.productMaterial(),
       name: faker.commerce.product(),
-      adminId: faker.datatype.uuid(),
       image: faker.image.image(),
     },
   });
 
   beforeAll(() => {
-    jest.spyOn(authorizer, 'validate').mockResolvedValue(true);
+    jest.spyOn(authorizer, 'validate').mockResolvedValue(right(adminId));
   });
 
   it('should block unauthenticated access.', async () => {
-    jest.spyOn(authorizer, 'validate').mockResolvedValueOnce(false);
+    const error = new AuthorizationError();
+    jest.spyOn(authorizer, 'validate').mockResolvedValueOnce(left(error));
     await sut.handle(request);
 
-    expect(presenter.failure).toBeCalledWith(new AuthorizationError());
+    expect(presenter.failure).toBeCalledWith(error);
   });
 
   it('should log and send to the presenter internal errors.', async () => {
@@ -58,7 +61,7 @@ describe('Add item to location controller tests.', () => {
     await sut.handle(request);
 
     expect(useCase.execute).toBeCalledWith({
-      adminId: request.body.adminId,
+      adminId: adminId.value,
       categoryName: request.body.categoryName,
       locationId,
       image: request.body.image,
