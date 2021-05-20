@@ -94,7 +94,7 @@ export default {
   },
 
   responses: {
-    200: {
+    201: {
       description: 'Returns the id of the new admin.',
       content: {
         'application/json': {
