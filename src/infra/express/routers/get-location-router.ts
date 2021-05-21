@@ -5,6 +5,7 @@ export interface LocationsHandler {
   handleCreateLocation: ExpressHandleFunction;
   handleAddItemToLocation: ExpressHandleFunction;
   handleGetItemsFromLocation: ExpressHandleFunction;
+  handleGetAllLocationsInfo: ExpressHandleFunction;
 }
 
 export const getLocationRouter = (handler: LocationsHandler): Router => {
@@ -16,6 +17,7 @@ export const getLocationRouter = (handler: LocationsHandler): Router => {
     '/locations/:locationId/items',
     handler.handleGetItemsFromLocation,
   );
+  router.get('/locations', handler.handleGetAllLocationsInfo);
 
   return router;
 };
