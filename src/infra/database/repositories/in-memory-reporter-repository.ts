@@ -6,10 +6,10 @@ import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter'
 export class InMemoryReporterRepository implements ReporterRepository {
   private static instance: InMemoryReporterRepository | null = null;
 
-  private readonly records: Reporter[];
+  private readonly records: Map<string, Reporter>;
 
   private constructor() {
-    this.records = [];
+    this.records = new Map();
   }
 
   static getInstance(): InMemoryReporterRepository {
@@ -21,22 +21,23 @@ export class InMemoryReporterRepository implements ReporterRepository {
   }
 
   emailExists(email: Email): Promise<boolean> {
-    const exists = this.records.some((r) => r.email.isEqual(email));
+    const reporters = Array.from(this.records.values());
+    const exists = reporters.some((r) => r.email.isEqual(email));
     return Promise.resolve(exists);
   }
 
   save(reporter: Reporter): Promise<void> {
-    this.records.push(reporter);
+    const key = reporter.id.value;
+    this.records.set(key, reporter);
     return Promise.resolve();
   }
 
   getReporterByEmail(email: Email): Promise<Reporter | undefined> {
-    const reporter = this.records.find((r) => r.email.isEqual(email));
-    return Promise.resolve(reporter);
+    const reporters = Array.from(this.records.values());
+    return Promise.resolve(reporters.find((r) => r.email.isEqual(email)));
   }
 
   getReporterById(id: Id): Promise<Reporter | undefined> {
-    const reporter = this.records.find((r) => r.id.isEqual(id));
-    return Promise.resolve(reporter);
+    return Promise.resolve(this.records.get(id.value));
   }
 }

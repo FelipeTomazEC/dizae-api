@@ -5,10 +5,10 @@ import { ItemCategoryRepository } from '@use-cases/interfaces/repositories/item-
 export class InMemoryItemCategoryRepository implements ItemCategoryRepository {
   private static instance: InMemoryItemCategoryRepository | null = null;
 
-  private readonly records: ItemCategory[];
+  private readonly records: Map<string, ItemCategory>;
 
   private constructor() {
-    this.records = [];
+    this.records = new Map();
   }
 
   static getInstance(): InMemoryItemCategoryRepository {
@@ -20,12 +20,12 @@ export class InMemoryItemCategoryRepository implements ItemCategoryRepository {
   }
 
   save(category: ItemCategory): Promise<void> {
-    this.records.push(category);
+    const key = category.name.value;
+    this.records.set(key, category);
     return Promise.resolve();
   }
 
   exists(name: Name): Promise<boolean> {
-    const exists = this.records.some((r) => r.name.isEqual(name));
-    return Promise.resolve(exists);
+    return Promise.resolve(this.records.has(name.value));
   }
 }

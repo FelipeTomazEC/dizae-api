@@ -6,10 +6,10 @@ import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 export class InMemoryAdminRepository implements AdminRepository {
   private static instance: InMemoryAdminRepository | null = null;
 
-  private readonly records: Admin[];
+  private readonly records: Map<string, Admin>;
 
   private constructor() {
-    this.records = [];
+    this.records = new Map();
   }
 
   static getInstance(): InMemoryAdminRepository {
@@ -21,23 +21,23 @@ export class InMemoryAdminRepository implements AdminRepository {
   }
 
   getById(id: Id): Promise<Admin | undefined> {
-    const admin = this.records.find((r) => r.id.isEqual(id));
-    return Promise.resolve(admin);
+    return Promise.resolve(this.records.get(id.value));
   }
 
   emailExists(email: Email): Promise<boolean> {
-    const exists = this.records.some((r) => r.email.isEqual(email));
+    const admins = Array.from(this.records.values());
+    const exists = admins.some((r) => r.email.isEqual(email));
     return Promise.resolve(exists);
   }
 
   save(admin: Admin): Promise<void> {
-    this.records.push(admin);
+    const key = admin.id.value;
+    this.records.set(key, admin);
     return Promise.resolve();
   }
 
   getByEmail(email: Email): Promise<Admin | undefined> {
-    const admin = this.records.find((r) => r.email.isEqual(email));
-
-    return Promise.resolve(admin);
+    const admins = Array.from(this.records.values());
+    return Promise.resolve(admins.find((a) => a.email.isEqual(email)));
   }
 }
