@@ -90,4 +90,21 @@ describe('In memory location repository tests.', () => {
     expect(retrieved).toContain(location2);
     expect(retrieved).toContain(location3);
   });
+
+  it('should update instead of duplicating when saving an existent location.', async () => {
+    const newLocation = Location.create({
+      id: faker.datatype.uuid(),
+      name: 'User Test',
+      createdAt: Date.now(),
+      creatorId: faker.datatype.uuid(),
+    }).value as Location;
+
+    await sut.save(newLocation);
+    await sut.save(newLocation);
+    const registered = await sut.getAll();
+
+    expect(registered.filter((r) => r.id.isEqual(newLocation.id)).length).toBe(
+      1,
+    );
+  });
 });
