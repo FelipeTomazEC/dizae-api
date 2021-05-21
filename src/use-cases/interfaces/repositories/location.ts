@@ -6,4 +6,5 @@ export interface LocationRepository {
   getLocationById(id: Id): Promise<Location | undefined>;
   exists(name: Name): Promise<boolean>;
   save(location: Location): Promise<void>;
+  getAll(): Promise<Location[]>;
 }
