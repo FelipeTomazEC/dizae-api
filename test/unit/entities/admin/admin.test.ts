@@ -17,7 +17,7 @@ describe('Admin entity tests.', () => {
     createdAt: Date.now(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
-    name: faker.name.findName(),
+    name: 'Test User Name',
     password: faker.internet.password(15, false),
   };
 

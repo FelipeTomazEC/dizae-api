@@ -9,7 +9,7 @@ import * as faker from 'faker';
 describe('Reporter entity tests.', () => {
   const example: ReporterData = {
     id: faker.datatype.uuid(),
-    name: faker.name.findName(),
+    name: 'User Tester',
     createdAt: Date.now(),
     email: faker.internet.email(),
     password: faker.internet.password().concat('6'),
