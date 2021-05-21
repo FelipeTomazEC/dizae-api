@@ -19,6 +19,10 @@ export class InMemoryLocationRepository implements LocationRepository {
     return this.instance;
   }
 
+  getAll(): Promise<Location[]> {
+    return Promise.resolve([...this.records]);
+  }
+
   getLocationById(id: Id): Promise<Location | undefined> {
     const location = this.records.find((r) => r.id.isEqual(id));
     return Promise.resolve(location);
