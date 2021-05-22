@@ -1,5 +1,6 @@
 import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
 import { InMemoryItemCategoryRepository } from '@infra/database/repositories/in-memory-item-category-repository';
+import { createGetItemCategoriesHandler } from '@infra/express/handlers/create-get-item-categories-handler';
 import { getCreateItemCategoryHandler } from '@infra/express/handlers/get-create-item-category-handler';
 import { ItemCategoriesHandler } from '@infra/express/routers/get-item-categories-router';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
@@ -18,7 +19,13 @@ export const makeItemCategoriesHandler = (): ItemCategoriesHandler => {
     logger,
   });
 
+  const handleGetItemCategories = createGetItemCategoriesHandler({
+    logger,
+    repository: itemCategoryRepo,
+  });
+
   return {
     handleCreateItemCategory,
+    handleGetItemCategories,
   };
 };
