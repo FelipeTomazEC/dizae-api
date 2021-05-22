@@ -12,6 +12,15 @@ const responseSchema = {
         items: {
           type: 'object',
           properties: {
+            category: {
+              type: 'string',
+              description: 'The name of the category which the item belongs.',
+            },
+            createdAt: {
+              type: 'number',
+              description:
+                'A timestamp that represents when the item was first added.',
+            },
             name: {
               type: 'string',
               description: 'The item name',
@@ -30,9 +39,24 @@ const responseSchema = {
     success: true,
     data: {
       items: [
-        { name: 'Chair', image: 'http://images.com/chair.jpg' },
-        { name: 'Computer', image: 'http://images.com/computer.jpg' },
-        { name: 'Table', image: 'http://images.com/table.jpg' },
+        {
+          createdAt: 1621656920571,
+          category: 'Infrastructure',
+          name: 'Chair',
+          image: 'http://images.com/chair.jpg',
+        },
+        {
+          createdAt: 1621656920575,
+          category: 'Technology',
+          name: 'Computer',
+          image: 'http://images.com/computer.jpg',
+        },
+        {
+          createdAt: 1621656520571,
+          category: 'Infrastructure',
+          name: 'Table',
+          image: 'http://images.com/table.jpg',
+        },
       ],
     },
   },
