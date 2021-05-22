@@ -35,6 +35,8 @@ export class GetItemsFromLocationUseCase implements UseCaseInputPort<Request> {
     const items: ItemCollection = location.getItems().map((item) => ({
       image: item.image,
       name: item.name.value,
+      category: item.categoryName.value,
+      createdAt: item.createdAt,
     }));
 
     return presenter.success({ items });
