@@ -27,4 +27,26 @@ describe('In memory item category repository tests.', () => {
 
     expect(instance1).toBe(instance2);
   });
+
+  it('should return all categories saved.', async () => {
+    const createItemCategory = () =>
+      ItemCategory.create({
+        createdAt: Date.now(),
+        creatorId: faker.datatype.uuid(),
+        name: faker.commerce.productMaterial(),
+      }).value as ItemCategory;
+
+    const categoriesBeforeSaving = await sut.getAll();
+    const cat1 = createItemCategory();
+    const cat2 = createItemCategory();
+    await sut.save(cat1);
+    await sut.save(cat2);
+    const categoriesAfterSaving = await sut.getAll();
+
+    expect(categoriesAfterSaving.length).toBe(
+      categoriesBeforeSaving.length + 2,
+    );
+    expect(categoriesAfterSaving).toContain(cat1);
+    expect(categoriesAfterSaving).toContain(cat2);
+  });
 });
