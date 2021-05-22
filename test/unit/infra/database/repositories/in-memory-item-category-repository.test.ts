@@ -43,10 +43,10 @@ describe('In memory item category repository tests.', () => {
     await sut.save(cat2);
     const categoriesAfterSaving = await sut.getAll();
 
+    expect(categoriesAfterSaving).toContain(cat1);
+    expect(categoriesAfterSaving).toContain(cat2);
     expect(categoriesAfterSaving.length).toBe(
       categoriesBeforeSaving.length + 2,
     );
-    expect(categoriesAfterSaving).toContain(cat1);
-    expect(categoriesAfterSaving).toContain(cat2);
   });
 });
