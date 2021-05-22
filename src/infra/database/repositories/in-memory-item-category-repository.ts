@@ -28,4 +28,9 @@ export class InMemoryItemCategoryRepository implements ItemCategoryRepository {
   exists(name: Name): Promise<boolean> {
     return Promise.resolve(this.records.has(name.value));
   }
+
+  getAll(): Promise<ItemCategory[]> {
+    const categories = Array.from(this.records.values());
+    return Promise.resolve(categories);
+  }
 }
