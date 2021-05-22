@@ -21,6 +21,7 @@ describe('Get items from a location use case.', () => {
   let location: Location;
 
   beforeAll(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(Date.now());
     const createItem = (): Item =>
       Item.create({
         categoryName: faker.commerce.productMaterial(),
@@ -71,6 +72,8 @@ describe('Get items from a location use case.', () => {
     const items: ItemCollection = location.getItems().map((item) => ({
       image: item.image,
       name: item.name.value,
+      category: item.categoryName.value,
+      createdAt: item.createdAt,
     }));
 
     await sut.execute(request);
