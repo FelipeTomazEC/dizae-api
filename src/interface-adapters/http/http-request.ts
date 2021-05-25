@@ -39,7 +39,9 @@ export class HttpRequest {
     return (this.params.find((p) => p.name === name)?.value as unknown) as T;
   }
 
-  public getQueryParam<T>(name: string): T {
-    return (this.query.find((p) => p.name === name)?.value as unknown) as T;
+  public getQueryParam<T>(name: string): T | undefined {
+    const value = this.query.find((p) => p.name === name)?.value;
+
+    return (value as unknown) as T | undefined;
   }
 }
