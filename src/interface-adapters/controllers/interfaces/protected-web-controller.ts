@@ -35,5 +35,8 @@ export abstract class ProtectedWebController<T> implements HttpController {
     }
   }
 
-  abstract getParamsFromHttpRequest(request: HttpRequest, requesterId: Id): T;
+  protected abstract getParamsFromHttpRequest(
+    request: HttpRequest,
+    requesterId: Id,
+  ): T;
 }

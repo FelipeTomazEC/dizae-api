@@ -22,5 +22,5 @@ export abstract class WebController<T> implements HttpController {
     }
   }
 
-  abstract getParamsFromHttpRequest(request: HttpRequest): T;
+  protected abstract getParamsFromHttpRequest(request: HttpRequest): T;
 }
