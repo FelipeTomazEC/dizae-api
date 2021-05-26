@@ -13,7 +13,7 @@
     "test:unit": "jest unit",
     "test": "jest",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register -r ./src/infra/main/setup-environment.ts src/index.ts' -e ts",
+    "dev": "yarn migration:run && nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register -r ./src/infra/main/setup-environment.ts src/index.ts' -e ts",
     "migration:create": "yarn knex migrate:make --knexfile ./knexfile.js -x ts",
     "migration:run": "yarn knex migrate:latest --knexfile ./knexfile.js"
   },
