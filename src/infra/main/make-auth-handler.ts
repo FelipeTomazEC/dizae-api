@@ -1,5 +1,5 @@
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
-import { InMemoryReporterRepository } from '@infra/database/repositories/in-memory-reporter-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
+import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import { createAuthenticateAdminHandler } from '@infra/express/handlers/create-authenticate-admin-handler';
 import { createAuthenticateReporterHandler } from '@infra/express/handlers/create-authenticate-reporter-handler';
 import { AuthHandler } from '@infra/express/routers/get-auth-router';

@@ -1,6 +1,6 @@
 import { Report } from '@entities/report/report';
 import { Status } from '@entities/report/status';
-import { InMemoryReportRepository } from '@infra/database/repositories/in-memory-report-repository';
+import { InMemoryReportRepository } from '@infra/database/in-memory/in-memory-report-repository';
 import { generateRandomCollection } from '@test/test-helpers/generate-random-collection';
 import {
   GetReportsFilters,

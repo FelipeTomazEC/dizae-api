@@ -2,7 +2,7 @@ import { Item } from '@entities/location/item/item';
 import { Location } from '@entities/location/location';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { InMemoryLocationRepository } from '@infra/database/repositories/in-memory-location-repository';
+import { InMemoryLocationRepository } from '@infra/database/in-memory/in-memory-location-repository';
 import faker from 'faker';
 
 describe('In memory location repository tests.', () => {

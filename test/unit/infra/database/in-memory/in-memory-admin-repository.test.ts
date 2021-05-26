@@ -1,7 +1,7 @@
 import { Admin } from '@entities/admin/admin';
 import { Email } from '@entities/shared/email/email';
 import { Id } from '@entities/shared/id/id';
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
 import faker from 'faker';
 
 describe('In memory admin repository tests.', () => {

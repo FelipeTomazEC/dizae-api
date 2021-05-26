@@ -1,5 +1,6 @@
 import { ItemCategory } from '@entities/item-category/item-category';
-import { InMemoryItemCategoryRepository } from '@infra/database/repositories/in-memory-item-category-repository';
+import { InMemoryItemCategoryRepository } from '@infra/database/in-memory/in-memory-item-category-repository';
+
 import faker from 'faker';
 
 describe('In memory item category repository tests.', () => {

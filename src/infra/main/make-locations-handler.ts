@@ -1,6 +1,6 @@
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
-import { InMemoryItemCategoryRepository } from '@infra/database/repositories/in-memory-item-category-repository';
-import { InMemoryLocationRepository } from '@infra/database/repositories/in-memory-location-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
+import { InMemoryItemCategoryRepository } from '@infra/database/in-memory/in-memory-item-category-repository';
+import { InMemoryLocationRepository } from '@infra/database/in-memory/in-memory-location-repository';
 import { createAddItemToLocationHandler } from '@infra/express/handlers/create-add-item-to-location-handler';
 import { createGetAllLocationsInfoHandler } from '@infra/express/handlers/create-get-all-locations-info-handler';
 import { getCreateLocationHandler } from '@infra/express/handlers/get-create-location-handler';

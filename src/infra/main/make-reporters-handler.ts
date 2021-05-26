@@ -1,4 +1,4 @@
-import { InMemoryReporterRepository } from '@infra/database/repositories/in-memory-reporter-repository';
+import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import { ReportersHandler } from '@infra/express/routers/get-reporters-router';
 import { BcryptPasswordEncoder } from '@infra/implementations/bcrypt-password-encoder';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';

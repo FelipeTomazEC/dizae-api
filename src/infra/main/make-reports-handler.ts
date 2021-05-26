@@ -1,7 +1,7 @@
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
-import { InMemoryLocationRepository } from '@infra/database/repositories/in-memory-location-repository';
-import { InMemoryReportRepository } from '@infra/database/repositories/in-memory-report-repository';
-import { InMemoryReporterRepository } from '@infra/database/repositories/in-memory-reporter-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
+import { InMemoryLocationRepository } from '@infra/database/in-memory/in-memory-location-repository';
+import { InMemoryReportRepository } from '@infra/database/in-memory/in-memory-report-repository';
+import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import { createGetReportsHandler } from '@infra/express/handlers/create-get-reports-handler';
 import { createReportHandler } from '@infra/express/handlers/get-create-report-handler';
 import { ReportsHandler } from '@infra/express/routers/get-report-router';

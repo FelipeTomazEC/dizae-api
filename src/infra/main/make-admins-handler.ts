@@ -1,4 +1,4 @@
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
 import { createRegisterAdminHandler } from '@infra/express/handlers/create-register-admin-handler';
 import { AdminsHandler } from '@infra/express/routers/get-admins-router';
 import { BcryptPasswordEncoder } from '@infra/implementations/bcrypt-password-encoder';

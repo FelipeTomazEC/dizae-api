@@ -1,6 +1,6 @@
 import { Reporter } from '@entities/reporter/reporter';
 import { Email } from '@entities/shared/email/email';
-import { InMemoryReporterRepository } from '@infra/database/repositories/in-memory-reporter-repository';
+import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import faker from 'faker';
 
 describe('In memory reporter repository tests.', () => {

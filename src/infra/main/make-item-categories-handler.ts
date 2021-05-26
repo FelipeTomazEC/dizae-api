@@ -1,5 +1,5 @@
-import { InMemoryAdminRepository } from '@infra/database/repositories/in-memory-admin-repository';
-import { InMemoryItemCategoryRepository } from '@infra/database/repositories/in-memory-item-category-repository';
+import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
+import { InMemoryItemCategoryRepository } from '@infra/database/in-memory/in-memory-item-category-repository';
 import { createGetItemCategoriesHandler } from '@infra/express/handlers/create-get-item-categories-handler';
 import { getCreateItemCategoryHandler } from '@infra/express/handlers/get-create-item-category-handler';
 import { ItemCategoriesHandler } from '@infra/express/routers/get-item-categories-router';
