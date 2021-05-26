@@ -1,7 +1,7 @@
-import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
 import { InMemoryLocationRepository } from '@infra/database/in-memory/in-memory-location-repository';
 import { InMemoryReportRepository } from '@infra/database/in-memory/in-memory-report-repository';
 import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
+import { KnexAdminRepository } from '@infra/database/knex/repositories/knex-admin-repository';
 import { createGetReportsHandler } from '@infra/express/handlers/create-get-reports-handler';
 import { createReportHandler } from '@infra/express/handlers/get-create-report-handler';
 import { ReportsHandler } from '@infra/express/routers/get-report-router';
@@ -9,8 +9,9 @@ import { AuthorizerComposer } from '@infra/implementations/authorizer-composer';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
 import { UUIDV4Generator } from '@infra/implementations/uuid-v4-generator';
+import { Knex } from 'knex';
 
-export const makeReportsHandler = (): ReportsHandler => {
+export const makeReportsHandler = (connection: Knex): ReportsHandler => {
   const reporterAuthorizer = new JWTAuthService(
     process.env.REPORTERS_JWT_SECRET!,
   );
@@ -19,7 +20,7 @@ export const makeReportsHandler = (): ReportsHandler => {
   const idGenerator = new UUIDV4Generator();
   const reporterRepo = InMemoryReporterRepository.getInstance();
   const reportRepo = InMemoryReportRepository.getInstance();
-  const adminRepo = InMemoryAdminRepository.getInstance();
+  const adminRepo = new KnexAdminRepository(connection);
   const logger = new ConsoleErrorLogger();
 
   const handleCreateReport = createReportHandler({

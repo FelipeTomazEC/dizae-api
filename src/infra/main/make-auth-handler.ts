@@ -1,15 +1,16 @@
-import { InMemoryAdminRepository } from '@infra/database/in-memory/in-memory-admin-repository';
 import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
+import { KnexAdminRepository } from '@infra/database/knex/repositories/knex-admin-repository';
 import { createAuthenticateAdminHandler } from '@infra/express/handlers/create-authenticate-admin-handler';
 import { createAuthenticateReporterHandler } from '@infra/express/handlers/create-authenticate-reporter-handler';
 import { AuthHandler } from '@infra/express/routers/get-auth-router';
 import { BcryptPasswordEncoder } from '@infra/implementations/bcrypt-password-encoder';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { Knex } from 'knex';
 
-export const makeAuthHandler = (): AuthHandler => {
+export const makeAuthHandler = (connection: Knex): AuthHandler => {
   const reporterRepository = InMemoryReporterRepository.getInstance();
-  const adminRepository = InMemoryAdminRepository.getInstance();
+  const adminRepository = new KnexAdminRepository(connection);
   const reporterAuthService = new JWTAuthService(
     process.env.REPORTERS_JWT_SECRET!,
   );

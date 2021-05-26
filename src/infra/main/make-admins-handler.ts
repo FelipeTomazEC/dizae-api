@@ -10,10 +10,10 @@ export const makeAdminsHandler = (connection: Knex): AdminsHandler => {
   const encoder = new BcryptPasswordEncoder();
   const logger = new ConsoleErrorLogger();
   const idGenerator = new UUIDV4Generator();
-  const knexAdminRepo = new KnexAdminRepository(connection);
+  const adminRepo = new KnexAdminRepository(connection);
   
   const handleRegisterAdmin = createRegisterAdminHandler({
-    adminRepo: knexAdminRepo,
+    adminRepo,
     encoder,
     idGenerator,
     logger,

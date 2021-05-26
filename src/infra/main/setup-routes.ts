@@ -17,9 +17,9 @@ export const setupRoutes = (app: Express): void => {
   const connection = setupKnexConnection(process.env.NODE_ENV);
 
   app.use(getReportersRouter(makeReportersHandler()));
-  app.use(getAuthRouter(makeAuthHandler()));
+  app.use(getAuthRouter(makeAuthHandler(connection)));
   app.use(getAdminsRouter(makeAdminsHandler(connection)));
-  app.use(getLocationRouter(makeLocationsHandler()));
-  app.use(getItemCategoriesRouter(makeItemCategoriesHandler()));
-  app.use(getReportRouter(makeReportsHandler()));
+  app.use(getLocationRouter(makeLocationsHandler(connection)));
+  app.use(getItemCategoriesRouter(makeItemCategoriesHandler(connection)));
+  app.use(getReportRouter(makeReportsHandler(connection)));
 };
