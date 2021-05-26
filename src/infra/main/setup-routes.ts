@@ -11,11 +11,14 @@ import { makeItemCategoriesHandler } from './make-item-categories-handler';
 import { makeLocationsHandler } from './make-locations-handler';
 import { makeReportersHandler } from './make-reporters-handler';
 import { makeReportsHandler } from './make-reports-handler';
+import {setupKnexConnection} from '../database/knex/setup-knex-connection';
 
 export const setupRoutes = (app: Express): void => {
+  const connection = setupKnexConnection(process.env.NODE_ENV);
+
   app.use(getReportersRouter(makeReportersHandler()));
   app.use(getAuthRouter(makeAuthHandler()));
-  app.use(getAdminsRouter(makeAdminsHandler()));
+  app.use(getAdminsRouter(makeAdminsHandler(connection)));
   app.use(getLocationRouter(makeLocationsHandler()));
   app.use(getItemCategoriesRouter(makeItemCategoriesHandler()));
   app.use(getReportRouter(makeReportsHandler()));
