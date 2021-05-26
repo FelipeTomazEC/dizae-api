@@ -5,9 +5,11 @@ import { getCreateItemCategoryHandler } from '@infra/express/handlers/get-create
 import { ItemCategoriesHandler } from '@infra/express/routers/get-item-categories-router';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
-import {Knex} from 'knex'
+import { Knex } from 'knex';
 
-export const makeItemCategoriesHandler = (connection: Knex): ItemCategoriesHandler => {
+export const makeItemCategoriesHandler = (
+  connection: Knex,
+): ItemCategoriesHandler => {
   const adminRepo = new KnexAdminRepository(connection);
   const authorizer = new JWTAuthService(process.env.ADMINS_JWT_SECRET!);
   const itemCategoryRepo = InMemoryItemCategoryRepository.getInstance();

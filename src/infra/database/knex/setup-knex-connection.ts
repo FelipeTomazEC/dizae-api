@@ -7,5 +7,5 @@ export const setupKnexConnection = (environment = 'development') => {
   const config = require(path.resolve(__dirname, '../../../../knexfile.js'));
   const connection = knex(config[environment]);
 
-  return connection; 
-}
+  return connection;
+};

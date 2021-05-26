@@ -18,7 +18,7 @@
     "migration:run": "yarn knex migrate:latest --knexfile ./knexfile.js"
   },
   "lint-staged": {
-    "*.(ts | js)": [
+    "*.ts": [
       "eslint --fix",
       "prettier -w"
     ]

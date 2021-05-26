@@ -1,8 +1,8 @@
-import { Admin } from "@entities/admin/admin";
-import { Email } from "@entities/shared/email/email";
-import { Id } from "@entities/shared/id/id";
-import { AdminRepository } from "@use-cases/interfaces/repositories/admin";
-import faker from "faker";
+import { Admin } from '@entities/admin/admin';
+import { Email } from '@entities/shared/email/email';
+import { Id } from '@entities/shared/id/id';
+import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
+import faker from 'faker';
 
 export const adminRepositoryTests = (sut: AdminRepository) => {
   const admin = Admin.create({
@@ -47,4 +47,4 @@ export const adminRepositoryTests = (sut: AdminRepository) => {
 
     expect(retrieved).toStrictEqual(admin);
   });
-}
+};

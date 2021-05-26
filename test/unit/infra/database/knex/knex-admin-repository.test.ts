@@ -8,11 +8,11 @@ describe('Knex admin repository tests.', () => {
 
   beforeAll(async () => {
     await connection.migrate.latest();
-  })
+  });
 
   afterAll(async () => {
     await connection.destroy();
-  })
+  });
 
   adminRepositoryTests(sut);
 });

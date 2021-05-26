@@ -5,7 +5,7 @@ describe('In memory admin repository tests.', () => {
   const sut = InMemoryAdminRepository.getInstance();
 
   adminRepositoryTests(sut);
-  
+
   it('should be a singleton.', async () => {
     const instance1 = InMemoryAdminRepository.getInstance();
     const instance2 = InMemoryAdminRepository.getInstance();

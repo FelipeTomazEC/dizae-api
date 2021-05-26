@@ -1,4 +1,4 @@
-import { Knex } from "knex";
+import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable('admin', (table) => {
@@ -8,10 +8,9 @@ export async function up(knex: Knex): Promise<void> {
     table.string('password').notNullable();
     table.timestamp('createdAt').notNullable();
     table.string('avatar').notNullable().defaultTo('');
-  })
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {
-  knex.schema.dropTable('admin')
+  knex.schema.dropTable('admin');
 }
-

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Admin } from "@entities/admin/admin";
-import { Email } from "@entities/shared/email/email";
-import { Id } from "@entities/shared/id/id";
-import { AdminRepository } from "@use-cases/interfaces/repositories/admin";
-import { isNullOrUndefined } from "@utils/is-null-or-undefined";
-import { Knex } from 'knex'
-import { AdminSchema } from "../schemas/admin.schema";
+import { Admin } from '@entities/admin/admin';
+import { Email } from '@entities/shared/email/email';
+import { Id } from '@entities/shared/id/id';
+import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
+import { isNullOrUndefined } from '@utils/is-null-or-undefined';
+import { Knex } from 'knex';
+import { AdminSchema } from '../schemas/admin.schema';
 
 export class KnexAdminRepository implements AdminRepository {
   constructor(private readonly connection: Knex) {}
@@ -14,15 +14,15 @@ export class KnexAdminRepository implements AdminRepository {
     const record = await this.connection<AdminSchema>('admin')
       .where({ id: id.value })
       .first();
-    
+
     return !isNullOrUndefined(record)
-      ? Admin.create(record!).value as Admin
+      ? (Admin.create(record!).value as Admin)
       : undefined;
   }
 
   async emailExists(email: Email): Promise<boolean> {
     const record = await this.connection<AdminSchema>('admin')
-      .where({email: email.value})
+      .where({ email: email.value })
       .first();
 
     return !isNullOrUndefined(record);
@@ -36,11 +36,11 @@ export class KnexAdminRepository implements AdminRepository {
 
   async getByEmail(email: Email): Promise<Admin | undefined> {
     const schema = await this.connection<AdminSchema>('admin')
-      .where({email: email.value})
+      .where({ email: email.value })
       .first();
-    
+
     return !isNullOrUndefined(schema)
-      ? Admin.create(schema!).value as Admin
+      ? (Admin.create(schema!).value as Admin)
       : undefined;
   }
 
@@ -51,7 +51,7 @@ export class KnexAdminRepository implements AdminRepository {
       email: admin.email.value,
       id: admin.id.value,
       name: admin.name.value,
-      password: admin.password.value
-    }
+      password: admin.password.value,
+    };
   }
 }
