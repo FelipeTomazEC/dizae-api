@@ -13,10 +13,12 @@
     "test:unit": "jest unit",
     "test": "jest",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register -r ./src/infra/main/setup-environment.ts src/index.ts' -e ts"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register -r ./src/infra/main/setup-environment.ts src/index.ts' -e ts",
+    "migration:create": "yarn knex migrate:make --knexfile ./knexfile.js -x ts",
+    "migration:run": "yarn knex migrate:latest --knexfile ./knexfile.js"
   },
   "lint-staged": {
-    "*.ts": [
+    "*.(ts | js)": [
       "eslint --fix",
       "prettier -w"
     ]
@@ -72,6 +74,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.6",
     "lodash": "^4.17.21",
+    "sqlite3": "^5.0.2",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2"
   }
