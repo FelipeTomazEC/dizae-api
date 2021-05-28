@@ -1,7 +1,7 @@
-import { InMemoryLocationRepository } from '@infra/database/in-memory/in-memory-location-repository';
 import { InMemoryReportRepository } from '@infra/database/in-memory/in-memory-report-repository';
 import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import { KnexAdminRepository } from '@infra/database/knex/repositories/knex-admin-repository';
+import { KnexLocationRepository } from '@infra/database/knex/repositories/knex-location-repository';
 import { createGetReportsHandler } from '@infra/express/handlers/create-get-reports-handler';
 import { createReportHandler } from '@infra/express/handlers/get-create-report-handler';
 import { ReportsHandler } from '@infra/express/routers/get-report-router';
@@ -16,7 +16,7 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
     process.env.REPORTERS_JWT_SECRET!,
   );
   const adminAuthorizer = new JWTAuthService(process.env.ADMINS_JWT_SECRET!);
-  const locationRepo = InMemoryLocationRepository.getInstance();
+  const locationRepo = new KnexLocationRepository(connection);
   const idGenerator = new UUIDV4Generator();
   const reporterRepo = InMemoryReporterRepository.getInstance();
   const reportRepo = InMemoryReportRepository.getInstance();
