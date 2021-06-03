@@ -1,7 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable global-require */
-if (process.env.NODE_ENV !== 'production') require('ts-node/register');
-
 module.exports = {
   development: {
     client: 'sqlite3',
@@ -30,6 +26,27 @@ module.exports = {
       directory: './src/infra/database/knex/migrations',
       tableName: 'knex_migrations',
       extension: '.ts',
+    },
+  },
+
+  production: {
+    client: 'pg',
+    connection: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      ssl: { rejectUnauthorized: false },
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      directory: './dist/infra/database/knex/migrations',
+      tableName: 'knex_migrations',
+      extension: '.js',
     },
   }
 }
