@@ -52,8 +52,6 @@ export class KnexLocationRepository implements LocationRepository {
       await this.connection<LocationSchema>('location')
         .where({ id: schema.id })
         .update({
-          created_at: schema.created_at,
-          creator_id: schema.creator_id,
           name: schema.name,
         });
     } else {
