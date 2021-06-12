@@ -17,7 +17,6 @@ export default {
     },
     description: `This is the API of the Dizaê APP: an application that connects users to place managers, making easier to report problems.`,
   },
-  servers: [{ url: 'http://localhost:3000/' }],
   components: {
     securitySchemes: {
       bearer: {
