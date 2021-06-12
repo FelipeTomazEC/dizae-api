@@ -28,7 +28,9 @@ export const itemCategoryRepositoryTests = (
       ItemCategory.create({
         createdAt: Date.now(),
         creatorId: admin.id.value,
-        name: faker.commerce.productMaterial(),
+        name: faker.commerce
+          .productMaterial()
+          .concat(faker.random.alphaNumeric()),
       }).value as ItemCategory;
 
     const categoriesBeforeSaving = await sut.getAll();
