@@ -39,7 +39,7 @@ export class KnexItemCategoryRepository implements ItemCategoryRepository {
     return records.map(
       (r) =>
         ItemCategory.create({
-          createdAt: r.created_at,
+          createdAt: new Date(r.created_at),
           creatorId: r.creator_id,
           name: r.name,
         }).value as ItemCategory,

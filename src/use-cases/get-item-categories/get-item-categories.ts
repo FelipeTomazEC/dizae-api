@@ -18,7 +18,7 @@ export class GetItemCategoriesUseCase implements UseCaseInputPort<void> {
 
     return presenter.success({
       categories: categories.map((cat) => ({
-        createdAt: cat.createdAt,
+        createdAt: cat.createdAt.getTime(),
         name: cat.name.value,
       })),
     });

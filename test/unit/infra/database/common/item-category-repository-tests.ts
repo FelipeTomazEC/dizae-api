@@ -8,7 +8,7 @@ export const itemCategoryRepositoryTests = (
   admin: Admin,
 ) => {
   const itemCategory = ItemCategory.create({
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     creatorId: admin.id.value,
     name: faker.commerce.productMaterial(),
   }).value as ItemCategory;
@@ -26,7 +26,7 @@ export const itemCategoryRepositoryTests = (
   it('should return all categories saved.', async () => {
     const createItemCategory = () =>
       ItemCategory.create({
-        createdAt: Date.now(),
+        createdAt: new Date(new Date().setMilliseconds(0)),
         creatorId: admin.id.value,
         name: faker.commerce
           .productMaterial()

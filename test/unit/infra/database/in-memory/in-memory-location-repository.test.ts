@@ -7,7 +7,7 @@ import { locationRepositoryTests } from '../common/location-repository-tests';
 describe('In memory location repository tests.', () => {
   const sut = InMemoryLocationRepository.getInstance();
   const category = ItemCategory.create({
-    createdAt: Date.now(),
+    createdAt: new Date(),
     creatorId: faker.datatype.uuid(),
     name: faker.commerce.productMaterial(),
   }).value as ItemCategory;

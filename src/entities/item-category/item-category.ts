@@ -2,7 +2,6 @@ import { ItemCategoryData } from '@entities/item-category/item-category-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getValueObjects } from '@utils/get-value-objects';
@@ -11,7 +10,7 @@ import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 interface Props {
   name: Name;
   creatorId: Id;
-  createdAt: Timestamp;
+  createdAt: Date;
 }
 
 export class ItemCategory {
@@ -27,7 +26,7 @@ export class ItemCategory {
     return this.props.creatorId;
   }
 
-  get createdAt(): Timestamp {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 

@@ -20,7 +20,7 @@ describe('Knex location repository tests.', () => {
   }).value as Admin;
 
   const testCategory = ItemCategory.create({
-    createdAt: Date.now(),
+    createdAt: new Date(),
     creatorId: testAdmin.id.value,
     name: faker.commerce.productMaterial().concat(faker.random.alphaNumeric()),
   }).value as ItemCategory;

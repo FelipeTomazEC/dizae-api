@@ -48,7 +48,7 @@ describe('Knex report repository tests.', () => {
   }).value as Reporter;
 
   const category = ItemCategory.create({
-    createdAt: Date.now(),
+    createdAt: new Date(),
     creatorId: admin.id.value,
     name: 'Category Tests',
   }).value as ItemCategory;

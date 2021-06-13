@@ -1,7 +1,5 @@
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
-
 export interface ItemCategorySchema {
-  created_at: Timestamp;
+  created_at: Date;
   creator_id: string;
   name: string;
 }

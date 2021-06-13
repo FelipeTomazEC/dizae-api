@@ -16,7 +16,7 @@ describe('Get item categories use case tests.', () => {
     categories = generateRandomCollection(
       () =>
         ItemCategory.create({
-          createdAt: Date.now(),
+          createdAt: new Date(),
           creatorId: faker.datatype.uuid(),
           name: faker.commerce.productMaterial(),
         }).value as ItemCategory,
@@ -29,7 +29,7 @@ describe('Get item categories use case tests.', () => {
   it('should return all item categories registered.', async () => {
     const categoriesCollection = categories.map((cat) => ({
       name: cat.name.value,
-      createdAt: cat.createdAt,
+      createdAt: cat.createdAt.getTime(),
     }));
 
     await sut.execute();

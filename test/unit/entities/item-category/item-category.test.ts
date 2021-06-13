@@ -11,7 +11,7 @@ describe('Category entity tests.', () => {
   const example: ItemCategoryData = {
     name: faker.commerce.product(),
     creatorId: faker.datatype.uuid(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
   };
 
   const getItemCategoryDataWithNullParams = getObjectWithNullProperty(example);

@@ -36,7 +36,7 @@ export class CreateItemCategoryUseCase implements UseCaseInputPort<Request> {
     }
 
     const categoryOrError = ItemCategory.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: admin!.id.value,
       name: request.name,
     });
