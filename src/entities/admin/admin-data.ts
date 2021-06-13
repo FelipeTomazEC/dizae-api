@@ -1,9 +1,9 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 
 export interface AdminData {
   id: string;
   name: string;
-  createdAt: Timestamp;
+  createdAt: Date;
   password: string;
   avatar: URL;
   email: string;

@@ -30,7 +30,7 @@ describe('Create item category use case tests.', () => {
   beforeAll(() => {
     admin = Admin.create({
       avatar: faker.internet.avatar(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: faker.internet.email(),
       id: request.adminId,
       name: faker.name.findName(),

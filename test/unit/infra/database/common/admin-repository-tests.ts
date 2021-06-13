@@ -7,7 +7,7 @@ import faker from 'faker';
 export const adminRepositoryTests = (sut: AdminRepository) => {
   const admin = Admin.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: faker.name.findName(),

@@ -47,7 +47,7 @@ describe('Add item to location use case tests.', () => {
 
     const admin = Admin.create({
       avatar: faker.image.avatar(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: faker.internet.email(),
       id: request.adminId,
       name: faker.name.findName(),

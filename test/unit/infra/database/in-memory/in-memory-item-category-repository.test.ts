@@ -7,7 +7,7 @@ describe('In memory item category repository tests.', () => {
   const sut = InMemoryItemCategoryRepository.getInstance();
   const admin = Admin.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Admin Tests',

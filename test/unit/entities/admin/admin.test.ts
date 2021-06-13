@@ -14,11 +14,11 @@ import * as faker from 'faker';
 describe('Admin entity tests.', () => {
   const example: AdminData = {
     avatar: faker.internet.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Test User Name',
-    password: faker.internet.password(15, false),
+    password: 'Some-$tr4nge_Pa$$0rd',
   };
 
   const getAdminDataWithNullProperty = getObjectWithNullProperty(example);
@@ -96,7 +96,7 @@ describe('Admin entity tests.', () => {
     expect(admin.name.value).toBe(example.name);
     expect(admin.id.value).toBe(example.id);
     expect(admin.avatar).toBe(example.avatar);
-    expect(admin.createdAt).toBe(example.createdAt);
+    expect(admin.createdAt).toStrictEqual(example.createdAt);
     expect(admin.email.value).toBe(example.email);
     expect(admin.password.value).toBe(example.password);
   });

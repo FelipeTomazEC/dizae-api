@@ -4,7 +4,7 @@ import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
 import { Password } from '@entities/shared/password/password';
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getValueObjects } from '@utils/get-value-objects';
@@ -14,7 +14,7 @@ interface Props {
   avatar: URL;
   id: Id;
   name: Name;
-  createdAt: Timestamp;
+  createdAt: Date;
   password: Password;
   email: Email;
 }
@@ -36,7 +36,7 @@ export class Admin {
     return this.props.name;
   }
 
-  get createdAt(): Timestamp {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 

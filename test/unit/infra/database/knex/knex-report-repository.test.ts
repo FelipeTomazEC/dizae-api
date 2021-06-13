@@ -23,7 +23,7 @@ describe('Knex report repository tests.', () => {
 
   const admin = Admin.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Admin Test',
@@ -35,7 +35,7 @@ describe('Knex report repository tests.', () => {
       createdAt: Date.now(),
       creatorId: admin.id.value,
       id: faker.datatype.uuid(),
-      name: faker.commerce.department(),
+      name: faker.commerce.department().concat(faker.random.alphaNumeric()),
     }).value as Location;
 
   const reporter = Reporter.create({

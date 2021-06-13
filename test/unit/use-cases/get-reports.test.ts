@@ -76,7 +76,7 @@ describe('Get reports use case tests.', () => {
 
     admin = Admin.create({
       avatar: faker.image.avatar(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: faker.internet.email(),
       id: faker.datatype.uuid(),
       name: 'Lobby',

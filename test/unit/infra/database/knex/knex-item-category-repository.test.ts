@@ -10,7 +10,7 @@ describe('Knex item category repository tests.', () => {
   const sut = new KnexItemCategoryRepository(connection);
   const testAdmin = Admin.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Admin Tests',

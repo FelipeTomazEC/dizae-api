@@ -12,7 +12,7 @@ describe('Knex location repository tests.', () => {
   const sut = new KnexLocationRepository(connection);
   const testAdmin = Admin.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Admin Tests',
@@ -22,7 +22,7 @@ describe('Knex location repository tests.', () => {
   const testCategory = ItemCategory.create({
     createdAt: Date.now(),
     creatorId: testAdmin.id.value,
-    name: faker.commerce.productMaterial(),
+    name: faker.commerce.productMaterial().concat(faker.random.alphaNumeric()),
   }).value as ItemCategory;
 
   beforeAll(async () => {

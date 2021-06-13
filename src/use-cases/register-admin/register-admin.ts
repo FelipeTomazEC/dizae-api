@@ -23,7 +23,7 @@ export class RegisterAdminUseCase implements UseCaseInputPort<Request> {
 
     const adminOrError = Admin.create({
       avatar: request.avatar,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: request.email,
       id: idGenerator.generate().value,
       name: request.name,

@@ -62,7 +62,7 @@ describe('Register admin use case tests.', () => {
   it('should save the admin in the repository and send the id to the presenter.', async () => {
     const admin = Admin.create({
       avatar: request.avatar,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: request.email,
       id: id.value,
       name: request.name,

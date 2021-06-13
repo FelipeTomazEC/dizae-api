@@ -42,7 +42,7 @@ describe('Authenticate admin use case tests.', () => {
   beforeAll(() => {
     admin = Admin.create({
       avatar: faker.internet.avatar(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       email: request.email,
       id: faker.datatype.uuid(),
       name: faker.name.findName(),

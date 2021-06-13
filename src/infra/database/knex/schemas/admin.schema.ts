@@ -1,4 +1,4 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 
 export interface AdminSchema {
   id: string;
@@ -6,5 +6,5 @@ export interface AdminSchema {
   name: string;
   email: string;
   password: string;
-  createdAt: Timestamp;
+  createdAt: Date;
 }

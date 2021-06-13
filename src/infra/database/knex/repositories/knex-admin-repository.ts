@@ -16,7 +16,7 @@ export class KnexAdminRepository implements AdminRepository {
       .first();
 
     return !isNullOrUndefined(record)
-      ? (Admin.create(record!).value as Admin)
+      ? KnexAdminRepository.mapSchemaToEntity(record!)
       : undefined;
   }
 
@@ -40,8 +40,19 @@ export class KnexAdminRepository implements AdminRepository {
       .first();
 
     return !isNullOrUndefined(schema)
-      ? (Admin.create(schema!).value as Admin)
+      ? KnexAdminRepository.mapSchemaToEntity(schema!)
       : undefined;
+  }
+
+  private static mapSchemaToEntity(schema: AdminSchema): Admin {
+    return Admin.create({
+      avatar: schema.avatar,
+      createdAt: new Date(schema.createdAt),
+      email: schema.email,
+      id: schema.id,
+      name: schema.name,
+      password: schema.password,
+    }).value as Admin;
   }
 
   private static mapEntityToSchema(admin: Admin): AdminSchema {

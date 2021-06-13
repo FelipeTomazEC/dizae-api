@@ -50,7 +50,7 @@ export const locationRepositoryTests = (
         createdAt: Date.now(),
         creatorId: admin.id.value,
         id: faker.datatype.uuid(),
-        name: faker.commerce.department(),
+        name: faker.commerce.department().concat(faker.random.alphaNumeric()),
       }).value as Location;
 
       const item = Item.create({
@@ -58,7 +58,7 @@ export const locationRepositoryTests = (
         createdAt: Date.now(),
         creatorId: admin.id.value,
         image: faker.image.image(),
-        name: faker.commerce.product(),
+        name: faker.commerce.product().concat(faker.random.alphaNumeric()),
       }).value as Item;
 
       loc.addItem(item);
