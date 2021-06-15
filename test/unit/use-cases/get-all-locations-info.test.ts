@@ -17,7 +17,7 @@ describe('Get all locations info use case tests.', () => {
     locations = generateRandomCollection<Location>(
       () =>
         Location.create({
-          createdAt: Date.now(),
+          createdAt: new Date(new Date().setMilliseconds(0)),
           creatorId: faker.datatype.uuid(),
           id: faker.datatype.uuid(),
           name: faker.commerce.department(),

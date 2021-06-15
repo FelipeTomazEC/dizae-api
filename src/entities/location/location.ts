@@ -2,7 +2,6 @@ import { LocationData } from '@entities/location/location-data';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getValueObjects } from '@utils/get-value-objects';
@@ -12,7 +11,7 @@ import { Item } from './item/item';
 interface Props {
   id: Id;
   creatorId: Id;
-  createdAt: Timestamp;
+  createdAt: Date;
   name: Name;
 }
 
@@ -32,7 +31,7 @@ export class Location {
     return this.props.creatorId;
   }
 
-  get createdAt(): Timestamp {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 

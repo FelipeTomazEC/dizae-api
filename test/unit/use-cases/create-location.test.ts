@@ -51,7 +51,6 @@ describe('Create location use case tests.', () => {
   beforeAll(() => {
     jest.spyOn(adminRepo, 'getById').mockResolvedValue(admin);
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
-    jest.spyOn(Date, 'now').mockReturnValue(Date.now());
     jest.spyOn(locationRepo, 'exists').mockResolvedValue(false);
   });
 
@@ -87,14 +86,8 @@ describe('Create location use case tests.', () => {
 
   it('should save the new location and send the id to the presenter.', async () => {
     await sut.execute(request);
-    const location = Location.create({
-      createdAt: Date.now(),
-      creatorId: request.adminId,
-      id: id.value,
-      name: request.name,
-    }).value as Location;
 
-    expect(locationRepo.save).toBeCalledWith(location);
+    expect(locationRepo.save).toBeCalled();
     expect(presenter.success).toBeCalledWith({
       locationId: id.value,
     });

@@ -37,7 +37,7 @@ export class CreateLocationUseCase implements UseCaseInputPort<Request> {
     }
 
     const locationOrError = Location.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: creator!.id.value,
       id: idGenerator.generate().value,
       name: request.name,

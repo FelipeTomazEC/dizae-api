@@ -62,7 +62,7 @@ describe('Create report use case tests.', () => {
       name: faker.commerce.department(),
       creatorId: faker.datatype.uuid(),
       id: request.locationId,
-      createdAt: Date.now(),
+      createdAt: new Date(),
     }).value as Location;
 
     item = Item.create({

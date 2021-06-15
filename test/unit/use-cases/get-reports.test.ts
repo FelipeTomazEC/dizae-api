@@ -68,7 +68,7 @@ describe('Get reports use case tests.', () => {
     reporterOne = createReporter('Reporter 1');
     reporterTwo = createReporter('Reporter 2');
     location = Location.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: faker.datatype.uuid(),
       id: faker.datatype.uuid(),
       name: faker.commerce.department(),
@@ -84,7 +84,7 @@ describe('Get reports use case tests.', () => {
     }).value as Admin;
 
     location = Location.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: faker.datatype.uuid(),
       id: faker.datatype.uuid(),
       name: faker.commerce.department(),

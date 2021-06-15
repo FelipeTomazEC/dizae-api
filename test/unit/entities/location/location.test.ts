@@ -12,7 +12,7 @@ import * as faker from 'faker';
 describe('Location entity tests.', () => {
   const example: LocationData = {
     name: 'SOME location HeRe',
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     id: faker.datatype.uuid(),
     creatorId: faker.datatype.uuid(),
   };

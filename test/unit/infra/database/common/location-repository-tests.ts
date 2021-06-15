@@ -13,7 +13,7 @@ export const locationRepositoryTests = (
   category: ItemCategory,
 ): void => {
   const location = Location.create({
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     creatorId: admin.id.value,
     id: faker.datatype.uuid(),
     name: faker.commerce.department(),
@@ -47,7 +47,7 @@ export const locationRepositoryTests = (
   it('should return all locations, include their items.', async () => {
     const createLocation = () => {
       const loc = Location.create({
-        createdAt: Date.now(),
+        createdAt: new Date(new Date().setMilliseconds(0)),
         creatorId: admin.id.value,
         id: faker.datatype.uuid(),
         name: faker.commerce.department().concat(faker.random.alphaNumeric()),
@@ -87,7 +87,7 @@ export const locationRepositoryTests = (
     const newLocation = Location.create({
       id: faker.datatype.uuid(),
       name: 'User Test',
-      createdAt: Date.now(),
+      createdAt: new Date(new Date().setMilliseconds(0)),
       creatorId: admin.id.value,
     }).value as Location;
 

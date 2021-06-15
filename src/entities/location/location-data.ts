@@ -1,8 +1,6 @@
-import { Timestamp } from '@entities/shared/renamed-primitive-types';
-
 export interface LocationData {
   id: string;
-  createdAt: Timestamp;
+  createdAt: Date;
   creatorId: string;
   name: string;
 }

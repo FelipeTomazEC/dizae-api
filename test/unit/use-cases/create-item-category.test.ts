@@ -1,5 +1,4 @@
 import { Admin } from '@entities/admin/admin';
-import { ItemCategory } from '@entities/item-category/item-category';
 import { Name } from '@entities/shared/name/name';
 import { getMock } from '@test/test-helpers/get-mock';
 import { CreateItemCategoryUseCase } from '@use-cases/create-item-category/create-item-category';
@@ -63,14 +62,8 @@ describe('Create item category use case tests.', () => {
   });
 
   it('should save the category.', async () => {
-    const category = ItemCategory.create({
-      createdAt: new Date(),
-      creatorId: request.adminId,
-      name: request.name,
-    }).value as ItemCategory;
-
     await sut.execute(request);
 
-    expect(itemCategoryRepo.save).toBeCalledWith(category);
+    expect(itemCategoryRepo.save).toBeCalled();
   });
 });

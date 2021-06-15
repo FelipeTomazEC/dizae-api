@@ -40,7 +40,7 @@ describe('Add item to location use case tests.', () => {
 
     location = Location.create({
       name: faker.commerce.department(),
-      createdAt: Date.now(),
+      createdAt: new Date(new Date().setMilliseconds(0)),
       creatorId: faker.datatype.uuid(),
       id: request.locationId,
     }).value as Location;

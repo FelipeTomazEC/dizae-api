@@ -32,7 +32,7 @@ describe('Knex report repository tests.', () => {
 
   const createLocation = () =>
     Location.create({
-      createdAt: Date.now(),
+      createdAt: new Date(new Date().setMilliseconds(0)),
       creatorId: admin.id.value,
       id: faker.datatype.uuid(),
       name: faker.commerce.department().concat(faker.random.alphaNumeric()),

@@ -32,7 +32,7 @@ describe('Get items from a location use case.', () => {
       }).value as Item;
 
     location = Location.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: faker.datatype.uuid(),
       id: request.locationId,
       name: faker.commerce.department(),
