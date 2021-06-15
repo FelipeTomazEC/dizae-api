@@ -36,7 +36,7 @@ export class GetItemsFromLocationUseCase implements UseCaseInputPort<Request> {
       image: item.image,
       name: item.name.value,
       category: item.categoryName.value,
-      createdAt: item.createdAt,
+      createdAt: item.createdAt.getTime(),
     }));
 
     return presenter.success({ items });

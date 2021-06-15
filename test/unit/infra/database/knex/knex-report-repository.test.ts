@@ -55,7 +55,7 @@ describe('Knex report repository tests.', () => {
 
   const item = Item.create({
     categoryName: category.name.value,
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     creatorId: admin.id.value,
     image: faker.image.image(),
     name: 'Item Test',

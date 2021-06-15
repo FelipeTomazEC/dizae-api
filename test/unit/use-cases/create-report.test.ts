@@ -67,7 +67,7 @@ describe('Create report use case tests.', () => {
 
     item = Item.create({
       categoryName: faker.commerce.productMaterial(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: faker.datatype.uuid(),
       image: faker.image.image(),
       name: request.itemName,

@@ -55,7 +55,7 @@ export const locationRepositoryTests = (
 
       const item = Item.create({
         categoryName: category.name.value,
-        createdAt: Date.now(),
+        createdAt: new Date(new Date().setMilliseconds(0)),
         creatorId: admin.id.value,
         image: faker.image.image(),
         name: faker.commerce.product().concat(faker.random.alphaNumeric()),

@@ -59,7 +59,7 @@ export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
 
     const itemOrError = Item.create({
       categoryName: request.categoryName,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: request.adminId,
       image: request.image,
       name: request.name,

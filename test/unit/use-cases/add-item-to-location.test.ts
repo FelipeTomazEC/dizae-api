@@ -103,7 +103,7 @@ describe('Add item to location use case tests.', () => {
   it('should insert the new item in the location.', async () => {
     const item = Item.create({
       categoryName: request.categoryName,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: request.adminId,
       image: request.image,
       name: request.name,
@@ -111,7 +111,14 @@ describe('Add item to location use case tests.', () => {
 
     await sut.execute(request);
 
-    expect(location.getItems()).toContainEqual(item);
+    const inserted = location.getItem(item.name);
+
+    expect(inserted?.image).toBe(item.image);
+    expect(inserted?.categoryName).toStrictEqual(item.categoryName);
+    expect(inserted?.creatorId).toStrictEqual(item.creatorId);
+    expect(inserted?.createdAt.setMilliseconds(0)).toStrictEqual(
+      item.createdAt.setMilliseconds(0),
+    );
   });
 
   it('should update the location in the repository and inform the presenter.', async () => {

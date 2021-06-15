@@ -13,7 +13,7 @@ describe('Item entity tests.', () => {
     creatorId: faker.datatype.uuid(),
     image: faker.image.image(),
     categoryName: faker.commerce.productMaterial(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
   };
 
   const getItemWithNullProps = getObjectWithNullProperty(example);

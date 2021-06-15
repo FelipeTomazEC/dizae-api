@@ -20,7 +20,7 @@ describe('Location entity tests.', () => {
   const createItem = (): Item =>
     Item.create({
       categoryName: faker.commerce.productMaterial(),
-      createdAt: Date.now(),
+      createdAt: new Date(new Date().setMilliseconds(0)),
       creatorId: faker.datatype.uuid(),
       image: faker.image.image(),
       name: faker.commerce.product(),

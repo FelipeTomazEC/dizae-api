@@ -21,11 +21,10 @@ describe('Get items from a location use case.', () => {
   let location: Location;
 
   beforeAll(() => {
-    jest.spyOn(Date, 'now').mockReturnValue(Date.now());
     const createItem = (): Item =>
       Item.create({
         categoryName: faker.commerce.productMaterial(),
-        createdAt: Date.now(),
+        createdAt: new Date(new Date().setMilliseconds(0)),
         creatorId: faker.datatype.uuid(),
         image: faker.image.image(),
         name: faker.commerce.productName(),
@@ -73,7 +72,7 @@ describe('Get items from a location use case.', () => {
       image: item.image,
       name: item.name.value,
       category: item.categoryName.value,
-      createdAt: item.createdAt,
+      createdAt: item.createdAt.getTime(),
     }));
 
     await sut.execute(request);

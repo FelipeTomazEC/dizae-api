@@ -60,18 +60,9 @@ describe('Register admin use case tests.', () => {
   });
 
   it('should save the admin in the repository and send the id to the presenter.', async () => {
-    const admin = Admin.create({
-      avatar: request.avatar,
-      createdAt: new Date(),
-      email: request.email,
-      id: id.value,
-      name: request.name,
-      password: encodedPassword.value,
-    }).value as Admin;
-
     await sut.execute(request);
 
-    expect(adminRepo.save).toBeCalledWith(admin);
+    expect(adminRepo.save).toBeCalled();
     expect(presenter.success).toBeCalledWith({
       adminId: id.value,
     });

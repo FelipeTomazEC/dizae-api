@@ -1,8 +1,8 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 
 export interface ItemSchema {
   name: string;
-  created_at: Timestamp;
+  created_at: Date;
   creator_id: string;
   location_id: string;
   category_name: string;

@@ -133,7 +133,7 @@ export class KnexLocationRepository implements LocationRepository {
   private static mapItemSchemaToItem(schema: ItemSchema): Item {
     return Item.create({
       categoryName: schema.category_name,
-      createdAt: schema.created_at,
+      createdAt: new Date(schema.created_at),
       creatorId: schema.creator_id,
       image: schema.image,
       name: schema.name,
