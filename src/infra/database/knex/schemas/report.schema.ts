@@ -1,5 +1,5 @@
 import { Status } from '@entities/report/status';
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 
 export interface ReportSchema {
   id: string;
@@ -10,5 +10,5 @@ export interface ReportSchema {
   item_name: string;
   image: URL;
   status: Status;
-  created_at: Timestamp;
+  created_at: Date;
 }

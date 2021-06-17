@@ -79,7 +79,7 @@ export class KnexReportRepository implements ReportRepository {
 
   private static mapSchemaToReport(schema: ReportSchema): Report {
     return Report.create({
-      createdAt: schema.created_at,
+      createdAt: new Date(schema.created_at),
       creatorId: schema.reporter_id,
       description: schema.description,
       id: schema.id,

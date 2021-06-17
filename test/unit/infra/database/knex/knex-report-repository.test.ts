@@ -65,9 +65,13 @@ describe('Knex report repository tests.', () => {
     status: Status,
     location: Location,
     createdAt?: Timestamp,
-  ) =>
-    Report.create({
-      createdAt: createdAt ?? Math.floor(1000 + Math.random() * 9929),
+  ) => {
+    const timestamp = new Date(
+      createdAt ?? Math.floor(1000 + Math.random() * 9929),
+    ).setMilliseconds(0);
+
+    return Report.create({
+      createdAt: new Date(timestamp),
       creatorId: reporter.id.value,
       description: 'Some fake description',
       id: faker.datatype.uuid(),
@@ -77,6 +81,7 @@ describe('Knex report repository tests.', () => {
       status,
       title: 'Some fake title',
     }).value as Report;
+  };
 
   const location1 = createLocation();
   const location2 = createLocation();
@@ -114,7 +119,9 @@ describe('Knex report repository tests.', () => {
 
     await Promise.all(reports.map((r) => sut.save(r)));
 
-    const ordered = [...reports].sort((a, b) => a.createdAt - b.createdAt);
+    const ordered = [...reports].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+    );
     const firstPage = await sut.getAll({}, new Pagination(0, 5));
     const secondPage = await sut.getAll({}, new Pagination(5, 12));
 

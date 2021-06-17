@@ -64,7 +64,7 @@ export class GetReportsUseCase implements UseCaseInputPort<GetReportsRequest> {
         const reporter = await reporterRepo.getReporterById(r.creatorId);
 
         const data: GetSingleReportResponse = {
-          createdAt: r.createdAt,
+          createdAt: r.createdAt.getTime(),
           description: r.description.value,
           id: r.id.value,
           image: r.image,

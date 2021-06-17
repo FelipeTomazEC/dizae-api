@@ -1,7 +1,5 @@
 import { Item } from '@entities/location/item/item';
 import { Location } from '@entities/location/location';
-import { Report } from '@entities/report/report';
-import { Status } from '@entities/report/status';
 import { Reporter } from '@entities/reporter/reporter';
 import { Id } from '@entities/shared/id/id';
 import { getMock } from '@test/test-helpers/get-mock';
@@ -118,21 +116,9 @@ describe('Create report use case tests.', () => {
   });
 
   it('should save the new report in the repository and return its id.', async () => {
-    const report = Report.create({
-      createdAt: Date.now(),
-      creatorId: reporter.id.value,
-      description: request.description,
-      id: id.value,
-      image: request.image,
-      itemLocationId: location.id.value,
-      itemName: item.name.value,
-      status: Status.PENDING,
-      title: request.title,
-    }).value as Report;
-
     await sut.execute(request);
 
-    expect(reportRepository.save).toBeCalledWith(report);
+    expect(reportRepository.save).toBeCalled();
     expect(presenter.success).toBeCalledWith({
       newReportId: id.value,
     });

@@ -1,9 +1,9 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 import { Status } from '@entities/report/status';
 
 export interface ReportData {
   id: string;
-  createdAt: Timestamp;
+  createdAt: Date;
   image: URL;
   creatorId: string;
   itemName: string;

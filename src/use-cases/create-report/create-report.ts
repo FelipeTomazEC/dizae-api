@@ -64,7 +64,7 @@ export class CreateReportUseCase implements UseCaseInputPort<Request> {
 
     const id = idGenerator.generate();
     const newReportOrError = Report.create({
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: reporter.id.value,
       description: request.description,
       itemLocationId: location.id.value,

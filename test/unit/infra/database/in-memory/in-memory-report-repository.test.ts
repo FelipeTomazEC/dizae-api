@@ -13,7 +13,7 @@ describe('In memory report repository tests.', () => {
   const sut: ReportRepository = InMemoryReportRepository.getInstance();
 
   const report = Report.create({
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     creatorId: faker.datatype.uuid(),
     description: faker.lorem.words(5),
     id: faker.datatype.uuid(),
@@ -25,25 +25,28 @@ describe('In memory report repository tests.', () => {
   }).value as Report;
 
   it('should return the reports according to pagination.', async () => {
-    const reports = generateRandomCollection(
-      () =>
-        Report.create({
-          createdAt: Math.floor(1000 + Math.random() * 9929),
-          creatorId: faker.datatype.uuid(),
-          description: 'Some fake description',
-          id: faker.datatype.uuid(),
-          image: faker.image.image(),
-          itemLocationId: faker.datatype.uuid(),
-          itemName: faker.commerce.product(),
-          status: Status.REJECTED,
-          title: 'Some fake title',
-        }).value as Report,
-      1000,
-    );
+    const reports = generateRandomCollection(() => {
+      const timestamp = new Date(
+        Math.floor(1000 + Math.random() * 9929),
+      ).setMilliseconds(0);
+      return Report.create({
+        createdAt: new Date(timestamp),
+        creatorId: faker.datatype.uuid(),
+        description: 'Some fake description',
+        id: faker.datatype.uuid(),
+        image: faker.image.image(),
+        itemLocationId: faker.datatype.uuid(),
+        itemName: faker.commerce.product(),
+        status: Status.REJECTED,
+        title: 'Some fake title',
+      }).value as Report;
+    }, 1000);
 
     await Promise.all(reports.map((r) => sut.save(r)));
 
-    const ordered = [...reports].sort((a, b) => a.createdAt - b.createdAt);
+    const ordered = [...reports].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+    );
     const firstPage = await sut.getAll({}, new Pagination(0, 5));
     const secondPage = await sut.getAll({}, new Pagination(5, 12));
 
@@ -53,7 +56,7 @@ describe('In memory report repository tests.', () => {
 
   it('should filter correctly.', async () => {
     const report1 = Report.create({
-      createdAt: 1,
+      createdAt: new Date(Date.now() - 1000),
       creatorId: faker.datatype.uuid(),
       description: faker.lorem.words(3),
       id: faker.datatype.uuid(),
@@ -65,7 +68,7 @@ describe('In memory report repository tests.', () => {
     }).value as Report;
 
     const report2 = Report.create({
-      createdAt: 12,
+      createdAt: new Date(Date.now()),
       creatorId: faker.datatype.uuid(),
       description: faker.lorem.words(5),
       id: faker.datatype.uuid(),

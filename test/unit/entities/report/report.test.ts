@@ -12,7 +12,7 @@ import * as faker from 'faker';
 describe('Report entity tests', () => {
   const example: ReportData = {
     id: faker.datatype.uuid(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     creatorId: faker.datatype.uuid(),
     itemLocationId: faker.datatype.uuid(),
     itemName: faker.commerce.productName(),

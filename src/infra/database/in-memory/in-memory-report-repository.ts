@@ -34,14 +34,14 @@ export class InMemoryReportRepository implements ReportRepository {
   ): Promise<Report[]> {
     const { status, since, locationsIds } = filters;
     const result = Array.from(this.records.values())
-      .sort((r1, r2) => r1.createdAt - r2.createdAt)
+      .sort((r1, r2) => r1.createdAt.getTime() - r2.createdAt.getTime())
       .filter(
         (r) =>
           !locationsIds ||
           locationsIds.some((l) => r.item.locationId.value === l),
       )
       .filter((r) => !status || status.some((s) => r.status === s))
-      .filter((r) => !since || r.createdAt >= since);
+      .filter((r) => !since || r.createdAt.getTime() >= since);
 
     return Promise.resolve(result.splice(pagination.start, pagination.offset));
   }

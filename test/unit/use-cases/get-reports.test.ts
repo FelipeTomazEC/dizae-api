@@ -92,7 +92,7 @@ describe('Get reports use case tests.', () => {
 
     const makeReport = (reporter: Reporter) => () =>
       Report.create({
-        createdAt: Date.now(),
+        createdAt: new Date(),
         id: faker.datatype.uuid(),
         creatorId: reporter.id.value,
         description: faker.lorem.words(6),
@@ -132,7 +132,7 @@ describe('Get reports use case tests.', () => {
     const reports = reporterOneReports.map((report) => ({
       title: report.title.value,
       description: report.description.value,
-      createdAt: report.createdAt,
+      createdAt: report.createdAt.getTime(),
       item: report.item.name.value,
       status: Status.PENDING,
       location: location.name.value,
@@ -157,7 +157,7 @@ describe('Get reports use case tests.', () => {
       return {
         title: report.title.value,
         description: report.description.value,
-        createdAt: report.createdAt,
+        createdAt: report.createdAt.getTime(),
         item: report.item.name.value,
         status: Status.PENDING,
         location: location.name.value,

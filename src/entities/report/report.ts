@@ -5,7 +5,7 @@ import { Status } from '@entities/report/status';
 import { Title } from '@entities/report/title/title';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 import { Either, left, right } from '@shared/either.type';
 import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getValueObjects } from '@utils/get-value-objects';
@@ -15,7 +15,7 @@ interface Props {
   id: Id;
   title: Title;
   description: Description;
-  createdAt: Timestamp;
+  createdAt: Date;
   creatorId: Id;
   item: ReportItem;
   image: URL;
@@ -39,7 +39,7 @@ export class Report {
     return this.props.description;
   }
 
-  get createdAt(): Timestamp {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 
