@@ -57,6 +57,8 @@ export class AuthenticateReporterUseCase implements UseCaseInputPort<Request> {
     );
 
     return presenter.success({
+      avatar: reporter.avatar,
+      name: reporter.name.value,
       credentials,
       expiresIn: AuthenticateReporterUseCase.CREDENTIALS_TTL_IN_SECONDS,
     });

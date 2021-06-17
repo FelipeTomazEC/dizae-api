@@ -52,6 +52,11 @@ export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
 
     const credentials = await authService.generateCredentials(admin, 3600);
 
-    return presenter.success({ credentials, expiresIn: 3600 });
+    return presenter.success({
+      name: admin.name.value,
+      avatar: admin.avatar,
+      credentials,
+      expiresIn: 3600,
+    });
   }
 }

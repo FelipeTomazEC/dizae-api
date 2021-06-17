@@ -104,6 +104,8 @@ describe('Authenticate admin use case tests.', () => {
     await sut.execute(request);
 
     expect(presenter.success).toBeCalledWith({
+      name: admin.name.value,
+      avatar: admin.avatar,
       credentials: token,
       expiresIn: 3600,
     });

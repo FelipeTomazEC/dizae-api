@@ -38,8 +38,10 @@ describe('Authenticate reporter use case tests.', () => {
     password: 's0m3P@$$word',
   };
 
+  let reporter: Reporter;
+
   beforeAll(() => {
-    const reporter = Reporter.create({
+    reporter = Reporter.create({
       id: faker.datatype.uuid(),
       name: faker.name.firstName(),
       password: '$om3pAssword',
@@ -97,6 +99,8 @@ describe('Authenticate reporter use case tests.', () => {
 
     expect(presenter.success).toBeCalledWith({
       credentials: 'some-crazy-token',
+      name: reporter.name.value,
+      avatar: reporter.avatar,
       expiresIn: AuthenticateReporterUseCase.CREDENTIALS_TTL_IN_SECONDS,
     });
   });
