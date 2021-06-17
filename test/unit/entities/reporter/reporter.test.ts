@@ -10,7 +10,7 @@ describe('Reporter entity tests.', () => {
   const example: ReporterData = {
     id: faker.datatype.uuid(),
     name: 'User Tester',
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     password: faker.internet.password().concat('6'),
     avatar: faker.internet.avatar(),

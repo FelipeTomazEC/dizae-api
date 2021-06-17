@@ -1,10 +1,10 @@
-import { Timestamp, URL } from '@entities/shared/renamed-primitive-types';
+import { URL } from '@entities/shared/renamed-primitive-types';
 
 export interface ReporterData {
   id: string;
   name: string;
   email: string;
-  createdAt: Timestamp;
+  createdAt: Date;
   password: string;
   avatar: URL;
 }

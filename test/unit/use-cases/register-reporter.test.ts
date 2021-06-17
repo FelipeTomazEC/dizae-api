@@ -52,26 +52,13 @@ describe('Register Reporter use case tests.', () => {
   });
 
   it('should encrypt the password before saving the user.', async () => {
-    const createdAt = Date.now();
-    const id = Id.create({ value: faker.datatype.uuid() }).value as Id;
-    const encodedPassword = Password.create({ value: '3nc0DedP@$$word' })
+    const password = Password.create({ value: request.password })
       .value as Password;
-    jest.spyOn(Date, 'now').mockReturnValueOnce(createdAt);
-    jest.spyOn(idGenerator, 'generate').mockReturnValueOnce(id);
-    jest.spyOn(encoder, 'encode').mockReturnValueOnce(encodedPassword);
-
-    const reporter = Reporter.create({
-      email: request.email,
-      name: request.name,
-      avatar: request.avatar,
-      id: id.value,
-      password: encodedPassword.value,
-      createdAt,
-    }).value as Reporter;
 
     await sut.execute(request);
 
-    expect(repository.save).toBeCalledWith(reporter);
+    expect(encoder.encode).toBeCalledWith(password);
+    expect(repository.save).toBeCalled();
   });
 
   it('should pass any validation errors through the failure method of the presenter.', async () => {

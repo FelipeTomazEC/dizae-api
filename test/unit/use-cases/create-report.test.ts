@@ -49,7 +49,7 @@ describe('Create report use case tests.', () => {
   beforeAll(() => {
     reporter = Reporter.create({
       name: 'Test User',
-      createdAt: Date.now(),
+      createdAt: new Date(),
       avatar: faker.internet.avatar(),
       email: faker.internet.email(),
       id: request.reporterId,

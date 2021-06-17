@@ -9,7 +9,7 @@ describe('JWT auth service implementation tests', () => {
 
   const reporter = Reporter.create({
     avatar: faker.internet.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: faker.name.findName(),

@@ -6,7 +6,7 @@ import faker from 'faker';
 export const reporterRepositoryTests = (sut: ReporterRepository): void => {
   const testReporter = Reporter.create({
     avatar: faker.internet.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(new Date().setMilliseconds(0)),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: faker.name.findName(),

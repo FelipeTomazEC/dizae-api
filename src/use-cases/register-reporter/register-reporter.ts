@@ -26,7 +26,7 @@ export class RegisterReporterUseCase implements UseCaseInputPort<Request> {
       email: request.email,
       avatar: request.avatar,
       name: request.name,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       password: request.password,
     });
 

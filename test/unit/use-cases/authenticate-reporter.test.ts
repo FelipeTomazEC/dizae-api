@@ -44,7 +44,7 @@ describe('Authenticate reporter use case tests.', () => {
       name: faker.name.firstName(),
       password: '$om3pAssword',
       email: faker.internet.email(),
-      createdAt: Date.now(),
+      createdAt: new Date(),
       avatar: faker.internet.avatar(),
     }).value as Reporter;
 

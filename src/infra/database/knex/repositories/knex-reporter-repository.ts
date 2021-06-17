@@ -66,7 +66,7 @@ export class KnexReporterRepository implements ReporterRepository {
   private static mapSchemaToReporter(schema: ReporterSchema): Reporter {
     return Reporter.create({
       avatar: schema.avatar,
-      createdAt: schema.created_at,
+      createdAt: new Date(schema.created_at),
       email: schema.email,
       id: schema.id,
       name: schema.name,

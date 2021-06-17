@@ -58,7 +58,7 @@ describe('Get reports use case tests.', () => {
     const createReporter = (name: string) =>
       Reporter.create({
         avatar: faker.image.avatar(),
-        createdAt: Date.now(),
+        createdAt: new Date(),
         email: `${name.split(' ')[0]}@email.com`,
         id: faker.datatype.uuid(),
         name,

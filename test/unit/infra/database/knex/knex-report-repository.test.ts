@@ -40,7 +40,7 @@ describe('Knex report repository tests.', () => {
 
   const reporter = Reporter.create({
     avatar: faker.image.avatar(),
-    createdAt: Date.now(),
+    createdAt: new Date(),
     email: faker.internet.email(),
     id: faker.datatype.uuid(),
     name: 'Reporter Test',
