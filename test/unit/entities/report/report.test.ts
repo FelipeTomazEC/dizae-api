@@ -13,6 +13,7 @@ describe('Report entity tests', () => {
   const example: ReportData = {
     id: faker.datatype.uuid(),
     createdAt: new Date(),
+    updatedAt: new Date(0),
     creatorId: faker.datatype.uuid(),
     itemLocationId: faker.datatype.uuid(),
     itemName: faker.commerce.productName(),
@@ -121,5 +122,14 @@ describe('Report entity tests', () => {
     expect(report.image).toBe(example.image);
     expect(report.creatorId.value).toBe(example.creatorId);
     expect(report.id.value).toBe(example.id);
+  });
+
+  it('should have an updated at value.', () => {
+    const data1 = getReportDataWithNullProperty('updatedAt');
+    const report1 = Report.create(data1).value as Report;
+    const report2 = Report.create(example).value as Report;
+
+    expect(report1.updatedAt).toEqual(data1.createdAt);
+    expect(report2.updatedAt).toEqual(example.updatedAt);
   });
 });
