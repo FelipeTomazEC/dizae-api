@@ -16,6 +16,7 @@ interface Props {
   title: Title;
   description: Description;
   createdAt: Date;
+  updatedAt: Date;
   creatorId: Id;
   item: ReportItem;
   image: URL;
@@ -59,6 +60,10 @@ export class Report {
     return this.props.status;
   }
 
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
+
   static create(
     data: ReportData,
   ): Either<MissingParamError | InvalidParamError, Report> {
@@ -70,7 +75,7 @@ export class Report {
     const titleOrError = Title.create({ value: data.title });
     const descriptionOrError = Description.create({ value: data.description });
     const idOrError = Id.create({ value: data.id });
-    const { image, createdAt, status } = data;
+    const { image, createdAt, status, updatedAt } = data;
 
     if (reportItemOrError.isLeft()) {
       return left(reportItemOrError.value);
@@ -104,6 +109,7 @@ export class Report {
 
     return right(
       new Report({
+        updatedAt: updatedAt ?? createdAt,
         status,
         image,
         item,

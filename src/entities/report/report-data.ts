@@ -4,6 +4,7 @@ import { Status } from '@entities/report/status';
 export interface ReportData {
   id: string;
   createdAt: Date;
+  updatedAt?: Date;
   image: URL;
   creatorId: string;
   itemName: string;
