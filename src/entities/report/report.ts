@@ -64,6 +64,13 @@ export class Report {
     return this.props.updatedAt;
   }
 
+  changeReportStatus(status: Status): void {
+    if (this.status === Status.PENDING) {
+      this.props.status = status;
+      this.props.updatedAt = new Date();
+    }
+  }
+
   static create(
     data: ReportData,
   ): Either<MissingParamError | InvalidParamError, Report> {
