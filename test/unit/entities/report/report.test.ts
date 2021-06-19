@@ -132,4 +132,32 @@ describe('Report entity tests', () => {
     expect(report1.updatedAt).toEqual(data1.createdAt);
     expect(report2.updatedAt).toEqual(example.updatedAt);
   });
+
+  it('should change the status of the report.', () => {
+    const report1 = Report.create(example).value as Report;
+    const report2 = Report.create(example).value as Report;
+    report1.changeReportStatus(Status.REJECTED);
+    report2.changeReportStatus(Status.SOLVED);
+
+    expect(report1.status).toBe(Status.REJECTED);
+    expect(report1.updatedAt).not.toEqual(example.updatedAt);
+    expect(report2.status).toBe(Status.SOLVED);
+    expect(report2.updatedAt).not.toEqual(example.updatedAt);
+  });
+
+  it('should not change the status in final states.', () => {
+    const solved = Report.create({ ...example, status: Status.SOLVED })
+      .value as Report;
+    const rejected = Report.create({ ...example, status: Status.REJECTED })
+      .value as Report;
+    solved.changeReportStatus(Status.PENDING);
+    solved.changeReportStatus(Status.REJECTED);
+    rejected.changeReportStatus(Status.PENDING);
+    rejected.changeReportStatus(Status.SOLVED);
+
+    expect(solved.status).toBe(Status.SOLVED);
+    expect(solved.updatedAt).toBe(example.updatedAt);
+    expect(rejected.status).toBe(Status.REJECTED);
+    expect(rejected.updatedAt).toBe(example.updatedAt);
+  });
 });
