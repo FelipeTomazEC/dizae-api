@@ -161,4 +161,23 @@ describe('Knex report repository tests.', () => {
       sut.save(createReport(Status.PENDING, location1)),
     ).resolves.not.toThrow();
   });
+
+  it('should get the report of the given id', async () => {
+    const report = createReport(Status.SOLVED, location1);
+    await sut.save(report);
+    const retrieved = await sut.getById(report.id);
+
+    expect(retrieved).toBeTruthy();
+    expect(retrieved).toStrictEqual(report);
+  });
+
+  it('should update the report.', async () => {
+    const report = createReport(Status.PENDING, location2);
+    await sut.save(report);
+    report.changeReportStatus(Status.REJECTED);
+    await sut.update(report);
+    const updated = await sut.getById(report.id);
+
+    expect(updated!.status).toBe(Status.REJECTED);
+  });
 });

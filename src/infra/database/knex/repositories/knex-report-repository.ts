@@ -1,5 +1,8 @@
 /* eslint-disable func-names */
 import { Report } from '@entities/report/report';
+import { Id } from '@entities/shared/id/id';
+import { GetByIdRepository } from '@use-cases/interfaces/repositories/common/get-by-id-repository';
+import { UpdateRepository } from '@use-cases/interfaces/repositories/common/update-repository';
 import {
   GetReportsFilters,
   ReportRepository,
@@ -9,7 +12,11 @@ import { isNullOrUndefined } from '@utils/is-null-or-undefined';
 import { Knex } from 'knex';
 import { ReportSchema } from '../schemas/report.schema';
 
-export class KnexReportRepository implements ReportRepository {
+export class KnexReportRepository
+  implements
+    ReportRepository,
+    UpdateRepository<Report>,
+    GetByIdRepository<Report> {
   constructor(private readonly connection: Knex) {}
 
   async save(report: Report): Promise<void> {
@@ -18,16 +25,10 @@ export class KnexReportRepository implements ReportRepository {
       .first();
 
     const schema = KnexReportRepository.mapReportToReportSchema(report);
-
     if (isNullOrUndefined(exists)) {
       await this.connection<ReportSchema>('report').insert(schema);
     } else {
-      await this.connection<ReportSchema>('report').update({
-        description: schema.description,
-        image: schema.image,
-        status: schema.status,
-        title: schema.title,
-      });
+      await this.update(report);
     }
   }
 
@@ -75,6 +76,26 @@ export class KnexReportRepository implements ReportRepository {
     const records = await builder.then<ReportSchema[]>();
 
     return records.map(KnexReportRepository.mapSchemaToReport);
+  }
+
+  async update(report: Report): Promise<void> {
+    const schema = KnexReportRepository.mapReportToReportSchema(report);
+    await this.connection<ReportSchema>('report').update({
+      description: schema.description,
+      image: schema.image,
+      status: schema.status,
+      title: schema.title,
+    });
+  }
+
+  async getById(id: Id): Promise<Report | null> {
+    const record = await this.connection<ReportSchema>('report')
+      .where({ id: id.value })
+      .first();
+
+    return !isNullOrUndefined(record)
+      ? KnexReportRepository.mapSchemaToReport(record!)
+      : null;
   }
 
   private static mapSchemaToReport(schema: ReportSchema): Report {
