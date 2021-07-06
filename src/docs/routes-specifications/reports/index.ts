@@ -8,7 +8,7 @@ export const reportsPaths = {
     get: getReportsSpecification,
   },
 
-  '/reports/report_id': {
+  '/reports/{report_id}': {
     patch: patchReportSpecification,
   },
 };
