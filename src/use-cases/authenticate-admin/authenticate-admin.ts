@@ -20,6 +20,8 @@ interface Dependencies {
 }
 
 export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
+  static readonly EXPIRATION_TIME_IN_SECONDS = 4 * 3600;
+
   constructor(private readonly dependencies: Dependencies) {}
 
   async execute(request: Request): Promise<void> {
@@ -50,13 +52,16 @@ export class AuthenticateAdminUseCase implements UseCaseInputPort<Request> {
       return presenter.failure(new IncorrectPasswordError());
     }
 
-    const credentials = await authService.generateCredentials(admin, 3600);
+    const credentials = await authService.generateCredentials(
+      admin,
+      AuthenticateAdminUseCase.EXPIRATION_TIME_IN_SECONDS,
+    );
 
     return presenter.success({
       name: admin.name.value,
       avatar: admin.avatar,
       credentials,
-      expiresIn: 3600,
+      expiresIn: AuthenticateAdminUseCase.EXPIRATION_TIME_IN_SECONDS,
     });
   }
 }

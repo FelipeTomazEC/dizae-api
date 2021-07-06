@@ -107,7 +107,7 @@ describe('Authenticate admin use case tests.', () => {
       name: admin.name.value,
       avatar: admin.avatar,
       credentials: token,
-      expiresIn: 3600,
+      expiresIn: AuthenticateAdminUseCase.EXPIRATION_TIME_IN_SECONDS,
     });
   });
 });

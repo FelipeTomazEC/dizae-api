@@ -20,7 +20,7 @@ interface Dependencies {
 }
 
 export class AuthenticateReporterUseCase implements UseCaseInputPort<Request> {
-  static readonly CREDENTIALS_TTL_IN_SECONDS = 3600;
+  static readonly CREDENTIALS_TTL_IN_SECONDS = 3600 * 4;
 
   constructor(private readonly dependencies: Dependencies) {}
 
