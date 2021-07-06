@@ -4,6 +4,7 @@ import { ExpressHandleFunction } from './express-handle-function.type';
 export interface ReportsHandler {
   handleCreateReport: ExpressHandleFunction;
   handleGetReports: ExpressHandleFunction;
+  handlePartialUpdateReport: ExpressHandleFunction;
 }
 
 export const getReportRouter = (handler: ReportsHandler): Router => {
@@ -11,6 +12,7 @@ export const getReportRouter = (handler: ReportsHandler): Router => {
 
   router.post('/reports', handler.handleCreateReport);
   router.get('/reports', handler.handleGetReports);
+  router.patch('/reports/:report_id', handler.handlePartialUpdateReport);
 
   return router;
 };

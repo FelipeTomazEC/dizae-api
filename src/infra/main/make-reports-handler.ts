@@ -1,7 +1,8 @@
-import { InMemoryReportRepository } from '@infra/database/in-memory/in-memory-report-repository';
-import { InMemoryReporterRepository } from '@infra/database/in-memory/in-memory-reporter-repository';
 import { KnexAdminRepository } from '@infra/database/knex/repositories/knex-admin-repository';
 import { KnexLocationRepository } from '@infra/database/knex/repositories/knex-location-repository';
+import { KnexReportRepository } from '@infra/database/knex/repositories/knex-report-repository';
+import { KnexReporterRepository } from '@infra/database/knex/repositories/knex-reporter-repository';
+import { createChangeReportStatusHandler } from '@infra/express/handlers/create-change-report-status-handler';
 import { createGetReportsHandler } from '@infra/express/handlers/create-get-reports-handler';
 import { createReportHandler } from '@infra/express/handlers/get-create-report-handler';
 import { ReportsHandler } from '@infra/express/routers/get-report-router';
@@ -18,8 +19,8 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
   const adminAuthorizer = new JWTAuthService(process.env.ADMINS_JWT_SECRET!);
   const locationRepo = new KnexLocationRepository(connection);
   const idGenerator = new UUIDV4Generator();
-  const reporterRepo = InMemoryReporterRepository.getInstance();
-  const reportRepo = InMemoryReportRepository.getInstance();
+  const reporterRepo = new KnexReporterRepository(connection);
+  const reportRepo = new KnexReportRepository(connection);
   const adminRepo = new KnexAdminRepository(connection);
   const logger = new ConsoleErrorLogger();
 
@@ -41,5 +42,12 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
     reporterRepo,
   });
 
-  return { handleCreateReport, handleGetReports };
+  const handlePartialUpdateReport = createChangeReportStatusHandler({
+    authorizer: adminAuthorizer,
+    logger,
+    reportGetByIdRepo: reportRepo,
+    reportUpdateRepo: reportRepo,
+  });
+
+  return { handleCreateReport, handleGetReports, handlePartialUpdateReport };
 };
