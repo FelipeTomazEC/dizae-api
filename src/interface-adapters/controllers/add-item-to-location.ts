@@ -5,7 +5,7 @@ import { ProtectedWebController } from './interfaces/protected-web-controller';
 
 export class AddItemToLocationController extends ProtectedWebController<Request> {
   getParamsFromHttpRequest(request: HttpRequest, requesterId: Id): Request {
-    const locationId = request.getParam<string>('locationId');
+    const locationId = request.getParam<string>('location_id');
     const { name, categoryName, image } = request.body;
     const adminId = requesterId.value;
 

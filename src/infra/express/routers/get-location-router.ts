@@ -12,7 +12,7 @@ export const getLocationRouter = (handler: LocationsHandler): Router => {
   const router = Router();
 
   router.post('/locations', handler.handleCreateLocation);
-  router.post('/locations/:locationId/items', handler.handleAddItemToLocation);
+  router.post('/locations/:location_id/items', handler.handleAddItemToLocation);
   router.get('/locations/:location_id', handler.handleGetLocationInfo);
   router.get('/locations', handler.handleGetAllLocationsInfo);
 

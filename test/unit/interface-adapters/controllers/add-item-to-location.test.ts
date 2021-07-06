@@ -28,7 +28,7 @@ describe('Add item to location controller tests.', () => {
   const request = new HttpRequest({
     method: 'POST',
     headers: [{ name: 'authorization', value: 'Bearer some-token-here' }],
-    params: [{ name: 'locationId', value: locationId }],
+    params: [{ name: 'location_id', value: locationId }],
     body: {
       categoryName: faker.commerce.productMaterial(),
       name: faker.commerce.product(),

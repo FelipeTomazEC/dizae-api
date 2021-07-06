@@ -11,7 +11,7 @@ export const locationPaths = {
   '/locations/{location_id}': {
     get: getLocationInfoSpecifications,
   },
-  '/locations/{locationId}/items': {
+  '/locations/{location_id}/items': {
     post: addItemToLocationSpecifications,
   },
 };

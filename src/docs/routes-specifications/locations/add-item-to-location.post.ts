@@ -70,7 +70,7 @@ export default {
   parameters: [
     {
       in: 'path',
-      name: 'locationId',
+      name: 'location_id',
       required: true,
       type: 'uuid',
       description: 'The uuid of the location where the item will be added.',
