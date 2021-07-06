@@ -3,8 +3,8 @@ import { Location } from '@entities/location/location';
 import { Id } from '@entities/shared/id/id';
 import { left } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
-import { ItemCollection } from '@use-cases/get-items-from-location/dtos/get-items-from-location-response';
-import { GetItemsFromLocationUseCase } from '@use-cases/get-items-from-location/get-items-from-location';
+import { ItemCollection } from '@use-cases/get-location-info/dtos/get-location-info-response';
+import { GetLocationInfoUseCase } from '@use-cases/get-location-info/get-location-info';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ResourceNotFoundError } from '@use-cases/shared/errors/resource-not-found-error';
@@ -13,7 +13,7 @@ import faker from 'faker';
 describe('Get items from a location use case.', () => {
   const locationRepo = getMock<LocationRepository>(['getLocationById']);
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
-  const sut = new GetItemsFromLocationUseCase({ locationRepo, presenter });
+  const sut = new GetLocationInfoUseCase({ locationRepo, presenter });
   const request = {
     locationId: faker.datatype.uuid(),
   };
@@ -31,7 +31,7 @@ describe('Get items from a location use case.', () => {
       }).value as Item;
 
     location = Location.create({
-      createdAt: new Date(),
+      createdAt: new Date(new Date().setMilliseconds(0)),
       creatorId: faker.datatype.uuid(),
       id: request.locationId,
       name: faker.commerce.department(),
@@ -67,7 +67,7 @@ describe('Get items from a location use case.', () => {
     );
   });
 
-  it('should return all items from the specified location.', async () => {
+  it(`should return the location's info and its items.`, async () => {
     const items: ItemCollection = location.getItems().map((item) => ({
       image: item.image,
       name: item.name.value,
@@ -77,6 +77,10 @@ describe('Get items from a location use case.', () => {
 
     await sut.execute(request);
 
-    expect(presenter.success).toBeCalledWith({ items });
+    expect(presenter.success).toBeCalledWith({
+      name: location.name.value,
+      createdAt: location.createdAt.getTime(),
+      items,
+    });
   });
 });

@@ -3,18 +3,18 @@ import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-por
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ResourceNotFoundError } from '@use-cases/shared/errors/resource-not-found-error';
-import { GetItemsFromLocationRequest as Request } from './dtos/get-items-from-location-request';
+import { GetLocationInfoRequest as Request } from './dtos/get-location-info-request';
 import {
-  GetItemsFromLocationResponse,
+  GetLocationInfoResponse,
   ItemCollection,
-} from './dtos/get-items-from-location-response';
+} from './dtos/get-location-info-response';
 
 interface Dependencies {
   locationRepo: LocationRepository;
-  presenter: UseCaseOutputPort<GetItemsFromLocationResponse>;
+  presenter: UseCaseOutputPort<GetLocationInfoResponse>;
 }
 
-export class GetItemsFromLocationUseCase implements UseCaseInputPort<Request> {
+export class GetLocationInfoUseCase implements UseCaseInputPort<Request> {
   constructor(private readonly dependencies: Dependencies) {}
 
   async execute(request: Request): Promise<void> {
@@ -39,6 +39,10 @@ export class GetItemsFromLocationUseCase implements UseCaseInputPort<Request> {
       createdAt: item.createdAt.getTime(),
     }));
 
-    return presenter.success({ items });
+    return presenter.success({
+      name: location.name.value,
+      createdAt: location.createdAt.getTime(),
+      items,
+    });
   }
 }

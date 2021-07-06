@@ -4,7 +4,7 @@ import { KnexLocationRepository } from '@infra/database/knex/repositories/knex-l
 import { createAddItemToLocationHandler } from '@infra/express/handlers/create-add-item-to-location-handler';
 import { createGetAllLocationsInfoHandler } from '@infra/express/handlers/create-get-all-locations-info-handler';
 import { getCreateLocationHandler } from '@infra/express/handlers/get-create-location-handler';
-import { getItemsFromLocationHandler } from '@infra/express/handlers/get-items-from-location-handler';
+import { getLocationInfoHandler } from '@infra/express/handlers/get-location-info-handler';
 import { LocationsHandler } from '@infra/express/routers/get-location-router';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
@@ -35,7 +35,7 @@ export const makeLocationsHandler = (connection: Knex): LocationsHandler => {
     logger,
   });
 
-  const handleGetItemsFromLocation = getItemsFromLocationHandler({
+  const handleGetLocationInfo = getLocationInfoHandler({
     locationRepo,
     logger,
   });
@@ -48,7 +48,7 @@ export const makeLocationsHandler = (connection: Knex): LocationsHandler => {
   return {
     handleCreateLocation,
     handleAddItemToLocation,
-    handleGetItemsFromLocation,
+    handleGetLocationInfo,
     handleGetAllLocationsInfo,
   };
 };

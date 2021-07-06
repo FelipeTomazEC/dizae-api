@@ -1,6 +1,6 @@
 import addItemToLocationSpecifications from './add-item-to-location.post';
 import createLocationSpecifications from './create-location.post';
-import getItemsFromLocationSpecifications from './get-items-from-location.get';
+import getLocationInfoSpecifications from './get-location-info.get';
 import getAllLocationsInfoSpecifications from './get-all-locations-info.get';
 
 export const locationPaths = {
@@ -8,8 +8,10 @@ export const locationPaths = {
     post: createLocationSpecifications,
     get: getAllLocationsInfoSpecifications,
   },
+  '/locations/{location_id}': {
+    get: getLocationInfoSpecifications,
+  },
   '/locations/{locationId}/items': {
     post: addItemToLocationSpecifications,
-    get: getItemsFromLocationSpecifications,
   },
 };

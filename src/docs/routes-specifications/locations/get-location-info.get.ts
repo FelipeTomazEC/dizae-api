@@ -7,6 +7,13 @@ const responseSchema = {
         'Flag that indicates if the request was attended successfully.',
     },
     data: {
+      name: {
+        type: 'string',
+      },
+      createdAt: {
+        type: 'number',
+        description: 'A timestamp that represents when the location created.',
+      },
       items: {
         type: 'array',
         items: {
@@ -38,6 +45,8 @@ const responseSchema = {
   example: {
     success: true,
     data: {
+      name: 'Lobby',
+      createdAt: 1621656920571,
       items: [
         {
           createdAt: 1621656920571,
@@ -89,20 +98,20 @@ const errorSchema = {
 
 export default {
   tags: ['Locations'],
-  summary: 'Returns all items that are registered to a location.',
+  summary: 'Returns all info about the specified location and its items.',
   parameters: [
     {
       in: 'path',
-      name: 'locationId',
+      name: 'location_id',
       required: true,
       type: 'uuid',
-      description: 'The uuid of the location where the item will be added.',
+      description: 'The uuid of the location.',
     },
   ],
 
   responses: {
     200: {
-      description: 'Returns the items registered in the specified location.',
+      description: 'Returns all info about the specified location.',
       content: {
         'application/json': {
           schema: responseSchema,

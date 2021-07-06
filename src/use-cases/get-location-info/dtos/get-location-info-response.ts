@@ -9,6 +9,8 @@ interface Item {
 
 export type ItemCollection = Item[];
 
-export interface GetItemsFromLocationResponse {
+export interface GetLocationInfoResponse {
+  name: string;
+  createdAt: Timestamp;
   items: ItemCollection;
 }
