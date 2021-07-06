@@ -16,7 +16,7 @@ import { setupKnexConnection } from '../database/knex/setup-knex-connection';
 export const setupRoutes = (app: Express): void => {
   const connection = setupKnexConnection(process.env.NODE_ENV);
 
-  app.use(getReportersRouter(makeReportersHandler()));
+  app.use(getReportersRouter(makeReportersHandler(connection)));
   app.use(getAuthRouter(makeAuthHandler(connection)));
   app.use(getAdminsRouter(makeAdminsHandler(connection)));
   app.use(getLocationRouter(makeLocationsHandler(connection)));
