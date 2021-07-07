@@ -2,6 +2,7 @@ import { Item } from '@entities/location/item/item';
 import { InvalidParamError } from '@entities/shared/errors/invalid-param-error';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
@@ -15,6 +16,7 @@ interface Dependencies {
   categoryRepo: ItemCategoryRepository;
   locationRepo: LocationRepository;
   presenter: UseCaseOutputPort<void>;
+  imageUploadService: ImageUploadService;
 }
 
 export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
@@ -22,7 +24,7 @@ export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
 
   async execute(request: Request): Promise<void> {
     const { adminRepo, presenter, locationRepo } = this.dependencies;
-    const { categoryRepo } = this.dependencies;
+    const { categoryRepo, imageUploadService } = this.dependencies;
     const adminIdOrError = Id.create({ value: request.adminId });
     if (adminIdOrError.isLeft()) {
       return presenter.failure(
@@ -57,11 +59,13 @@ export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
       return presenter.failure(new ResourceNotFoundError('Item Category'));
     }
 
+    const imageURL = await imageUploadService.upload(request.image);
+
     const itemOrError = Item.create({
       categoryName: request.categoryName,
       createdAt: new Date(),
       creatorId: request.adminId,
-      image: request.image,
+      image: imageURL,
       name: request.name,
     });
 

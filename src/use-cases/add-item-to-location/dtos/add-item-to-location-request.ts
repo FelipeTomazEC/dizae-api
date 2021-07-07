@@ -1,7 +1,7 @@
-import { URL } from '@entities/shared/renamed-primitive-types';
+import { Base64EncodedImage } from '@use-cases/interfaces/adapters/image-upload-service';
 
 export interface AddItemToLocationRequest {
-  image: URL;
+  image: Base64EncodedImage;
   categoryName: string;
   locationId: string;
   adminId: string;
