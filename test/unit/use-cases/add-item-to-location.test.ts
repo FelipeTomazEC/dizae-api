@@ -107,8 +107,8 @@ describe('Add item to location use case tests.', () => {
 
   it('should upload the image to a content provider.', async () => {
     await sut.execute(request);
-
-    expect(imageUploadService.upload).toBeCalledWith(request.image);
+    const imageName = request.locationId.concat(request.name);
+    expect(imageUploadService.upload).toBeCalledWith(request.image, imageName);
   });
 
   it('should insert the new item in the location.', async () => {
