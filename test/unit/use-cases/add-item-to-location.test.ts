@@ -6,6 +6,7 @@ import { MissingParamError } from '@shared/errors/missing-param-error';
 import { getMock } from '@test/test-helpers/get-mock';
 import { AddItemToLocationUseCase } from '@use-cases/add-item-to-location/add-item-to-location';
 import { AddItemToLocationRequest } from '@use-cases/add-item-to-location/dtos/add-item-to-location-request';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import { ItemCategoryRepository } from '@use-cases/interfaces/repositories/item-category';
@@ -18,22 +19,25 @@ describe('Add item to location use case tests.', () => {
   const adminRepo = getMock<AdminRepository>(['getById']);
   const categoryRepo = getMock<ItemCategoryRepository>(['exists']);
   const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
+  const imageUploadService = getMock<ImageUploadService>(['upload']);
   const sut = new AddItemToLocationUseCase({
     locationRepo,
     adminRepo,
     categoryRepo,
     presenter,
+    imageUploadService,
   });
 
   const request: AddItemToLocationRequest = {
     locationId: faker.datatype.uuid(),
     adminId: faker.datatype.uuid(),
-    image: faker.image.image(),
+    image: 'some-base64-image-encoded',
     name: faker.commerce.product(),
     categoryName: faker.commerce.productMaterial(),
   };
 
   let location: Location;
+  const imageUrl = 'http://uploaded.image.com';
 
   beforeAll(() => {
     jest.spyOn(Date, 'now').mockReturnValue(Date.now());
@@ -57,6 +61,7 @@ describe('Add item to location use case tests.', () => {
     jest.spyOn(locationRepo, 'getLocationById').mockResolvedValue(location);
     jest.spyOn(adminRepo, 'getById').mockResolvedValue(admin);
     jest.spyOn(categoryRepo, 'exists').mockResolvedValue(true);
+    jest.spyOn(imageUploadService, 'upload').mockResolvedValue(imageUrl);
   });
 
   it('should verify if the location exists.', async () => {
@@ -100,12 +105,18 @@ describe('Add item to location use case tests.', () => {
     expect(presenter.failure).toBeCalledWith(error);
   });
 
+  it('should upload the image to a content provider.', async () => {
+    await sut.execute(request);
+
+    expect(imageUploadService.upload).toBeCalledWith(request.image);
+  });
+
   it('should insert the new item in the location.', async () => {
     const item = Item.create({
       categoryName: request.categoryName,
       createdAt: new Date(),
       creatorId: request.adminId,
-      image: request.image,
+      image: imageUrl,
       name: request.name,
     }).value as Item;
 
