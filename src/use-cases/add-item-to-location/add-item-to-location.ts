@@ -59,7 +59,8 @@ export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
       return presenter.failure(new ResourceNotFoundError('Item Category'));
     }
 
-    const imageURL = await imageUploadService.upload(request.image);
+    const prefix = location.id.value.concat(request.name);
+    const imageURL = await imageUploadService.upload(request.image, prefix);
 
     const itemOrError = Item.create({
       categoryName: request.categoryName,
