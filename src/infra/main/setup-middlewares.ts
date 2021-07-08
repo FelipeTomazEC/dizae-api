@@ -3,5 +3,5 @@ import cors from 'cors';
 
 export const setupMiddlewares = (application: Express) => {
   application.use(cors());
-  application.use(json());
+  application.use(json({ limit: '10mb' }));
 };
