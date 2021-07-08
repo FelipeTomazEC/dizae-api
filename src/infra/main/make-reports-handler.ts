@@ -9,6 +9,7 @@ import { ReportsHandler } from '@infra/express/routers/get-report-router';
 import { AuthorizerComposer } from '@infra/implementations/authorizer-composer';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { S3ImageUploader } from '@infra/implementations/s3-image-uploader';
 import { UUIDV4Generator } from '@infra/implementations/uuid-v4-generator';
 import { Knex } from 'knex';
 
@@ -23,6 +24,7 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
   const reportRepo = new KnexReportRepository(connection);
   const adminRepo = new KnexAdminRepository(connection);
   const logger = new ConsoleErrorLogger();
+  const imageUploadService = new S3ImageUploader('dizae-images');
 
   const handleCreateReport = createReportHandler({
     authorizer: reporterAuthorizer,
@@ -31,6 +33,7 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
     logger,
     reportRepo,
     reporterRepo,
+    imageUploadService,
   });
 
   const handleGetReports = createGetReportsHandler({
