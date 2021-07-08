@@ -1,3 +1,5 @@
+import { REPORT_IMAGE_BASE64_ENCODED_EXAMPLE } from './report-image-base64-encoded-example';
+
 const requestSchema = {
   type: 'object',
   required: ['description', 'image', 'itemName', 'locationId', 'title'],
@@ -9,7 +11,7 @@ const requestSchema = {
     },
     image: {
       type: 'string',
-      description: 'An URL to the image of what is being reported.',
+      description: `A base64 encoded image.`,
     },
     itemName: {
       type: 'string',
@@ -28,10 +30,10 @@ const requestSchema = {
 
   example: {
     description: 'The chair situated next to the computer is broken.',
-    image: 'http://www.images.com/broken-chair.jpg',
     itemName: 'Chair',
     locationId: '33389f61-df55-4934-adf5-2aeb65ec7f88',
     title: 'Broken chair',
+    image: REPORT_IMAGE_BASE64_ENCODED_EXAMPLE,
   },
 };
 
