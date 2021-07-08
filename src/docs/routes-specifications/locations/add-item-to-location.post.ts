@@ -1,3 +1,5 @@
+import { ITEM_BASE64_IMAGE_EXAMPLE } from './item-base64-image-example';
+
 const requestSchema = {
   type: 'object',
   required: ['categoryName', 'image', 'name'],
@@ -8,7 +10,7 @@ const requestSchema = {
     },
     image: {
       type: 'string',
-      description: 'An URL to the image of the new item.',
+      description: 'A Base64 encoded image.',
     },
     name: {
       type: 'string',
@@ -19,7 +21,7 @@ const requestSchema = {
   example: {
     name: 'Door',
     categoryName: 'Infrastructure',
-    image: 'http://imagens.com/door.jpg',
+    image: ITEM_BASE64_IMAGE_EXAMPLE,
   },
 };
 
