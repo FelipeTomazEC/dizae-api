@@ -8,6 +8,7 @@ import { getLocationInfoHandler } from '@infra/express/handlers/get-location-inf
 import { LocationsHandler } from '@infra/express/routers/get-location-router';
 import { ConsoleErrorLogger } from '@infra/implementations/console-error-logger';
 import { JWTAuthService } from '@infra/implementations/jwt-auth-service';
+import { S3ImageUploader } from '@infra/implementations/s3-image-uploader';
 import { UUIDV4Generator } from '@infra/implementations/uuid-v4-generator';
 import { Knex } from 'knex';
 
@@ -18,6 +19,7 @@ export const makeLocationsHandler = (connection: Knex): LocationsHandler => {
   const authorizer = new JWTAuthService(process.env.ADMINS_JWT_SECRET!);
   const logger = new ConsoleErrorLogger();
   const idGenerator = new UUIDV4Generator();
+  const imageUploadService = new S3ImageUploader('dizae-images');
 
   const handleCreateLocation = getCreateLocationHandler({
     adminRepo,
@@ -33,6 +35,7 @@ export const makeLocationsHandler = (connection: Knex): LocationsHandler => {
     categoryRepo,
     locationRepo,
     logger,
+    imageUploadService,
   });
 
   const handleGetLocationInfo = getLocationInfoHandler({
