@@ -10,6 +10,7 @@ import { getMock } from '@test/test-helpers/get-mock';
 import { CreateReportUseCase } from '@use-cases/create-report/create-report';
 import { CreateReportResponse } from '@use-cases/create-report/dtos/create-report-response';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ReportRepository } from '@use-cases/interfaces/repositories/report';
@@ -26,6 +27,7 @@ describe('Create Report Controller', () => {
     presenter,
     reportRepository: getMock<ReportRepository>([]),
     reporterRepository: getMock<ReporterRepository>([]),
+    imageUploadService: getMock<ImageUploadService>([]),
   });
   const logger = getMock<ErrorLogger>(['log']);
   const authorizer = getMock<AuthorizationService>(['validate']);

@@ -7,6 +7,7 @@ import { CreateReportUseCase } from '@use-cases/create-report/create-report';
 import { CreateReportRequest } from '@use-cases/create-report/dtos/create-report-request';
 import { CreateReportResponse } from '@use-cases/create-report/dtos/create-report-response';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ReportRepository } from '@use-cases/interfaces/repositories/report';
@@ -19,6 +20,7 @@ describe('Create report use case tests.', () => {
   const locationRepository = getMock<LocationRepository>(['getLocationById']);
   const reporterRepository = getMock<ReporterRepository>(['getReporterById']);
   const idGenerator = getMock<IdGenerator>(['generate']);
+  const imageUploadService = getMock<ImageUploadService>(['upload']);
   const presenter = getMock<UseCaseOutputPort<CreateReportResponse>>([
     'failure',
     'success',
@@ -30,6 +32,7 @@ describe('Create report use case tests.', () => {
     presenter,
     reporterRepository,
     reportRepository,
+    imageUploadService,
   });
 
   let item: Item;
@@ -39,7 +42,7 @@ describe('Create report use case tests.', () => {
 
   const request: CreateReportRequest = {
     description: faker.lorem.sentence(5),
-    image: faker.image.image(),
+    image: 'some-base-64-encoded-image',
     itemName: faker.commerce.product(),
     locationId: faker.datatype.uuid(),
     reporterId: faker.datatype.uuid(),
@@ -81,6 +84,9 @@ describe('Create report use case tests.', () => {
     jest
       .spyOn(reporterRepository, 'getReporterById')
       .mockResolvedValue(reporter);
+    jest
+      .spyOn(imageUploadService, 'upload')
+      .mockResolvedValue(faker.image.imageUrl());
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
     jest.spyOn(Date, 'now').mockReturnValue(Date.now());
   });
@@ -113,6 +119,12 @@ describe('Create report use case tests.', () => {
     await sut.execute({ ...request, itemName: 'Not Registered Item' });
 
     expect(presenter.failure).toBeCalledWith(new ResourceNotFoundError('item'));
+  });
+
+  it('should upload the report image using the upload service.', async () => {
+    await sut.execute(request);
+
+    expect(imageUploadService.upload).toBeCalledWith(request.image, id.value);
   });
 
   it('should save the new report in the repository and return its id.', async () => {
