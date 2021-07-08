@@ -3,6 +3,7 @@ import { Status } from '@entities/report/status';
 import { Id } from '@entities/shared/id/id';
 import { Name } from '@entities/shared/name/name';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
@@ -19,18 +20,16 @@ interface Dependencies {
   presenter: UseCaseOutputPort<CreateReportResponse>;
   reportRepository: ReportRepository;
   reporterRepository: ReporterRepository;
+  imageUploadService: ImageUploadService;
 }
 
 export class CreateReportUseCase implements UseCaseInputPort<Request> {
   constructor(private readonly dependencies: Dependencies) {}
 
   async execute(request: Request): Promise<void> {
-    const {
-      presenter,
-      reporterRepository,
-      locationRepository,
-    } = this.dependencies;
+    const { presenter, reporterRepository } = this.dependencies;
     const { idGenerator, reportRepository } = this.dependencies;
+    const { locationRepository, imageUploadService } = this.dependencies;
 
     const reporterIdOrError = Id.create({ value: request.reporterId });
     const locationIdOrError = Id.create({ value: request.locationId });
@@ -63,13 +62,14 @@ export class CreateReportUseCase implements UseCaseInputPort<Request> {
     }
 
     const id = idGenerator.generate();
+    const imageURL = await imageUploadService.upload(request.image, id.value);
     const newReportOrError = Report.create({
       createdAt: new Date(),
       creatorId: reporter.id.value,
       description: request.description,
       itemLocationId: location.id.value,
       id: id.value,
-      image: request.image,
+      image: imageURL,
       title: request.title,
       itemName: request.itemName,
       status: Status.PENDING,
