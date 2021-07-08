@@ -3,6 +3,7 @@ import { AuthorizationService } from '@interface-adapters/controllers/interfaces
 import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-logger';
 import { HttpStatusCode } from '@interface-adapters/http/http-status-code';
 import { AddItemToLocationUseCase } from '@use-cases/add-item-to-location/add-item-to-location';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import { ItemCategoryRepository } from '@use-cases/interfaces/repositories/item-category';
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
@@ -15,6 +16,7 @@ interface Dependencies {
   locationRepo: LocationRepository;
   categoryRepo: ItemCategoryRepository;
   authorizer: AuthorizationService;
+  imageUploadService: ImageUploadService;
   logger: ErrorLogger;
 }
 
@@ -23,12 +25,14 @@ export const createAddItemToLocationHandler = (deps: Dependencies) => (
   res: Response,
 ) => {
   const { adminRepo, authorizer, categoryRepo, locationRepo, logger } = deps;
+  const { imageUploadService } = deps;
   const presenter = createHttpPresenter(res, HttpStatusCode.RESOURCE_CREATED);
   const useCase = new AddItemToLocationUseCase({
     adminRepo,
     categoryRepo,
     locationRepo,
     presenter,
+    imageUploadService,
   });
   const controller = new AddItemToLocationController(
     authorizer,
