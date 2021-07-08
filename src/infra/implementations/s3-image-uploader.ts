@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { S3 } from 'aws-sdk';
 
