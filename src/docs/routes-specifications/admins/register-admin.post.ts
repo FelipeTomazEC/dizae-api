@@ -22,10 +22,10 @@ const requestSchema = {
     },
   },
   example: {
-    avatar: AVATAR_BASE64_ENCODED_EXAMPLE,
     email: 'admin@example.com',
     name: 'Admin Name',
     password: 'Some pas$w0rd',
+    avatar: AVATAR_BASE64_ENCODED_EXAMPLE,
   },
 };
 
