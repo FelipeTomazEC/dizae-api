@@ -7,10 +7,12 @@ import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter'
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { Reporter } from '@entities/reporter/reporter';
 import { EmailAlreadyRegisteredError } from '@use-cases/shared/errors/email-already-registered-error';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 
 interface Dependencies {
   encoder: PasswordEncoder;
   idGenerator: IdGenerator;
+  imageUploadService: ImageUploadService;
   presenter: UseCaseOutputPort<RegisterReporterResponse>;
   repository: ReporterRepository;
 }
@@ -20,11 +22,14 @@ export class RegisterReporterUseCase implements UseCaseInputPort<Request> {
 
   async execute(request: Request): Promise<void> {
     const { idGenerator, presenter, encoder, repository } = this.dependencies;
+    const { imageUploadService } = this.dependencies;
     const id = idGenerator.generate();
+    const avatarURL = await imageUploadService.upload(request.avatar, id.value);
+
     const reporterOrError = Reporter.create({
       id: id.value,
       email: request.email,
-      avatar: request.avatar,
+      avatar: avatarURL,
       name: request.name,
       createdAt: new Date(),
       password: request.password,
@@ -46,6 +51,7 @@ export class RegisterReporterUseCase implements UseCaseInputPort<Request> {
 
     return presenter.success({
       reporterId: id.value,
+      avatar: avatarURL,
     });
   }
 }

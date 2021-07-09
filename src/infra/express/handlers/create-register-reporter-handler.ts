@@ -2,6 +2,7 @@ import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-lo
 import { RegisterReporterController } from '@interface-adapters/controllers/register-reporter';
 import { HttpStatusCode } from '@interface-adapters/http/http-status-code';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
 import { RegisterReporterUseCase } from '@use-cases/register-reporter/register-reporter';
@@ -14,6 +15,7 @@ interface Dependencies {
   logger: ErrorLogger;
   idGenerator: IdGenerator;
   encoder: PasswordEncoder;
+  imageUploadService: ImageUploadService;
 }
 
 export const createRegisterReporterHandler = (deps: Dependencies) => (
@@ -26,6 +28,7 @@ export const createRegisterReporterHandler = (deps: Dependencies) => (
     idGenerator: deps.idGenerator,
     presenter,
     repository: deps.repository,
+    imageUploadService: deps.imageUploadService,
   });
   const controller = new RegisterReporterController(
     deps.logger,
