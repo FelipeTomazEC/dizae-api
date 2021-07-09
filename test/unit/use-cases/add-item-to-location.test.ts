@@ -136,6 +136,6 @@ describe('Add item to location use case tests.', () => {
     await sut.execute(request);
 
     expect(locationRepo.save).toBeCalled();
-    expect(presenter.success).toBeCalled();
+    expect(presenter.success).toBeCalledWith({ image: imageUrl });
   });
 });
