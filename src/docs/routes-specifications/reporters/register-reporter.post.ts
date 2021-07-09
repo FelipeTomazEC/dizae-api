@@ -41,6 +41,10 @@ const responseSchema = {
       type: 'object',
       description: 'Encapsulates the API response.',
       properties: {
+        avatar: {
+          type: 'string',
+          description: `The URL of the new reporter's avatar.`,
+        },
         reporterId: {
           type: 'string',
           description: 'The id that was generated for the new reporter.',
@@ -51,6 +55,7 @@ const responseSchema = {
   example: {
     success: true,
     data: {
+      avatar: 'https:www.images.com/reporter_avatar.jpeg',
       reporterId: '26cac0ce-7e10-4384-bf0c-2d7e5d9ba68d',
     },
   },
