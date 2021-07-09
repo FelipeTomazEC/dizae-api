@@ -1,3 +1,5 @@
+import { REPORTER_AVATAR_BASE64_ENCODED } from './reporter-avatar-base64-encoded';
+
 const requestSchema = {
   type: 'object',
   required: ['avatar', 'email', 'name', 'password'],
@@ -22,10 +24,10 @@ const requestSchema = {
     },
   },
   example: {
-    avatar: 'http://some-user-avatar.com',
-    email: 'reporter@example.com',
-    name: 'Example Name',
-    password: 'Some pas$w0rd',
+    email: 'ash@pokemon.com',
+    name: 'Ash Ketchum',
+    password: 'pik@$h5',
+    avatar: REPORTER_AVATAR_BASE64_ENCODED,
   },
 };
 
