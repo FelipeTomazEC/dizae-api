@@ -33,9 +33,21 @@ const responseSchema = {
       description:
         'Flag that indicates wether the item added or not in the location.',
     },
+    data: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          description: 'An URL to the image of new item.',
+        },
+      },
+    },
   },
   example: {
     success: true,
+    data: {
+      image: 'https://www.images.com/item_image.jpg',
+    },
   },
 };
 
