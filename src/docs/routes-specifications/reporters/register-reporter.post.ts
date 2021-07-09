@@ -41,6 +41,10 @@ const responseSchema = {
       type: 'object',
       description: 'Encapsulates the API response.',
       properties: {
+        avatar: {
+          type: 'string',
+          description: `The URL of the new reporter's avatar.`,
+        },
         reporterId: {
           type: 'string',
           description: 'The id that was generated for the new reporter.',
