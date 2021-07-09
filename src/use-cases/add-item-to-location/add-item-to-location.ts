@@ -10,12 +10,13 @@ import { ItemCategoryRepository } from '@use-cases/interfaces/repositories/item-
 import { LocationRepository } from '@use-cases/interfaces/repositories/location';
 import { ResourceNotFoundError } from '@use-cases/shared/errors/resource-not-found-error';
 import { AddItemToLocationRequest as Request } from './dtos/add-item-to-location-request';
+import { AddItemToLocationResponse as Response } from './dtos/add-item-to-location-response';
 
 interface Dependencies {
   adminRepo: AdminRepository;
   categoryRepo: ItemCategoryRepository;
   locationRepo: LocationRepository;
-  presenter: UseCaseOutputPort<void>;
+  presenter: UseCaseOutputPort<Response>;
   imageUploadService: ImageUploadService;
 }
 
@@ -79,6 +80,6 @@ export class AddItemToLocationUseCase implements UseCaseInputPort<Request> {
 
     await locationRepo.save(location);
 
-    return presenter.success();
+    return presenter.success({ image: item.image });
   }
 }
