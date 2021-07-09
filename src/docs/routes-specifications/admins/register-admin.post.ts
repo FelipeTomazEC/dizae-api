@@ -1,3 +1,5 @@
+import { AVATAR_BASE64_ENCODED_EXAMPLE } from './avatar-base64-encoded-example';
+
 const requestSchema = {
   type: 'object',
   required: ['avatar', 'email', 'password', 'name'],
@@ -16,12 +18,11 @@ const requestSchema = {
     },
     avatar: {
       type: 'string',
-      description: `A URL to the admin's avatar image.`,
+      description: `A base64 encoded image.`,
     },
   },
   example: {
-    avatar:
-      'https://observatoriodocinema.uol.com.br/wp-content/uploads/2019/07/neytiri_in_avatar_2-wide-do-we-really-need-avatar-2.jpeg',
+    avatar: AVATAR_BASE64_ENCODED_EXAMPLE,
     email: 'admin@example.com',
     name: 'Admin Name',
     password: 'Some pas$w0rd',
@@ -38,6 +39,10 @@ const responseSchema = {
     data: {
       type: 'object',
       properties: {
+        avatar: {
+          type: 'string',
+          description: `The URL of the admin's avatar.`,
+        },
         adminId: {
           type: 'string',
           description: 'The uuid generated to the new admin.',
@@ -49,6 +54,7 @@ const responseSchema = {
     success: true,
     data: {
       adminId: `9f5f0472-539f-4242-ac47-284a8dcf17be`,
+      avatar: 'https:www.images.com/admin_avatar.jpeg',
     },
   },
 };
