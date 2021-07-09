@@ -7,6 +7,7 @@ import { Password } from '@entities/shared/password/password';
 import { left } from '@shared/either.type';
 import { getMock } from '@test/test-helpers/get-mock';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
@@ -24,7 +25,9 @@ describe('Register admin use case tests.', () => {
   ]);
   const encoder = getMock<PasswordEncoder>(['encode']);
   const idGenerator = getMock<IdGenerator>(['generate']);
+  const imageUploadService = getMock<ImageUploadService>(['upload']);
   const sut = new RegisterAdminUseCase({
+    imageUploadService,
     adminRepo,
     encoder,
     idGenerator,
@@ -32,6 +35,7 @@ describe('Register admin use case tests.', () => {
   });
 
   const id = Id.create({ value: faker.datatype.uuid() }).value as Id;
+  const avatarURL = faker.image.imageUrl();
   const encodedPassword = Password.create({ value: '3enc0dedPas#$word' })
     .value as Password;
 
@@ -39,10 +43,11 @@ describe('Register admin use case tests.', () => {
     jest.spyOn(idGenerator, 'generate').mockReturnValue(id);
     jest.spyOn(encoder, 'encode').mockReturnValue(encodedPassword);
     jest.spyOn(Date, 'now').mockReturnValue(Date.now());
+    jest.spyOn(imageUploadService, 'upload').mockResolvedValue(avatarURL);
   });
 
   const request: RegisterAdminRequest = {
-    avatar: faker.internet.avatar(),
+    avatar: 'some-base64-encoded-image',
     email: faker.internet.email(),
     password: 'som3#password',
     name: faker.name.findName(),
@@ -59,12 +64,13 @@ describe('Register admin use case tests.', () => {
     );
   });
 
-  it('should save the admin in the repository and send the id to the presenter.', async () => {
+  it('should send the id and the avatar to the presenter.', async () => {
     await sut.execute(request);
 
     expect(adminRepo.save).toBeCalled();
     expect(presenter.success).toBeCalledWith({
       adminId: id.value,
+      avatar: avatarURL,
     });
   });
 
@@ -88,5 +94,11 @@ describe('Register admin use case tests.', () => {
     await sut.execute(request);
 
     expect(encoder.encode).toBeCalledWith(password);
+  });
+
+  it('should upload the avatar using the image upload service', async () => {
+    await sut.execute(request);
+
+    expect(imageUploadService.upload).toBeCalledWith(request.avatar, id.value);
   });
 });
