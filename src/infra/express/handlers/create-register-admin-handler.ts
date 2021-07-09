@@ -2,6 +2,7 @@ import { ErrorLogger } from '@interface-adapters/controllers/interfaces/error-lo
 import { RegisterAdminController } from '@interface-adapters/controllers/register-admin';
 import { HttpStatusCode } from '@interface-adapters/http/http-status-code';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
 import { RegisterAdminUseCase } from '@use-cases/register-admin/register-admin';
@@ -14,18 +15,20 @@ interface Dependencies {
   encoder: PasswordEncoder;
   logger: ErrorLogger;
   idGenerator: IdGenerator;
+  imageUploadService: ImageUploadService;
 }
 export const createRegisterAdminHandler = (deps: Dependencies) => (
   req: Request,
   res: Response,
 ) => {
-  const { adminRepo, encoder, idGenerator, logger } = deps;
+  const { adminRepo, encoder, idGenerator, logger, imageUploadService } = deps;
   const presenter = createHttpPresenter(res, HttpStatusCode.RESOURCE_CREATED);
   const useCase = new RegisterAdminUseCase({
     adminRepo,
     encoder,
     idGenerator,
     presenter,
+    imageUploadService,
   });
   const controller = new RegisterAdminController(logger, useCase, presenter);
 

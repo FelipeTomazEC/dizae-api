@@ -1,5 +1,6 @@
 import { Admin } from '@entities/admin/admin';
 import { IdGenerator } from '@use-cases/interfaces/adapters/id-generator';
+import { ImageUploadService } from '@use-cases/interfaces/adapters/image-upload-service';
 import { PasswordEncoder } from '@use-cases/interfaces/adapters/password-encoder';
 import { UseCaseInputPort } from '@use-cases/interfaces/ports/use-case-input-port';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
@@ -12,6 +13,7 @@ interface Dependencies {
   adminRepo: AdminRepository;
   encoder: PasswordEncoder;
   idGenerator: IdGenerator;
+  imageUploadService: ImageUploadService;
   presenter: UseCaseOutputPort<Response>;
 }
 
@@ -20,12 +22,15 @@ export class RegisterAdminUseCase implements UseCaseInputPort<Request> {
 
   async execute(request: Request): Promise<void> {
     const { idGenerator, presenter, encoder, adminRepo } = this.dependencies;
+    const { imageUploadService } = this.dependencies;
+    const id = idGenerator.generate();
+    const avatarURL = await imageUploadService.upload(request.avatar, id.value);
 
     const adminOrError = Admin.create({
-      avatar: request.avatar,
+      avatar: avatarURL,
       createdAt: new Date(),
       email: request.email,
-      id: idGenerator.generate().value,
+      id: id.value,
       name: request.name,
       password: request.password,
     });
@@ -47,6 +52,7 @@ export class RegisterAdminUseCase implements UseCaseInputPort<Request> {
 
     return presenter.success({
       adminId: admin.id.value,
+      avatar: admin.avatar,
     });
   }
 }
