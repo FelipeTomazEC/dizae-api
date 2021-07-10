@@ -27,14 +27,22 @@ const responseSchema = {
     data: {
       type: 'object',
       properties: {
-        credentials: {
+        avatar: {
           type: 'string',
-          description:
-            'A json web token that can be used in protected admin routes.',
+          description: `URL of the admin's avatar.`,
         },
         expiresIn: {
           type: 'number',
           description: 'The expiration time of the token in seconds.',
+        },
+        name: {
+          type: 'string',
+          description: `The reporter's name.`,
+        },
+        credentials: {
+          type: 'string',
+          description:
+            'A json web token that can be used in protected admin routes.',
         },
       },
     },
@@ -42,8 +50,10 @@ const responseSchema = {
   example: {
     success: true,
     data: {
+      avatar: 'https://www.images.com/son_goku_avatar.jpeg',
+      expiresIn: 14400,
+      name: 'Son Goku',
       credentials: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ8.eyJvd25lcklkIjp7InByb3BzIjp7InZhbHVlIjoiMjlkNDJlZmItYzAyNy00MzAyLTg1MzUtNDQwNmRiNTFmNGRkIn19LCJpYXQiOjE2MTk5MDAzNjUsImV4cCI6MTYxOTkwMzk2NX0.5MQqTW3RaBhndGd-E7s2MtCvUxge_IAHIi_B5-7GlBc`,
-      expiresIn: 3600,
     },
   },
 };

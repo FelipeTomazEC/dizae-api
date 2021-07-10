@@ -27,6 +27,10 @@ const responseSchema = {
     data: {
       type: 'object',
       properties: {
+        avatar: {
+          type: 'string',
+          description: `URL of the reporter's avatar.`,
+        },
         credentials: {
           type: 'string',
           description:
@@ -36,14 +40,20 @@ const responseSchema = {
           type: 'number',
           description: 'The expiration time of the token in seconds.',
         },
+        name: {
+          type: 'string',
+          description: `The reporter's name.`,
+        },
       },
     },
   },
   example: {
     success: true,
     data: {
+      avatar: 'https://www.images.com/ben_ten.jpeg',
+      expiresIn: 14400,
+      name: 'Ben Ten',
       credentials: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ8.eyJvd25lcklkIjp7InByb3BzIjp7InZhbHVlIjoiMjlkNDJlZmItYzAyNy00MzAyLTg1MzUtNDQwNmRiNTFmNGRkIn19LCJpYXQiOjE2MTk5MDAzNjUsImV4cCI6MTYxOTkwMzk2NX0.5MQqTW3RaBhndGd-E7s2MtCvUxge_IAHIi_B5-7GlBc`,
-      expiresIn: 3600,
     },
   },
 };
