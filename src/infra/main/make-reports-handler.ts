@@ -4,6 +4,7 @@ import { KnexReportRepository } from '@infra/database/knex/repositories/knex-rep
 import { KnexReporterRepository } from '@infra/database/knex/repositories/knex-reporter-repository';
 import { createChangeReportStatusHandler } from '@infra/express/handlers/create-change-report-status-handler';
 import { createGetReportsHandler } from '@infra/express/handlers/create-get-reports-handler';
+import { createGetSingleReportHandler } from '@infra/express/handlers/create-get-single-report-handler';
 import { createReportHandler } from '@infra/express/handlers/get-create-report-handler';
 import { ReportsHandler } from '@infra/express/routers/get-report-router';
 import { AuthorizerComposer } from '@infra/implementations/authorizer-composer';
@@ -52,5 +53,19 @@ export const makeReportsHandler = (connection: Knex): ReportsHandler => {
     reportUpdateRepo: reportRepo,
   });
 
-  return { handleCreateReport, handleGetReports, handlePartialUpdateReport };
+  const handleGetSingleReport = createGetSingleReportHandler({
+    adminRepo,
+    authorizer: new AuthorizerComposer(adminAuthorizer, reporterAuthorizer),
+    locationRepo,
+    logger,
+    reportRepo,
+    reporterRepo,
+  });
+
+  return {
+    handleCreateReport,
+    handleGetReports,
+    handlePartialUpdateReport,
+    handleGetSingleReport,
+  };
 };
