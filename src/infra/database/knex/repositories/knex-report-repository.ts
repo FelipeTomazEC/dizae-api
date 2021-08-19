@@ -80,12 +80,14 @@ export class KnexReportRepository
 
   async update(report: Report): Promise<void> {
     const schema = KnexReportRepository.mapReportToReportSchema(report);
-    await this.connection<ReportSchema>('report').update({
-      description: schema.description,
-      image: schema.image,
-      status: schema.status,
-      title: schema.title,
-    });
+    await this.connection<ReportSchema>('report')
+      .update({
+        description: schema.description,
+        image: schema.image,
+        status: schema.status,
+        title: schema.title,
+      })
+      .where({ id: report.id.value });
   }
 
   async getById(id: Id): Promise<Report | null> {
