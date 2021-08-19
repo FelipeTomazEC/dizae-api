@@ -18,9 +18,6 @@ const responseSchema = {
             title: {
               type: 'string',
             },
-            description: {
-              type: 'string',
-            },
             status: {
               type: 'number',
               description: `A value that indicates the report's status. It can be 1(PENDING), 2(REJECT) and 3(SOLVED).`,
@@ -30,21 +27,40 @@ const responseSchema = {
               description:
                 'A timestamp indicating when the report was registered.',
             },
-            location: {
-              type: 'string',
-              description: `The name of location where the report's item is located.`,
+            updatedAt: {
+              type: 'number',
+              description:
+                'A timestamp indicating when the report was last updated.',
             },
             item: {
-              type: 'string',
-              description: 'The name of the item which the report is related.',
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  description:
+                    'The name of the item which the report is related.',
+                },
+                location: {
+                  type: 'string',
+                  description: `The name of location where the report's item is located.`,
+                },
+              },
             },
-            image: {
-              type: 'string',
-              description:
-                'An URL to the image attached by the reporter to this report.',
-            },
-            reporterName: {
-              type: 'string',
+            reporter: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                id: {
+                  type: 'uuid',
+                  description: 'The uuid that identifies the reporter.',
+                },
+                avatar: {
+                  type: 'string',
+                  description: `URL to the reporter's image.`,
+                },
+              },
             },
           },
         },
@@ -57,26 +73,36 @@ const responseSchema = {
     data: {
       reports: [
         {
-          createdAt: 1621961270026,
-          description: 'The chair 01, next of the entrance is broken.',
           id: 'b234e50c-5d89-432d-bc30-a327ba7d3a28',
-          image: 'http://www.image.com/broken-chair.jpg',
-          item: 'Chair',
-          location: 'Lobby',
-          reporterName: 'Joseph Carl',
-          status: 1,
           title: 'Broken chair',
+          status: 1,
+          createdAt: 1621961270026,
+          updatedAt: 1621961270026,
+          item: {
+            name: 'Chair',
+            location: 'Lobby',
+          },
+          reporter: {
+            name: 'Joseph Carl',
+            id: 'b234e50c-5d89-432d-hu65-a327ba7d3a28',
+            avatar: 'https://avatar.com/joseph_carl.jpg',
+          },
         },
         {
+          id: 'b777e50c-77b9-432d-bc30-a327ba7d3a28',
+          title: 'Television not working',
+          status: 3,
           createdAt: 1621961270026,
-          description: 'The chair 01, next of the entrance is broken.',
-          id: 'b234e50c-5d89-432d-bc30-a327ba7d3a28',
-          image: 'http://www.image.com/broken-chair.jpg',
-          item: 'Chair',
-          location: 'Lobby',
-          reporterName: 'Robert Taz',
-          status: 1,
-          title: 'Broken chair',
+          updatedAt: 1621961270026,
+          item: {
+            name: 'Television',
+            location: 'Lobby',
+          },
+          reporter: {
+            id: 'b854f50c-5d89-432d-hu65-a327ba7d3a28',
+            name: 'John Kennedy',
+            avatar: 'https://avatar.com/john_kennedy.jpg',
+          },
         },
       ],
     },
