@@ -6,6 +6,7 @@ import { Reporter } from '@entities/reporter/reporter';
 import { generateRandomCollection } from '@test/test-helpers/generate-random-collection';
 import { getMock } from '@test/test-helpers/get-mock';
 import { GetReportsRequest } from '@use-cases/get-reports/dtos/get-reports-request';
+import { GetReportsResponse } from '@use-cases/get-reports/dtos/get-reports-response';
 import { GetReportsUseCase } from '@use-cases/get-reports/get-reports';
 import { UseCaseOutputPort } from '@use-cases/interfaces/ports/use-case-output-port';
 import { AdminRepository } from '@use-cases/interfaces/repositories/admin';
@@ -24,7 +25,10 @@ describe('Get reports use case tests.', () => {
   const reporterRepo = getMock<ReporterRepository>(['getReporterById']);
   const reportRepo = getMock<ReportRepository>(['getAll']);
   const locationRepo = getMock<LocationRepository>(['getLocationById']);
-  const presenter = getMock<UseCaseOutputPort<any>>(['failure', 'success']);
+  const presenter = getMock<UseCaseOutputPort<GetReportsResponse>>([
+    'failure',
+    'success',
+  ]);
   const sut = new GetReportsUseCase({
     adminRepo,
     reporterRepo,
@@ -130,15 +134,20 @@ describe('Get reports use case tests.', () => {
       reporterOneReports.length,
     );
     const reports = reporterOneReports.map((report) => ({
-      title: report.title.value,
-      description: report.description.value,
-      createdAt: report.createdAt.getTime(),
-      item: report.item.name.value,
-      status: Status.PENDING,
-      location: location.name.value,
       id: report.id.value,
-      image: report.image,
-      reporterName: reporterOne.name.value,
+      title: report.title.value,
+      createdAt: report.createdAt.getTime(),
+      updatedAt: report.updatedAt.getTime(),
+      status: Status.PENDING,
+      item: {
+        name: report.item.name.value,
+        location: location.name.value,
+      },
+      reporter: {
+        name: reporterOne.name.value,
+        id: reporterOne.id.value,
+        avatar: reporterOne.avatar,
+      },
     }));
 
     await sut.execute(request);
@@ -155,15 +164,20 @@ describe('Get reports use case tests.', () => {
         : reporterTwo;
 
       return {
-        title: report.title.value,
-        description: report.description.value,
-        createdAt: report.createdAt.getTime(),
-        item: report.item.name.value,
-        status: Status.PENDING,
-        location: location.name.value,
         id: report.id.value,
-        image: report.image,
-        reporterName: reporter.name.value,
+        title: report.title.value,
+        createdAt: report.createdAt.getTime(),
+        updatedAt: report.updatedAt.getTime(),
+        status: Status.PENDING,
+        item: {
+          name: report.item.name.value,
+          location: location.name.value,
+        },
+        reporter: {
+          name: reporter.name.value,
+          id: reporter.id.value,
+          avatar: reporter.avatar,
+        },
       };
     });
 

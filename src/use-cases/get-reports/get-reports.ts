@@ -9,11 +9,13 @@ import {
   ReportRepository,
 } from '@use-cases/interfaces/repositories/report';
 import { ReporterRepository } from '@use-cases/interfaces/repositories/reporter';
-import { GetSingleReportResponse } from '@use-cases/shared/dtos/get-single-report-response';
 import { ResourceNotFoundError } from '@use-cases/shared/errors/resource-not-found-error';
 import { Pagination } from '@use-cases/shared/pagination-settings';
 import { GetReportsRequest } from './dtos/get-reports-request';
-import { GetReportsResponse } from './dtos/get-reports-response';
+import {
+  GetReportsResponse,
+  ReportBasicInfo,
+} from './dtos/get-reports-response';
 
 interface Dependencies {
   adminRepo: AdminRepository;
@@ -58,24 +60,27 @@ export class GetReportsUseCase implements UseCaseInputPort<GetReportsRequest> {
       reports = reports.filter((r) => r.creatorId.isEqual(user.id));
     }
 
-    const responseReportsData: Promise<GetSingleReportResponse>[] = reports.map(
+    const responseReportsData: Promise<ReportBasicInfo>[] = reports.map(
       async (r) => {
         const location = await locationRepo.getLocationById(r.item.locationId);
         const reporter = await reporterRepo.getReporterById(r.creatorId);
 
-        const data: GetSingleReportResponse = {
-          createdAt: r.createdAt.getTime(),
-          description: r.description.value,
+        return {
           id: r.id.value,
-          image: r.image,
-          item: r.item.name.value,
-          location: location!.name.value,
-          reporterName: reporter!.name.value,
-          status: r.status,
           title: r.title.value,
+          status: r.status,
+          createdAt: r.createdAt.getTime(),
+          updatedAt: r.updatedAt.getTime(),
+          item: {
+            name: r.item.name.value,
+            location: location!.name.value,
+          },
+          reporter: {
+            id: reporter!.id.value,
+            name: reporter!.name.value,
+            avatar: reporter!.avatar,
+          },
         };
-
-        return data;
       },
     );
 
